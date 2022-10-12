@@ -4,12 +4,14 @@ interface Props {
   isStatic?: boolean;
   text: string;
   isGrouped: boolean;
+  isFirst: boolean;
 }
 
 const ParsonsBlock: FC<Props> = ({
   text,
   isStatic = false,
   isGrouped = false,
+  isFirst = false,
 }) => {
   return (
     <div
@@ -17,6 +19,11 @@ const ParsonsBlock: FC<Props> = ({
         isStatic ? 'static bg-slate-200/75 ' : 'cursor-move '
       } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200 '}`}
     >
+      {!isFirst && (
+        <span className="katex float-left relative left-[0px] top-[3px]">
+          ⇔
+        </span>
+      )}
       {text}
     </div>
   );

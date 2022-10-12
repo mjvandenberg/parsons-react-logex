@@ -1,29 +1,29 @@
 import { FC, useState } from 'react';
-import { SolutionResponse } from '../logEx/typesSolution';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ItemType } from '../types';
-import { solutionToListOne, solutionToListTwo } from '../logEx/logExHelpers';
 import Button from './Button';
 
 type Props = {
-  solution: SolutionResponse;
+  exerciseName: string;
+  exerciseDescription: JSX.Element | string;
+  listLeft: ItemType[];
+  listRight: ItemType[];
 };
 
-const Parsons: FC<Props> = ({ solution }) => {
-  const [list1, setList1] = useState<ItemType[]>(solutionToListOne(solution));
-  const [list2, setList2] = useState<ItemType[]>(solutionToListTwo(solution));
+const Parsons: FC<Props> = ({
+  exerciseName,
+  exerciseDescription,
+  listLeft,
+  listRight,
+}) => {
+  const [list1, setList1] = useState<ItemType[]>(listLeft);
+  const [list2, setList2] = useState<ItemType[]>(listRight);
 
   return (
     <>
-      <ParsonsTitle exerciseName={'Exercise 5'}>
-        <>
-          Convert{' '}
-          <span className="katex">
-            {solution.derivation.derivation?.context?.term}
-          </span>{' '}
-          to conjunctive normal form
-        </>
+      <ParsonsTitle exerciseName={exerciseName}>
+        {exerciseDescription}
       </ParsonsTitle>
       <div className="flex flex-row p-2 m-3">
         <ParsonsDropArea

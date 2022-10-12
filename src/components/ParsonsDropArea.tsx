@@ -19,6 +19,10 @@ const ParsonsDropArea: FC<Props> = ({
   position = 'left',
 }) => {
   const grouped = R.groupBy<ItemType>((i) => i.pairedGroupName ?? '')(list);
+
+  const classLeft = 'bg-[#efefff]';
+  const classRight = 'bg-[#ffffaa]';
+
   return (
     <>
       {false && (
@@ -31,9 +35,9 @@ const ParsonsDropArea: FC<Props> = ({
         <div className={`grid grid-cols-[25px_minmax(0,_1fr)_10px]`}>
           <ParsonsDropAreaSide grouped={grouped} side="left" />
           <div
-            className={`flex flex-col border border-indigo-200 ${
-              position === 'left' ? 'bg-[#efefff]' : 'bg-[#ffffaa]'
-            } min-h-[40px]`}
+            className={`flex flex-col border border-indigo-200 min-h-[40px] ${
+              position === 'left' ? classLeft : classRight
+            }`}
           >
             {list
               .filter((i) => i.isStaticFirst)
@@ -42,6 +46,7 @@ const ParsonsDropArea: FC<Props> = ({
                   key={item.id}
                   text={item.text}
                   isStatic={true}
+                  isFirst={true}
                   isGrouped={item.groupName !== undefined}
                 />
               ))}
@@ -59,22 +64,13 @@ const ParsonsDropArea: FC<Props> = ({
                     key={item.id}
                     text={item.text}
                     isStatic={false}
+                    isFirst={false}
                     isGrouped={item.groupName !== undefined}
                   />
                 ))}
             </ReactSortable>
           </div>
           <ParsonsDropAreaSide grouped={grouped} side="right" />
-          {/*<div className="flex flex-col bg-sky-500 w-full">
-            {list.map((i, x) => (
-              <div
-                key={x}
-                className="leading-9 mb-1 bg-[#ffffff] border border-y-fuchsia-500"
-              >
-                &nbsp;
-              </div>
-            ))}
-            </div>*/}
         </div>
       </div>
     </>

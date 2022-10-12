@@ -1,30 +1,50 @@
-import { OneFinalResponse } from '../typesOneFinal';
+import { OneFinalResponse } from '../../logEx/typesOneFinal';
 
-export const logExOneFinalResponse1: OneFinalResponse = {
+const request = {
+  service: 'onefinal',
+  state: {
+    exerciseid: 'logic.propositional.proof-new.unicode',
+    prefix: '[]',
+    context: {
+      term: [
+        '¬(p∧q)∨s∨¬r',
+        {
+          type: '=',
+          motivation: '<GAP>',
+        },
+        '(p∧q)→(r→s)',
+      ],
+      environment: {},
+      location: [],
+    },
+  },
+};
+
+const response: OneFinalResponse = {
   onefinal: {
     context: {
       term: [
-        '~(p /\\ q) || s || ~r',
+        '¬(p ∧ q) ∨ s ∨ ¬r',
         {
           type: '=',
           motivation: 'logic.propositional.top-is-or.com',
         },
-        '~(p /\\ q) || ~r || s',
+        '¬(p ∧ q) ∨ ¬r ∨ s',
         {
           type: '=',
           motivation: '<CLOSE>',
         },
-        '~(p /\\ q) || ~r || s',
+        '¬(p ∧ q) ∨ ¬r ∨ s',
         {
           type: '=',
           motivation: 'logic.propositional.defimpl',
         },
-        '~(p /\\ q) || (r -> s)',
+        '¬(p ∧ q) ∨ (r → s)',
         {
           type: '=',
           motivation: 'logic.propositional.defimpl',
         },
-        '(p /\\ q) -> (r -> s)',
+        '(p ∧ q) → (r → s)',
       ],
       environment: {
         direction: '0',
@@ -36,4 +56,4 @@ export const logExOneFinalResponse1: OneFinalResponse = {
   version: '1.8.1 (27a352d26571dad5913f9786c09ce5cda3021793)',
 };
 
-export default logExOneFinalResponse1;
+export default response;
