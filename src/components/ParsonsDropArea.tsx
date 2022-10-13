@@ -26,6 +26,7 @@ const ParsonsDropArea: FC<Props> = ({
   );
 
   const classLeft = 'bg-[#efefff]';
+  const classLeftSortable = 'min-h-[42px]';
   const classRight = 'bg-[#ffffaa]';
   const padding = '2px';
 
@@ -51,7 +52,7 @@ const ParsonsDropArea: FC<Props> = ({
             padding={padding}
           />
           <div
-            className={`flex flex-col border border-indigo-200 min-h-[40px] pb-[${padding}] px-[${padding}] ${
+            className={`flex flex-col border border-indigo-200 min-h-[40px] pb-1 px-1 ${
               position === 'left' ? classLeft : classRight
             }`}
           >
@@ -70,7 +71,9 @@ const ParsonsDropArea: FC<Props> = ({
                   />
                 ))}
             <ReactSortable
-              className={`leading-[37px] select-none`}
+              className={`w-full leading-[37px] select-none ${
+                position === 'left' && classLeftSortable 
+              }`}
               tag="div"
               list={list}
               setList={setList}
