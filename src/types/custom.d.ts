@@ -9,7 +9,8 @@
 declare global {
   interface Array<T> {
     uniq(): Array<T>;
-    groupBy: <T, K extends keyof any>(item: T) => K;
+    //groupBy: <T, K extends keyof any>(item: T) => K;
+    groupBy<T, K extends keyof any>(func: (item: T) => K): Record<K, T[]>;
   }
 }
 
