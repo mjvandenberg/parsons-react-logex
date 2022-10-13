@@ -9,7 +9,7 @@ export interface ItemType extends ItemInterface {
 
 export interface ParsonsProblemProperties {
   exerciseName: string;
-  exerciseDescription: string | JSX.Element;
+  exerciseDescription: JSX.Element | string;
   listLeft: ItemType[];
   listRight: ItemType[];
 }

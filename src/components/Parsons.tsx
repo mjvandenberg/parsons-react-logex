@@ -1,24 +1,16 @@
 import { FC, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ItemType } from '../types';
+import { ItemType, ParsonsProblemProperties } from '../types';
 import Button from './Button';
 
-type Props = {
-  exerciseName: string;
-  exerciseDescription: JSX.Element | string;
-  listLeft: ItemType[];
-  listRight: ItemType[];
-};
-
-const Parsons: FC<Props> = ({
+const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseName,
   exerciseDescription,
-  listLeft,
-  listRight,
+  ...props
 }) => {
-  const [list1, setList1] = useState<ItemType[]>(listLeft);
-  const [list2, setList2] = useState<ItemType[]>(listRight);
+  const [listLeft, setListLeft] = useState<ItemType[]>(props.listLeft);
+  const [listRight, setListRight] = useState<ItemType[]>(props.listRight);
 
   return (
     <>
@@ -28,13 +20,14 @@ const Parsons: FC<Props> = ({
       <div className="flex flex-row p-2 m-3">
         <ParsonsDropArea
           title="Drag from here"
-          list={list1}
-          setList={setList1}
+          list={listLeft}
+          setList={setListLeft}
+          position="left"
         />
         <ParsonsDropArea
           title="Construct your solution here"
-          list={list2}
-          setList={setList2}
+          list={listRight}
+          setList={setListRight}
           position="right"
         />
       </div>

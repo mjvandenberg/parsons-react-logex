@@ -51,7 +51,7 @@ const ParsonsDropArea: FC<Props> = ({
                 />
               ))}
             <ReactSortable
-              className={`min-h-[40px] leading-[37px]`}
+              className={`min-h-[40px] leading-[37px] select-none`}
               tag="div"
               list={list}
               setList={setList}

@@ -52,17 +52,16 @@ const GetExerciseDescription = (
     case 'equivalence':
       return (
         <>
-          Prove
+          Prove{' '}
           <span className="katex">
             {oneFinal.onefinal.context.term.at(0)?.toString()}
           </span>{' '}
-          is logically equivalent to
+          is logically equivalent to{' '}
           <span className="katex">
             {oneFinal.onefinal.context.term.at(-1)?.toString()}
-          </span>{' '}
+          </span>
         </>
       );
-      return;
     default:
       return (
         <>
