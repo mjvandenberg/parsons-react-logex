@@ -1,6 +1,7 @@
 import { SolutionResponse } from './typesSolution';
 import { ParsonsItem } from '../types';
 import { OneFinalResponse } from '../logEx/typesOneFinal';
+import { uniq } from '../array';
 
 type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
 
@@ -80,9 +81,9 @@ const GetExerciseDescription = (
 const OneFinaleResponseToParsonsListLeft: (
   oneFinalResponse: OneFinalResponse
 ) => ParsonsItem[] = (oneFinalResponse: OneFinalResponse) => {
-  return oneFinalResponse.onefinal.context.term
-    .filter((i) => typeof i === 'string')
-    .uniq()
+  return uniq(
+    oneFinalResponse.onefinal.context.term.filter((i) => typeof i === 'string')
+  )
     .slice(1, -1)
     .map((i, x) => {
       return {

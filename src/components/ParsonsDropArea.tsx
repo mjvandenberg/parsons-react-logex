@@ -3,6 +3,7 @@ import { ReactSortable } from 'react-sortablejs';
 import ParsonsBlock from './ParsonsBlock';
 import ParsonsDropAreaSide from './ParsonsDropAreaSide';
 import { ParsonsItem } from '../types';
+import { groupBy } from '../array';
 
 type Props = {
   title: string;
@@ -11,14 +12,6 @@ type Props = {
   setList: (items: ParsonsItem[]) => void;
   onChangeItem: (item: ParsonsItem) => void;
 };
-
-const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => K) =>
-  list.reduce((previous, currentItem) => {
-    const group = getKey(currentItem);
-    if (!previous[group]) previous[group] = [];
-    previous[group].push(currentItem);
-    return previous;
-  }, {} as Record<K, T[]>);
 
 const ParsonsDropArea: FC<Props> = ({
   title,
