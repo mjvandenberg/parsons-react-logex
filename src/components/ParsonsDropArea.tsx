@@ -12,6 +12,14 @@ type Props = {
   onChangeItem: (item: ParsonsItem) => void;
 };
 
+const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => K) =>
+  list.reduce((previous, currentItem) => {
+    const group = getKey(currentItem);
+    if (!previous[group]) previous[group] = [];
+    previous[group].push(currentItem);
+    return previous;
+  }, {} as Record<K, T[]>);
+
 const ParsonsDropArea: FC<Props> = ({
   title,
   list,
@@ -19,7 +27,10 @@ const ParsonsDropArea: FC<Props> = ({
   position = 'left',
   onChangeItem,
 }) => {
-  const grouped = list.groupBy<ParsonsItem>((i) => i.pairedGroupName ?? '');
+  const grouped = groupBy<ParsonsItem, string>(
+    list,
+    (i) => i.pairedGroupName ?? ''
+  );
 
   const classLeft = 'bg-[#efefff]';
   const classRight = 'bg-[#ffffaa]';
