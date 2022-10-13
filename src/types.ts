@@ -6,3 +6,10 @@ export interface ItemType extends ItemInterface {
   isStaticLast?: boolean;
   pairedGroupName?: string;
 }
+
+export interface ParsonsProblemProperties {
+  exerciseName: string;
+  exerciseDescription: string | JSX.Element;
+  listLeft: ItemType[];
+  listRight: ItemType[];
+}

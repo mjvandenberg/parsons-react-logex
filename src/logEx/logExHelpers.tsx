@@ -2,6 +2,8 @@ import { SolutionResponse } from './typesSolution';
 import { ItemType } from '../types';
 import { OneFinalResponse } from '../logEx/typesOneFinal';
 
+type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
+
 export const solutionResponseToParsonsListLeft: (
   solution: SolutionResponse
 ) => ItemType[] = (solution: SolutionResponse) => {
@@ -30,7 +32,53 @@ export const solutionResponseToParsonsListRight: (
   ];
 };
 
-export const OneFinaleResponseToParsonsListLeft: (
+export const OneFinalToParsonsProblemProperties = (
+  oneFinal: OneFinalResponse,
+  exerciseType: ExerciseType
+) => {
+  return {
+    exerciseName: 'Exercise 5',
+    exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
+    listLeft: OneFinaleResponseToParsonsListLeft(oneFinal),
+    listRight: OneFinaleResponseToParsonsListRight(oneFinal),
+  };
+};
+
+const GetExerciseDescription = (
+  oneFinal: OneFinalResponse,
+  exerciseType: ExerciseType
+) => {
+  switch (exerciseType) {
+    case 'equivalence':
+      return (
+        <>
+          Prove
+          <span className="katex">
+            {oneFinal.onefinal.context.term.at(0)?.toString()}
+          </span>{' '}
+          is logically equivalent to
+          <span className="katex">
+            {oneFinal.onefinal.context.term.at(-1)?.toString()}
+          </span>{' '}
+        </>
+      );
+      return;
+    default:
+      return (
+        <>
+          Convert{' '}
+          <span className="katex">
+            {oneFinal.onefinal.context.term.at(0)?.toString()}
+          </span>
+          {` to ${exerciseType === 'cnv' && 'conjunctive'}${
+            exerciseType === 'dnv' && 'disjuntive'
+          } normal form`}
+        </>
+      );
+  }
+};
+
+const OneFinaleResponseToParsonsListLeft: (
   oneFinalResponse: OneFinalResponse
 ) => ItemType[] = (oneFinalResponse: OneFinalResponse) => {
   return oneFinalResponse.onefinal.context.term
@@ -44,7 +92,7 @@ export const OneFinaleResponseToParsonsListLeft: (
     });
 };
 
-export const OneFinaleResponseToParsonsListRight: (
+const OneFinaleResponseToParsonsListRight: (
   oneFinalResponse: OneFinalResponse
 ) => ItemType[] = (oneFinalResponse: OneFinalResponse) => {
   return [

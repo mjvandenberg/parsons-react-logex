@@ -51,24 +51,40 @@ const ParsonsDropArea: FC<Props> = ({
                 />
               ))}
             <ReactSortable
-              className={`min-h-[40px]`}
+              className={`min-h-[40px] leading-[37px]`}
               tag="div"
               list={list}
               setList={setList}
               group="p"
             >
-              {list
-                .filter((i) => !i.isStaticFirst && !i.isStaticLast)
-                .map((item) => (
-                  <ParsonsBlock
-                    key={item.id}
-                    text={item.text}
-                    isStatic={false}
-                    isFirst={false}
-                    isGrouped={item.groupName !== undefined}
-                  />
-                ))}
+              {list.filter((i) => !i.isStaticFirst && !i.isStaticLast)
+                .length === 0 ? (
+                <>Drop here</>
+              ) : (
+                list
+                  .filter((i) => !i.isStaticFirst && !i.isStaticLast)
+                  .map((item) => (
+                    <ParsonsBlock
+                      key={item.id}
+                      text={item.text}
+                      isStatic={false}
+                      isFirst={false}
+                      isGrouped={item.groupName !== undefined}
+                    />
+                  ))
+              )}
             </ReactSortable>
+            {list
+              .filter((i) => i.isStaticLast)
+              .map((item) => (
+                <ParsonsBlock
+                  key={item.id}
+                  text={item.text}
+                  isStatic={true}
+                  isFirst={false}
+                  isGrouped={item.groupName !== undefined}
+                />
+              ))}
           </div>
           <ParsonsDropAreaSide grouped={grouped} side="right" />
         </div>
