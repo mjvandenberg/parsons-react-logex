@@ -32,11 +32,9 @@ const ParsonsBlock: FC<Props> = ({
 
   return (
     <div
-      className={`katex z-50 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none ${
+      className={`katex z-50 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 ${
         isStatic ? 'static bg-slate-200/75' : 'cursor-move'
-      } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200'} ${
-        isFirst ? '' : 'mt-1'
-      }`}
+      } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200'}`}
     >
       <span
         className={`katex float-left relative left-[0px] top-[3px] ${
