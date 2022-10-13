@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ItemType, ParsonsProblemProperties } from '../types';
+import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import Button from './Button';
 
 const Parsons: FC<ParsonsProblemProperties> = ({
@@ -9,8 +9,16 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseDescription,
   ...props
 }) => {
-  const [listLeft, setListLeft] = useState<ItemType[]>(props.listLeft);
-  const [listRight, setListRight] = useState<ItemType[]>(props.listRight);
+  const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
+  const [listRight, setListRight] = useState<ParsonsItem[]>(props.listRight);
+
+  const handleChangeItemLeft: (item: ParsonsItem) => void = (item) => {
+    setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
+  };
+
+  const handleChangeItemRight: (item: ParsonsItem) => void = (item) => {
+    setListRight(listRight.map((i) => (i.id === item.id ? item : i)));
+  };
 
   return (
     <>
@@ -23,12 +31,14 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           list={listLeft}
           setList={setListLeft}
           position="left"
+          onChangeItem={handleChangeItemLeft}
         />
         <ParsonsDropArea
           title="Construct your solution here"
           list={listRight}
           setList={setListRight}
           position="right"
+          onChangeItem={handleChangeItemRight}
         />
       </div>
       <div className="flex flex-row max-w-[1000px] p-2 m-3">

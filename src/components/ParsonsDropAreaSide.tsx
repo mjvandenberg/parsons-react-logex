@@ -1,8 +1,8 @@
 import { FC } from 'react';
-import { ItemType } from '../types';
+import { ParsonsItem } from '../types';
 
 type Props = {
-  grouped: Record<string, ItemType[]>;
+  grouped: Record<string, ParsonsItem[]>;
   side: 'left' | 'right';
 };
 

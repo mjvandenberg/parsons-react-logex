@@ -1,5 +1,5 @@
 import { SolutionResponse } from './typesSolution';
-import { ItemType } from '../types';
+import { ParsonsItem } from '../types';
 import { OneFinalResponse } from '../logEx/typesOneFinal';
 
 declare global {
@@ -16,7 +16,7 @@ type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
 
 export const solutionResponseToParsonsListLeft: (
   solution: SolutionResponse
-) => ItemType[] = (solution: SolutionResponse) => {
+) => ParsonsItem[] = (solution: SolutionResponse) => {
   return (
     solution?.derivation?.derivation?.derivationsteps?.map((i, x) => {
       return {
@@ -32,7 +32,7 @@ export const solutionResponseToParsonsListLeft: (
 
 export const solutionResponseToParsonsListRight: (
   solution: SolutionResponse
-) => ItemType[] = (solution: SolutionResponse) => {
+) => ParsonsItem[] = (solution: SolutionResponse) => {
   return [
     {
       id: 1,
@@ -89,7 +89,7 @@ const GetExerciseDescription = (
 
 const OneFinaleResponseToParsonsListLeft: (
   oneFinalResponse: OneFinalResponse
-) => ItemType[] = (oneFinalResponse: OneFinalResponse) => {
+) => ParsonsItem[] = (oneFinalResponse: OneFinalResponse) => {
   return oneFinalResponse.onefinal.context.term
     .filter((i) => typeof i === 'string')
     .uniq()
@@ -105,7 +105,7 @@ const OneFinaleResponseToParsonsListLeft: (
 
 const OneFinaleResponseToParsonsListRight: (
   oneFinalResponse: OneFinalResponse
-) => ItemType[] = (oneFinalResponse: OneFinalResponse) => {
+) => ParsonsItem[] = (oneFinalResponse: OneFinalResponse) => {
   return [
     oneFinalResponse.onefinal.context.term.at(0),
     oneFinalResponse.onefinal.context.term.at(-1),
