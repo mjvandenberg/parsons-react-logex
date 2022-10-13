@@ -2,16 +2,6 @@ import { SolutionResponse } from './typesSolution';
 import { ParsonsItem } from '../types';
 import { OneFinalResponse } from '../logEx/typesOneFinal';
 
-declare global {
-  interface Array<T> {
-    uniq(): Array<T>;
-  }
-}
-
-Array.prototype.uniq = function () {
-  return Array.from(new Set(this));
-};
-
 type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
 
 export const solutionResponseToParsonsListLeft: (

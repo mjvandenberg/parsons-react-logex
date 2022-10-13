@@ -19,7 +19,7 @@ const ParsonsDropArea: FC<Props> = ({
   position = 'left',
   onChangeItem,
 }) => {
-  const grouped = R.groupBy<ParsonsItem>((i) => i.pairedGroupName ?? '')(list);
+  const grouped = groupBy(list, (i) => i.pairedGroupName ?? '');
 
   const classLeft = 'bg-[#efefff]';
   const classRight = 'bg-[#ffffaa]';

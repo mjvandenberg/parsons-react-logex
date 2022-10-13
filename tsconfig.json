@@ -12,6 +12,7 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "resolveJsonModule": true,
+    "typeRoots": ["src/types/custom.d.ts"],
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx"
