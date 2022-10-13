@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Rules from '../logEx/rules';
+import { Rule, rules, RuleTranslations } from '../logEx/rules';
 
 interface Props {
   isStatic?: boolean;
@@ -14,8 +14,6 @@ const ParsonsBlock: FC<Props> = ({
   isGrouped = false,
   isFirst = false,
 }) => {
-  let k: keyof typeof Rules;
-
   return (
     <div
       className={`katex z-50 relative text-left pl-2 mb-1 leading-9 rounded-lg border border-[#D3D3D3] select-none ${
@@ -39,9 +37,9 @@ const ParsonsBlock: FC<Props> = ({
           <option translate-key="shared.button.selectRule">
             -- Select rule --
           </option>
-          {Object.keys(Rules).map((i, x) => (
+          {Object.keys(rules).map((i, x) => (
             <option key={x} value={i}>
-              {Rules[i as keyof typeof Rules]}
+              {RuleTranslations['en'][i as Rule].toString()}
             </option>
           ))}
         </select>

@@ -1,5 +1,8 @@
 import { ItemInterface } from 'react-sortablejs';
 
+export const languages = ['nl', 'en'];
+export type Language = typeof languages[number];
+
 export interface ParsonsItem extends ItemInterface {
   text: string;
   rule?: string;
