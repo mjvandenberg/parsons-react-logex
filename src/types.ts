@@ -2,6 +2,7 @@ import { ItemInterface } from 'react-sortablejs';
 
 export interface ParsonsItem extends ItemInterface {
   text: string;
+  rule?: string;
   isStaticFirst?: boolean;
   isStaticLast?: boolean;
   pairedGroupName?: string;
