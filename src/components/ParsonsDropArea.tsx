@@ -35,7 +35,7 @@ const ParsonsDropArea: FC<Props> = ({
   return (
     <>
       <div className="basis-1/2">
-        {false && (
+        {true && (
           <pre style={{ textAlign: 'left' }}>
             {JSON.stringify(
               list.map((i) => i.rule),
@@ -72,7 +72,7 @@ const ParsonsDropArea: FC<Props> = ({
                 ))}
             <ReactSortable
               className={`w-full leading-[37px] select-none ${
-                position === 'left' && classLeftSortable 
+                position === 'left' && classLeftSortable
               }`}
               tag="div"
               list={list}

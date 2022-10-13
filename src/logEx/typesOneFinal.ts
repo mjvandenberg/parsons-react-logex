@@ -1,3 +1,5 @@
+import { Rule } from '../logEx/rules';
+
 export type OneFinalResponse = {
   onefinal: OneFinal;
   version: string;
@@ -13,7 +15,7 @@ type Context = {
   location: any;
 };
 
-type Term = {
+export type Term = {
   type: string;
-  motivation: string;
+  motivation: Rule;
 };
