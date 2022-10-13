@@ -89,7 +89,7 @@ const OneFinaleResponseToParsonsListLeft: (
       return {
         text: i.toString(),
         id: `left_${x}`,
-        pairedGroupName: `left_${x}`,
+        pairedGroupName: `left_${x === 0 || x === 0 ? 'a' : x}`,
       };
     });
 };

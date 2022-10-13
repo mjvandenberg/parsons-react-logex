@@ -4,18 +4,21 @@ import { ParsonsItem } from '../types';
 type Props = {
   grouped: Record<string, ParsonsItem[]>;
   side: 'left' | 'right';
+  padding: string;
 };
 
-const ParsonsDropAreaSide: FC<Props> = ({ grouped, side }) => {
-  const classGrouped = 'bg-indigo-300 relative top-[2px] z-0';
+const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
+  const classGrouped = 'bg-indigo-300 relative z-0';
   const classLeftGrouped = 'rounded-l-lg left-[0px]';
-  const classRightGrouped = 'rounded-r-lg left-[-7px]';
+  const classRightGrouped = 'rounded-r-lg left-[-9px]';
 
-  const classLeft = 'flex mb-[4px] w-[32px]';
-  const classRight = 'flex mb-[4px] w-[12px]';
+  const classLeft = 'flex w-[32px]';
+  const classRight = 'flex w-[12px]';
 
   return (
-    <div className="flex flex-col w-full">
+    <div
+      className={`flex flex-col w-full border border-red-500/0 p-[${padding}]`}
+    >
       {Object.keys(grouped).map((i, x) => (
         <div
           key={x}
@@ -26,7 +29,9 @@ const ParsonsDropAreaSide: FC<Props> = ({ grouped, side }) => {
               (grouped[i].length > 1 ? 1 : 0)
             }px`,
           }}
-          className={`${side === 'left' ? classLeft : classRight} ${
+          className={`${x === 0 ? '' : 'mt-1 '}${
+            side === 'left' ? classLeft : classRight
+          } ${
             grouped[i].length > 1
               ? `${classGrouped} ${
                   side === 'left' ? classLeftGrouped : classRightGrouped

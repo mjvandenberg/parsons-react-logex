@@ -9,6 +9,7 @@ interface Props {
   isGrouped: boolean;
   isFirst: boolean;
   onChangeItem: (item: ParsonsItem) => void;
+  position: 'left' | 'right';
 }
 
 const ParsonsBlock: FC<Props> = ({
@@ -17,6 +18,7 @@ const ParsonsBlock: FC<Props> = ({
   isGrouped = false,
   isFirst = false,
   onChangeItem,
+  position,
   ...props
 }) => {
   const handleOnChangeRule: ChangeEventHandler<HTMLSelectElement> = ({
@@ -30,19 +32,21 @@ const ParsonsBlock: FC<Props> = ({
 
   return (
     <div
-      className={`katex z-50 relative text-left pl-2 mb-1 leading-9 rounded-lg border border-[#D3D3D3] select-none ${
-        isStatic ? 'static bg-slate-200/75 ' : 'cursor-move '
-      } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200 '}`}
+      className={`katex z-50 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none ${
+        isStatic ? 'static bg-slate-200/75' : 'cursor-move'
+      } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200'} ${
+        isFirst ? '' : 'mt-1'
+      }`}
     >
       <span
         className={`katex float-left relative left-[0px] top-[3px] ${
-          isFirst && 'invisible'
+          isFirst && position === 'right' ? 'invisible' : ''
         }`}
       >
         ⇔
       </span>
       <span className="ml-5 ineline-block">{item.text}</span>
-      {!isFirst && (
+      {(!isFirst || !isStatic) && (
         <select
           onChange={handleOnChangeRule}
           id="countries"
