@@ -2,6 +2,16 @@ import { SolutionResponse } from './typesSolution';
 import { ItemType } from '../types';
 import { OneFinalResponse } from '../logEx/typesOneFinal';
 
+declare global {
+  interface Array<T> {
+    uniq(): Array<T>;
+  }
+}
+
+Array.prototype.uniq = function () {
+  return Array.from(new Set(this));
+};
+
 type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
 
 export const solutionResponseToParsonsListLeft: (
@@ -82,6 +92,8 @@ const OneFinaleResponseToParsonsListLeft: (
 ) => ItemType[] = (oneFinalResponse: OneFinalResponse) => {
   return oneFinalResponse.onefinal.context.term
     .filter((i) => typeof i === 'string')
+    .uniq()
+    .slice(1, -1)
     .map((i, x) => {
       return {
         text: i.toString(),

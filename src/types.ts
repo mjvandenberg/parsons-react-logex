@@ -1,6 +1,6 @@
 import { ItemInterface } from 'react-sortablejs';
 
-export interface ItemType extends ItemInterface {
+export interface ParsonsItem extends ItemInterface {
   text: string;
   isStaticFirst?: boolean;
   isStaticLast?: boolean;
@@ -10,6 +10,6 @@ export interface ItemType extends ItemInterface {
 export interface ParsonsProblemProperties {
   exerciseName: string;
   exerciseDescription: JSX.Element | string;
-  listLeft: ItemType[];
-  listRight: ItemType[];
+  listLeft: ParsonsItem[];
+  listRight: ParsonsItem[];
 }

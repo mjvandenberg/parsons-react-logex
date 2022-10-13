@@ -1,5 +1,4 @@
 import { SolutionResponse } from '../../../logEx/typesSolution';
-import { OneFinalResponse } from '../../logEx/typesOneFinal';
 
 const request = {
   service: 'solution',

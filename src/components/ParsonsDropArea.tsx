@@ -57,8 +57,9 @@ const ParsonsDropArea: FC<Props> = ({
               setList={setList}
               group="p"
             >
-              {list.filter((i) => !i.isStaticFirst && !i.isStaticLast)
-                .length === 0 ? (
+              {position === 'right' &&
+              list.filter((i) => !i.isStaticFirst && !i.isStaticLast).length ===
+                0 ? (
                 <>Drop here</>
               ) : (
                 list

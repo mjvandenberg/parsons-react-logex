@@ -1,14 +1,14 @@
 export type SolutionResponse = {
-  derivation?: SubDerivation;
-  solution?: any;
+  derivation?: Derivation;
+  solution?: Derivation;
   version: string;
 };
 
-type SubDerivation = {
-  derivation?: SubSubDerivation;
+type Derivation = {
+  derivation?: SubDerivation;
 };
 
-type SubSubDerivation = {
+type SubDerivation = {
   context?: Context;
   derivationsteps?: DerivationStep[];
 };
