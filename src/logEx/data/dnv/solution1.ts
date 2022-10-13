@@ -1,6 +1,6 @@
-import { Solution } from '../typesSolution';
+import { SolutionResponse } from '../../../logEx/typesSolution';
 
-export const logExSolutionResponse1: Solution = {
+export const logExSolutionResponse1: SolutionResponse = {
   derivation: {
     derivation: {
       context: {

@@ -85,8 +85,8 @@ const OneFinaleResponseToParsonsListLeft: (
     .map((i, x) => {
       return {
         text: i.toString(),
-        id: x,
-        pairedGroupName: x.toString(),
+        id: `left_${x}`,
+        pairedGroupName: `left_${x}`,
       };
     });
 };
@@ -102,8 +102,8 @@ const OneFinaleResponseToParsonsListRight: (
       text: i ? i.toString() : '-',
       isStaticFirst: x === 0,
       isStaticLast: x === 1,
-      id: x,
-      pairedGroupName: x.toString(),
+      id: `right_${x}`,
+      pairedGroupName: `right_${x}`,
     };
   });
 };

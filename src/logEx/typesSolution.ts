@@ -1,5 +1,6 @@
 export type SolutionResponse = {
-  derivation: SubDerivation;
+  derivation?: SubDerivation;
+  solution?: any;
   version: string;
 };
 

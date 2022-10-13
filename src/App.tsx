@@ -1,6 +1,6 @@
 import './App.css';
 
-import logExResponse from './logEx/data/equivalence/logExOneFinalResponse1';
+import logExResponse from './logEx/data/equivalence/oneFinal1';
 import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 
