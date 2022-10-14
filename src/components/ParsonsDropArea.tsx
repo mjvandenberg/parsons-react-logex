@@ -35,7 +35,7 @@ const ParsonsDropArea: FC<Props> = ({
   return (
     <>
       <div className="basis-1/2">
-        {true && (
+        {false && (
           <pre style={{ textAlign: 'left' }}>
             {JSON.stringify(
               list.map((i) => i.rule),

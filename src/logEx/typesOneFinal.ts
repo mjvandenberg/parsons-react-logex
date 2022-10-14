@@ -17,5 +17,5 @@ type Context = {
 
 export type Term = {
   type: string;
-  motivation: Rule;
+  motivation: string;
 };
