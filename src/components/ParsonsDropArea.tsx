@@ -4,6 +4,8 @@ import ParsonsBlock from './ParsonsBlock';
 import ParsonsDropAreaSide from './ParsonsDropAreaSide';
 import { ParsonsItem } from '../types';
 import { groupBy } from '../array';
+import { createTrue } from 'typescript/lib/tsserverlibrary';
+import { transformWithEsbuild } from 'vite';
 
 type Props = {
   title: string;
@@ -11,6 +13,8 @@ type Props = {
   list: ParsonsItem[];
   setList: (items: ParsonsItem[]) => void;
   onChangeItem: (item: ParsonsItem) => void;
+  showFeedback?: boolean;
+  exerciseSolution?: ParsonsItem[];
 };
 
 const ParsonsDropArea: FC<Props> = ({
@@ -19,6 +23,8 @@ const ParsonsDropArea: FC<Props> = ({
   setList,
   position = 'left',
   onChangeItem,
+  showFeedback = false,
+  exerciseSolution = [],
 }) => {
   const grouped = groupBy<ParsonsItem, string>(
     list,
@@ -68,6 +74,11 @@ const ParsonsDropArea: FC<Props> = ({
                     isGrouped={item.groupName !== undefined}
                     onChangeItem={onChangeItem}
                     position={position}
+                    showFeedback={showFeedback}
+                    isBlockPositionValid={
+                      exerciseSolution.at(0)!.text === item.text
+                    }
+                    isRuleValid={true}
                   />
                 ))}
             <ReactSortable
@@ -95,6 +106,9 @@ const ParsonsDropArea: FC<Props> = ({
                       isGrouped={item.groupName !== undefined}
                       onChangeItem={onChangeItem}
                       position={position}
+                      showFeedback={showFeedback}
+                      isBlockPositionValid={false}
+                      isRuleValid={true}
                     />
                   ))
               )}
@@ -110,6 +124,9 @@ const ParsonsDropArea: FC<Props> = ({
                   isGrouped={item.groupName !== undefined}
                   onChangeItem={onChangeItem}
                   position={position}
+                  showFeedback={showFeedback}
+                  isBlockPositionValid={false}
+                  isRuleValid={true}
                 />
               ))}
           </div>

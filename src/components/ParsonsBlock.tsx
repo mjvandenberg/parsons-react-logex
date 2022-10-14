@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC, useState } from 'react';
+import { ChangeEventHandler, FC } from 'react';
 import { Rule, rules, ruleTranslations } from '../logEx/rules';
 import { ParsonsItem } from '../types';
 
@@ -10,6 +10,9 @@ interface Props {
   isFirst: boolean;
   onChangeItem: (item: ParsonsItem) => void;
   position: 'left' | 'right';
+  showFeedback: boolean;
+  isBlockPositionValid?: boolean;
+  isRuleValid?: boolean;
 }
 
 const ParsonsBlock: FC<Props> = ({
@@ -19,7 +22,9 @@ const ParsonsBlock: FC<Props> = ({
   isFirst = false,
   onChangeItem,
   position,
-  ...props
+  showFeedback,
+  isBlockPositionValid,
+  isRuleValid,
 }) => {
   const handleOnChangeRule: ChangeEventHandler<HTMLSelectElement> = ({
     target,
@@ -30,11 +35,30 @@ const ParsonsBlock: FC<Props> = ({
     });
   };
 
+  const defaultClassName =
+    'katex z-50 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
+
+  const showFeedbackClassName = `${
+    isBlockPositionValid === true
+      ? 'border-[#00ff00] bg-[#00ff00]/100 '
+      : isBlockPositionValid === false
+      ? 'border-[#ff0000] bg-[#ff0000]/100 '
+      : ''
+  }`;
+
+  const showFeedbackRuleClassName = `${
+    isRuleValid === true
+      ? 'border-[#00ff00] bg-[#00ff00]/100 '
+      : isRuleValid === false
+      ? 'border-[#ff0000] bg-[#ff0000]/100 '
+      : ''
+  }`;
+
   return (
     <div
-      className={`katex z-50 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 ${
-        isStatic ? 'static bg-slate-200/75' : 'cursor-move'
-      } ${isGrouped ? 'bg-slate-200' : 'bg-slate-200'}`}
+      className={`${defaultClassName} ${
+        showFeedback ? showFeedbackClassName : ''
+      }${isStatic ? '' : 'cursor-move'} ${isGrouped ? '' : ''}`}
     >
       <span
         className={`katex float-left relative left-[0px] top-[3px] ${
@@ -47,14 +71,16 @@ const ParsonsBlock: FC<Props> = ({
       {(!isFirst || !isStatic) && (
         <select
           onChange={handleOnChangeRule}
-          id="countries"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-1.5 mt-[1px] float-right"
+          value={item.rule ? item.rule : ''}
+          className={`bg-gray-50 ${
+            showFeedback ? showFeedbackRuleClassName : ''
+          }border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-1.5 mt-[1px] mr-[1px] float-right`}
         >
           <option translate-key="shared.button.selectRule" value="">
             -- Select rule --
           </option>
           {rules.map((i, x) => (
-            <option key={x} value={i} selected={item.rule === i}>
+            <option key={x} value={i}>
               {ruleTranslations['en'][i]}
             </option>
           ))}

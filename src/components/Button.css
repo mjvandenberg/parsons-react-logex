@@ -3,8 +3,9 @@ span.ripple {
   border-radius: 50%;
   transform: scale(0);
   animation: ripple 600ms linear;
-  background-color: rgba(255, 255, 255, 0.1);
+  /*background-image: linear-gradient(to top, #e8e8e8, #f5f5f5);*/
 }
+
 @keyframes ripple {
   to {
     transform: scale(4);
@@ -15,16 +16,12 @@ span.ripple {
 .btn {
   @apply py-2 px-4 mx-1 rounded;
 }
-.btn-blue {
-  @apply bg-blue-500 text-white;
-}
-.btn-blue:hover {
-  @apply bg-blue-700;
-}
 
-.btn-red {
-  @apply bg-red-500 text-white;
+.btn-default {
+  border: solid 1px #e0e0e0;
+  background-image: linear-gradient(to top, #f5f5f5, #fff);
+  @apply text-black;
 }
-.btn-red:hover {
-  @apply bg-red-700;
+.btn-default:hover {
+  background-image: linear-gradient(to top, #e8e8e8, #fff);
 }

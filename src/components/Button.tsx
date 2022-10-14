@@ -2,12 +2,12 @@ import './Button.css';
 import { FC } from 'react';
 
 interface Props {
-  color?: 'blue' | 'red';
+  color?: 'default';
   children?: React.ReactNode;
   onClick?: () => void;
 }
 
-const Button: FC<Props> = ({ children, color = 'blue' }) => {
+const Button: FC<Props> = ({ children, color = 'default', onClick }) => {
   const handleOnClick = (event: React.MouseEvent<HTMLElement>) => {
     const btn = event.currentTarget;
 
@@ -27,6 +27,8 @@ const Button: FC<Props> = ({ children, color = 'blue' }) => {
     }
 
     btn.appendChild(circle);
+
+    onClick && onClick();
   };
 
   return (
