@@ -6,6 +6,7 @@ import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import DropdownComponent from './components/DropdownComponent';
 
 const defaultExercise = 'Exercise 1';
 
@@ -37,6 +38,7 @@ const App = () => {
         </div>
         <div className="basis-1/2">
           <div className="float-right">
+            <DropdownComponent />
             {/*<Dropdown color="gray" label="Select exercise">
               {Object.keys(allExercises).map((i, x) => (
                 <Dropdown.Item

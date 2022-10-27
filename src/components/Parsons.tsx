@@ -1,9 +1,13 @@
+import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import Button from './Button';
 import Dropdown from 'react-dropdown';
+
+const arrowClosed = <span className="arrow-closed" />;
+const arrowOpen = <span className="arrow-open" />;
 
 const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseName,
@@ -13,6 +17,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [listRight, setListRight] = useState<ParsonsItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
+  const [help, setHelp] = useState<string | undefined>(undefined);
 
   const [initialListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [initialListRight] = useState<ParsonsItem[]>(props.listRight);
@@ -72,12 +77,22 @@ const Parsons: FC<ParsonsProblemProperties> = ({
       <div className="flex flex-row max-w-[1000px] p-2 m-3 gap-1">
         <Button onClick={handleResetButtonClick}>Reset</Button>
         <Button onClick={handleFeedbackButtonClick}>Feedback</Button>
-        <Dropdown options={[]} className="bg-red-800">
-          {/*<Dropdown.Item>Hint</Dropdown.Item>
-          <Dropdown.Item>Show step</Dropdown.Item>
-          <Dropdown.Item>Show complete derivation</Dropdown.Item>
-          <Dropdown.Item>Complete my derivation</Dropdown.Item>*/}
-        </Dropdown>
+        <Dropdown
+          placeholder="Help"
+          options={[
+            'Hint',
+            'Show step',
+            'Show complete derivation',
+            'Complete my derivation',
+          ]}
+          value={'Hint'}
+          className="w-full h-[25px] rounded-md"
+          controlClassName="btn btn-default rounded px-5 py-3 min-w-max overflow-hidden shadow relative hover:bg-opacity-90 w-full text-center"
+          placeholderClassName=""
+          menuClassName="relative left-[4px] top-[0px] bg-yellow-500"
+          arrowClosed={arrowClosed}
+          arrowOpen={arrowOpen}
+        />
       </div>
     </>
   );

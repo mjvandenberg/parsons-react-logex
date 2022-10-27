@@ -2,12 +2,13 @@ import './Button.css';
 import { FC } from 'react';
 
 interface Props {
+  id?: string;
   color?: 'default';
   children?: React.ReactNode;
   onClick?: () => void;
 }
 
-const Button: FC<Props> = ({ children, color = 'default', onClick }) => {
+const Button: FC<Props> = ({ id, children, color = 'default', onClick }) => {
   const handleOnClick = (event: React.MouseEvent<HTMLElement>) => {
     const btn = event.currentTarget;
 
@@ -33,7 +34,8 @@ const Button: FC<Props> = ({ children, color = 'default', onClick }) => {
 
   return (
     <button
-      className={`btn btn-${color} rounded px-5 py-3 min-w-max overflow-hidden shadow relative hover:bg-opacity-90 w-full`}
+      id={id}
+      className={`btn btn-${color} rounded px-5 py-3 min-w-max overflow-hidden shadow relative hover:bg-opacity-90 w-full px-4 py-2.5`}
       onClick={handleOnClick}
     >
       {children}
