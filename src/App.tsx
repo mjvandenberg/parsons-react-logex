@@ -1,17 +1,31 @@
 import './App.css';
 
-import logExResponse from './logEx/data/equivalence/oneFinal1';
+import allExercises, { exerciseNames } from './logEx/data/equivalence/all';
 import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { Dropdown } from 'flowbite-react';
+import { FormEventHandler, useState } from 'react';
+import { OneFinalResponse } from './logEx/typesOneFinal';
 
-function App() {
-  const properties = OneFinalToParsonsProblemProperties(
-    logExResponse,
-    'equivalence'
+const defaultExercise = 'Exercise 1';
+
+const App = () => {
+  const [parsonsProps, setParsonsProps] = useState(
+    OneFinalToParsonsProblemProperties(
+      allExercises[defaultExercise],
+      'equivalence'
+    )
   );
 
-  const handleExerciseChange: FormEventHandler<HTMLButton> = () => {};
+  const handleExerciseChange: (exerciseName: exerciseNames) => void = (
+    exerciseName
+  ) => {
+    const newParsonsProps = OneFinalToParsonsProblemProperties(
+      allExercises[exerciseName],
+      'equivalence'
+    );
+    setParsonsProps(newParsonsProps);
+  };
 
   return (
     <div className="text-left">
@@ -23,26 +37,24 @@ function App() {
         </div>
         <div className="basis-1/2">
           <div className="float-right">
-            <Dropdown
-              color="gray"
-              label="Select exercise"
-              className="bg-red-800 float-right"
-              onChange={handleExerciseChange}
-            >
-              <Dropdown.Item>Exercise 1</Dropdown.Item>
-              <Dropdown.Item>Exercise 2</Dropdown.Item>
-              <Dropdown.Item>Exercise 3</Dropdown.Item>
-              <Dropdown.Item>Exercise 4</Dropdown.Item>
-              <Dropdown.Item>Exercise 5</Dropdown.Item>
+            <Dropdown color="gray" label="Select exercise">
+              {Object.keys(allExercises).map((i, x) => (
+                <Dropdown.Item
+                  key={`${x}`}
+                  onClick={() => handleExerciseChange(i as exerciseNames)}
+                >
+                  {i}
+                </Dropdown.Item>
+              ))}
             </Dropdown>
           </div>
         </div>
       </div>
 
       <hr />
-      <Parsons {...properties} />
+      <Parsons setParsonsProperties={(s) => {}} {...parsonsProps} />
     </div>
   );
-}
+};
 
 export default App;

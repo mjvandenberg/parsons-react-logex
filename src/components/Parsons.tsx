@@ -4,7 +4,11 @@ import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import { Button, Dropdown } from 'flowbite-react';
 
-const Parsons: FC<ParsonsProblemProperties> = ({
+type setParsonsPropertiesType = {
+  setParsonsProperties: (props: ParsonsProblemProperties) => void;
+};
+
+const Parsons: FC<ParsonsProblemProperties & setParsonsPropertiesType> = ({
   exerciseName,
   exerciseDescription,
   ...props
