@@ -40,7 +40,7 @@ const ParsonsDropArea: FC<Props> = ({
 
   return (
     <>
-      <div className="basis-1/2">
+      <div className="basis-1/2 text-center">
         {false && (
           <pre style={{ textAlign: 'left' }}>
             {JSON.stringify(
