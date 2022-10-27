@@ -3,9 +3,9 @@ import './App.css';
 import allExercises, { exerciseNames } from './logEx/data/equivalence/all';
 import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
-import { Dropdown } from 'flowbite-react';
-import { FormEventHandler, useState } from 'react';
-import { OneFinalResponse } from './logEx/typesOneFinal';
+import { useState } from 'react';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 
 const defaultExercise = 'Exercise 1';
 
@@ -37,7 +37,7 @@ const App = () => {
         </div>
         <div className="basis-1/2">
           <div className="float-right">
-            <Dropdown color="gray" label="Select exercise">
+            {/*<Dropdown color="gray" label="Select exercise">
               {Object.keys(allExercises).map((i, x) => (
                 <Dropdown.Item
                   key={`${x}`}
@@ -46,13 +46,14 @@ const App = () => {
                   {i}
                 </Dropdown.Item>
               ))}
-            </Dropdown>
+              </Dropdown>*/}
+            {/*<Dropdown />*/}
           </div>
         </div>
       </div>
 
       <hr />
-      <Parsons setParsonsProperties={(s) => {}} {...parsonsProps} />
+      <Parsons {...parsonsProps} />
     </div>
   );
 };

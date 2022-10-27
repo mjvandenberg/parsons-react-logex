@@ -2,13 +2,10 @@ import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
-import { Button, Dropdown } from 'flowbite-react';
+import Button from './Button';
+import Dropdown from 'react-dropdown';
 
-type setParsonsPropertiesType = {
-  setParsonsProperties: (props: ParsonsProblemProperties) => void;
-};
-
-const Parsons: FC<ParsonsProblemProperties & setParsonsPropertiesType> = ({
+const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseName,
   exerciseDescription,
   ...props
@@ -40,6 +37,12 @@ const Parsons: FC<ParsonsProblemProperties & setParsonsPropertiesType> = ({
     setShowFeedback(true);
   };
 
+  useEffect(() => {
+    setShowFeedback(false);
+    setListLeft(props.listLeft);
+    setListRight(props.listRight);
+  }, [props.listLeft, props.listRight]);
+
   return (
     <>
       <pre className="text-left">
@@ -67,17 +70,13 @@ const Parsons: FC<ParsonsProblemProperties & setParsonsPropertiesType> = ({
         />
       </div>
       <div className="flex flex-row max-w-[1000px] p-2 m-3 gap-1">
-        <Button color="gray" onClick={handleResetButtonClick}>
-          Reset
-        </Button>
-        <Button color="gray" onClick={handleFeedbackButtonClick}>
-          Feedback
-        </Button>
-        <Dropdown color="gray" label="Help" className="bg-red-800">
-          <Dropdown.Item>Hint</Dropdown.Item>
+        <Button onClick={handleResetButtonClick}>Reset</Button>
+        <Button onClick={handleFeedbackButtonClick}>Feedback</Button>
+        <Dropdown options={[]} className="bg-red-800">
+          {/*<Dropdown.Item>Hint</Dropdown.Item>
           <Dropdown.Item>Show step</Dropdown.Item>
           <Dropdown.Item>Show complete derivation</Dropdown.Item>
-          <Dropdown.Item>Complete my derivation</Dropdown.Item>
+          <Dropdown.Item>Complete my derivation</Dropdown.Item>*/}
         </Dropdown>
       </div>
     </>
