@@ -4,7 +4,6 @@ import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import Button from './Button';
-import Dropdown from 'react-dropdown';
 
 const arrowClosed = <span className="arrow-closed" />;
 const arrowOpen = <span className="arrow-open" />;
@@ -77,7 +76,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
       <div className="flex flex-row max-w-[1000px] p-2 m-3 gap-1">
         <Button onClick={handleResetButtonClick}>Reset</Button>
         <Button onClick={handleFeedbackButtonClick}>Feedback</Button>
-        <Dropdown
+        {/*<Dropdown
           placeholder="Help"
           options={[
             'Hint',
@@ -92,7 +91,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           menuClassName="relative left-[4px] top-[0px] bg-yellow-500"
           arrowClosed={arrowClosed}
           arrowOpen={arrowOpen}
-        />
+        />*/}
       </div>
     </>
   );

@@ -4,8 +4,6 @@ import allExercises, { exerciseNames } from './logEx/data/equivalence/all';
 import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useState } from 'react';
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
 
 const defaultExercise = 'Exercise 1';
 
