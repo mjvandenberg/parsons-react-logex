@@ -3,7 +3,6 @@ import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
-import Button from './Button';
 
 const arrowClosed = <span className="arrow-closed" />;
 const arrowOpen = <span className="arrow-open" />;
@@ -73,25 +72,41 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           exerciseSolution={exerciseSolution}
         />
       </div>
-      <div className="flex flex-row max-w-[1000px] p-2 m-3 gap-1">
-        <Button onClick={handleResetButtonClick}>Reset</Button>
-        <Button onClick={handleFeedbackButtonClick}>Feedback</Button>
-        {/*<Dropdown
-          placeholder="Help"
-          options={[
-            'Hint',
-            'Show step',
-            'Show complete derivation',
-            'Complete my derivation',
-          ]}
-          value={'Hint'}
-          className="w-full h-[25px] rounded-md"
-          controlClassName="btn btn-default rounded px-5 py-3 min-w-max overflow-hidden shadow relative hover:bg-opacity-90 w-full text-center"
-          placeholderClassName=""
-          menuClassName="relative left-[4px] top-[0px] bg-yellow-500"
-          arrowClosed={arrowClosed}
-          arrowOpen={arrowOpen}
-        />*/}
+      <div className="flex justify-center">
+        <button
+          className="btn btn-primary normal-case mx-1"
+          onClick={handleResetButtonClick}
+        >
+          Reset
+        </button>
+        <button
+          className="btn btn-primary normal-case mx-1"
+          onClick={handleFeedbackButtonClick}
+        >
+          Feedback
+        </button>
+        <div className="dropdown">
+          <label tabIndex={0} className="btn btn-primary normal-case mx-1">
+            Help
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+          >
+            <li>
+              <a>Hint</a>
+            </li>
+            <li>
+              <a>Show step</a>
+            </li>
+            <li>
+              <a>Show complete derivation</a>
+            </li>
+            <li>
+              <a>Complete my derivation</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </>
   );

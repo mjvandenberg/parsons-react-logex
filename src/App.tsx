@@ -36,32 +36,22 @@ const App = () => {
         <div className="basis-1/2">
           <div className="float-right">
             <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn m-1">
-                Click
+              <label tabIndex={0} className="btn btn-primary normal-case mx-1">
+                Select exercise
               </label>
               <ul
                 tabIndex={0}
                 className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
               >
-                <li>
-                  <a>Item 1</a>
-                </li>
-                <li>
-                  <a>Item 2</a>
-                </li>
+                {Object.keys(allExercises).map((i, x) => (
+                  <li key={`${x}`}>
+                    <a onClick={() => handleExerciseChange(i as exerciseNames)}>
+                      {i}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
-            {/*<Dropdown color="gray" label="Select exercise">
-              {Object.keys(allExercises).map((i, x) => (
-                <Dropdown.Item
-                  key={`${x}`}
-                  onClick={() => handleExerciseChange(i as exerciseNames)}
-                >
-                  {i}
-                </Dropdown.Item>
-              ))}
-              </Dropdown>*/}
-            {/*<Dropdown />*/}
           </div>
         </div>
       </div>
