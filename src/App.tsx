@@ -18,6 +18,9 @@ const App = () => {
   const handleExerciseChange: (exerciseName: exerciseNames) => void = (
     exerciseName
   ) => {
+    // ts-ignore
+    document?.activeElement?.blur();
+
     const newParsonsProps = OneFinalToParsonsProblemProperties(
       allExercises[exerciseName],
       'equivalence'
