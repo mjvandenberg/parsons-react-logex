@@ -4,6 +4,7 @@ import allExercises, { exerciseNames } from './logEx/data/equivalence/all';
 import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useState } from 'react';
+import SelectExerciseButton from './components/SelectExerciseButton';
 
 const defaultExercise = 'Exercise 1';
 
@@ -38,23 +39,10 @@ const App = () => {
         </div>
         <div className="basis-1/2">
           <div className="float-right">
-            <div className="dropdown dropdown-end">
-              <label tabIndex={0} className="btn btn-primary normal-case mx-1">
-                Select exercise
-              </label>
-              <ul
-                tabIndex={0}
-                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-              >
-                {Object.keys(allExercises).map((i, x) => (
-                  <li key={`${x}`}>
-                    <a onClick={() => handleExerciseChange(i as exerciseNames)}>
-                      {i}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <SelectExerciseButton
+              exercises={allExercises}
+              onExerciseChange={handleExerciseChange}
+            />
           </div>
         </div>
       </div>

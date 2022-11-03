@@ -3,9 +3,7 @@ import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
-
-const arrowClosed = <span className="arrow-closed" />;
-const arrowOpen = <span className="arrow-open" />;
+import HelpButton from './HelpButton';
 
 const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseName,
@@ -85,28 +83,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
         >
           Feedback
         </button>
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-primary normal-case mx-1">
-            Help
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
-          >
-            <li>
-              <a>Hint</a>
-            </li>
-            <li>
-              <a>Show step</a>
-            </li>
-            <li>
-              <a>Show complete derivation</a>
-            </li>
-            <li>
-              <a>Complete my derivation</a>
-            </li>
-          </ul>
-        </div>
+        <HelpButton />
       </div>
     </>
   );
