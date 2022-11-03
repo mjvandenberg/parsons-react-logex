@@ -48,9 +48,9 @@ const ParsonsBlock: FC<Props> = ({
 
   const showFeedbackRuleClassName = `${
     isRuleValid === true
-      ? 'border-[#00ff00] bg-[#00ff00]/100 '
+      ? 'select-success '
       : isRuleValid === false
-      ? 'border-[#ff0000] bg-[#ff0000]/100 '
+      ? 'select-error '
       : ''
   }`;
 
@@ -72,9 +72,9 @@ const ParsonsBlock: FC<Props> = ({
         <select
           onChange={handleOnChangeRule}
           value={item.rule ? item.rule : ''}
-          className={`bg-gray-50 ${
+          className={`select select-bordered select-sm  max-w-xs bg-gray-50 ${
             showFeedback ? showFeedbackRuleClassName : ''
-          }border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-1.5 mt-[1px] mr-[1px] float-right`}
+          } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-1.5 mt-[1px] mr-[1px] float-right font-light`}
         >
           <option translate-key="shared.button.selectRule" value="">
             -- Select rule --
