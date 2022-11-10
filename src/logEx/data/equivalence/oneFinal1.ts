@@ -1,4 +1,4 @@
-import { OneFinalResponse } from '../../logEx/typesOneFinal';
+import { OneFinalResponse } from '../../typesOneFinal';
 
 const request = {
   service: 'onefinal',
@@ -21,6 +21,13 @@ const request = {
 };
 
 const response: OneFinalResponse = {
+  distractors: [
+    {
+      fromTerm: '¬(p ∧ q) ∨ ¬r ∨ s',
+      term: 'BUGGY RULE',
+      motivation: 'buggyrulename1',
+    },
+  ],
   onefinal: {
     context: {
       term: [

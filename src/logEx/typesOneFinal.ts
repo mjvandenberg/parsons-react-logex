@@ -1,6 +1,7 @@
-import { Rule } from '../logEx/rules';
+import { Rule } from './rules';
 
 export type OneFinalResponse = {
+  distractors?: Distractor[];
   onefinal: OneFinal;
   version: string;
 };
@@ -17,5 +18,11 @@ type Context = {
 
 export type Term = {
   type: string;
+  motivation: string;
+};
+
+type Distractor = {
+  fromTerm: string;
+  term: string;
   motivation: string;
 };

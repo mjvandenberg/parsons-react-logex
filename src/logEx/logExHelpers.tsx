@@ -1,37 +1,8 @@
-import { SolutionResponse } from './typesSolution';
 import { ParsonsItem } from '../types';
 import { OneFinalResponse, Term } from '../logEx/typesOneFinal';
 import { ruleMapping } from '../logEx/ruleHelpers';
 
 type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
-
-export const solutionResponseToParsonsListLeft: (
-  solution: SolutionResponse
-) => ParsonsItem[] = (solution: SolutionResponse) => {
-  return (
-    solution?.derivation?.derivation?.derivationsteps?.map((i, x) => {
-      return {
-        id: x,
-        text: i.context.term,
-        ...(x >= 2 && x <= 3
-          ? { pairedGroupName: 'G' }
-          : { pairedGroupName: x.toString() }),
-      };
-    }) ?? []
-  );
-};
-
-export const solutionResponseToParsonsListRight: (
-  solution: SolutionResponse
-) => ParsonsItem[] = (solution: SolutionResponse) => {
-  return [
-    {
-      id: 1,
-      text: solution?.derivation?.derivation?.context?.term ?? '-',
-      isStaticFirst: true,
-    },
-  ];
-};
 
 export const OneFinalToParsonsProblemProperties = (
   oneFinal: OneFinalResponse,
@@ -39,9 +10,10 @@ export const OneFinalToParsonsProblemProperties = (
 ) => {
   const exerciseSolution = OneFinaleResponseToParsonsSolution(oneFinal);
 
-  const listLeft = exerciseSolution.slice(1, -1).map((i) => {
+  const listLeft2 = exerciseSolution.slice(1, -1).map((i) => {
     return { ...i, rule: undefined };
   });
+  let listLeft = [listLeft2[0], listLeft2[0], ...listLeft2.slice(1)];
 
   const listRight: ParsonsItem[] = [
     { ...exerciseSolution.at(0)!, isStaticFirst: true },
