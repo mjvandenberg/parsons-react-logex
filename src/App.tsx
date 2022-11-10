@@ -6,7 +6,7 @@ import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useState } from 'react';
 import SelectExerciseButton from './components/SelectExerciseButton';
 
-const defaultExercise = 'Exercise 1';
+const defaultExercise = 'Exercise 5';
 
 const App = () => {
   const [parsonsProps, setParsonsProps] = useState(

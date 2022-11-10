@@ -10,10 +10,9 @@ export const OneFinalToParsonsProblemProperties = (
 ) => {
   const exerciseSolution = OneFinaleResponseToParsonsSolution(oneFinal);
 
-  const listLeft2 = exerciseSolution.slice(1, -1).map((i) => {
+  const listLeft = exerciseSolution.slice(1, -1).map((i) => {
     return { ...i, rule: undefined };
   });
-  let listLeft = [listLeft2[0], listLeft2[0], ...listLeft2.slice(1)];
 
   const listRight: ParsonsItem[] = [
     { ...exerciseSolution.at(0)!, isStaticFirst: true },
@@ -67,40 +66,59 @@ const GetExerciseDescription = (
 export const OneFinaleResponseToParsonsSolution: (
   oneFinalResponse: OneFinalResponse
 ) => ParsonsItem[] = (oneFinalResponse: OneFinalResponse) => {
-  return [
-    ...[oneFinalResponse.onefinal.context.term.at(0)].map((i, x) => {
-      return {
-        text: i ? i.toString() : '-',
-        isStaticFirst: x === 0,
-        isStaticLast: x === 1,
-        id: `right_${x}`,
-        pairedGroupName: `right_${x}`,
-      };
-    }),
-    ...(Object.values(
-      oneFinalResponse.onefinal.context.term
-        .slice(1)
-        .reduce<{ [index: string]: ParsonsItem | undefined }>(
-          (prev, current, index, arr) => {
-            return {
-              ...prev,
-              [index.toString()]:
-                index % 2 === 0 ||
-                (index > 0 && (arr[index - 1] as Term).motivation === '<CLOSE>')
-                  ? undefined
-                  : {
-                      text: current.toString(),
-                      id: index,
-                      pairedGroupName: index.toString(),
-                      rule:
-                        index > 0
-                          ? ruleMapping[(arr[index - 1] as Term).motivation]
-                          : undefined,
-                    },
-            };
-          },
-          {}
-        )
-    ).filter((i) => i !== undefined) as ParsonsItem[]),
-  ];
+  const first = oneFinalResponse.onefinal.context.term.at(0)!;
+  return (
+    [
+      {
+        text: first.toString(),
+        isStaticFirst: true,
+        isStaticLast: false,
+        id: `right_${0}`,
+        pairedGroupName: `right_${0}`,
+      },
+      ...(Object.values(
+        oneFinalResponse.onefinal.context.term
+          .slice(1)
+          .reduce<{ [index: string]: ParsonsItem | undefined }>(
+            (prev, current, index, arr) => {
+              return {
+                ...prev,
+                [index.toString()]:
+                  index % 2 === 0 ||
+                  (index > 0 &&
+                    (arr[index - 1] as Term).motivation === '<CLOSE>')
+                    ? undefined
+                    : {
+                        text: current.toString(),
+                        id: index,
+                        pairedGroupName: index.toString(),
+                        rule:
+                          index > 0
+                            ? ruleMapping[(arr[index - 1] as Term).motivation]
+                            : undefined,
+                      },
+              };
+            },
+            {}
+          )
+      ).filter((i) => i !== undefined) as ParsonsItem[]),
+    ]
+      // Inject the distractors
+      .map((i) => {
+        const index = oneFinalResponse.distractors?.findIndex(
+          (e) => e.fromTerm === i.text
+        )!;
+        return oneFinalResponse.distractors && index >= 0
+          ? [
+              i,
+              {
+                ...i,
+                id: `${i.id}_${index}`,
+                text: oneFinalResponse.distractors[index].term,
+              },
+            ]
+          : [i];
+      })
+      .flat()
+  );
 };

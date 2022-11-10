@@ -36,7 +36,7 @@ const ParsonsBlock: FC<Props> = ({
   };
 
   const defaultClassName =
-    'katex z-1 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
+    'z-10 katex z-1 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
 
   const showFeedbackClassName = `${
     isBlockPositionValid === true

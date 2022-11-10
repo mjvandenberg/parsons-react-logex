@@ -9,8 +9,8 @@ type Props = {
 
 const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
   const classGrouped = 'bg-indigo-300 relative z-0';
-  const classLeftGrouped = 'rounded-l-lg left-[0px]';
-  const classRightGrouped = 'rounded-r-lg left-[-9px]';
+  const classLeftGrouped = 'rounded-l-lg left-[2px]';
+  const classRightGrouped = 'rounded-r-lg left-[-11px]';
 
   const classLeft = 'flex w-[32px]';
   const classRight = 'flex w-[12px]';
@@ -23,13 +23,9 @@ const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
         <div
           key={x}
           style={{
-            height: `${
-              38 * grouped[i].length +
-              (grouped[i].length - 1) * 3 -
-              (grouped[i].length > 1 ? 1 : 0)
-            }px`,
+            height: `${38 * grouped[i].length + (grouped[i].length - 1) * 4}px`,
           }}
-          className={`${x === 0 ? '' : 'mt-1 '}${
+          className={`${x === 0 ? '' : ' '}${
             side === 'left' ? classLeft : classRight
           } ${
             grouped[i].length > 1
@@ -37,7 +33,7 @@ const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
                   side === 'left' ? classLeftGrouped : classRightGrouped
                 }`
               : ''
-          }`}
+          } mt-1`}
         >
           {grouped[i].length > 1 && side === 'left' && (
             <span className="relative top-[28px] left-[7px] text-sm text-indigo-600 font-medium select-none">

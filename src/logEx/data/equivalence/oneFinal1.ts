@@ -21,10 +21,11 @@ const request = {
 };
 
 const response: OneFinalResponse = {
+  name: 'Exercise 1',
   distractors: [
     {
       fromTerm: '¬(p ∧ q) ∨ ¬r ∨ s',
-      term: 'BUGGY RULE',
+      term: '¬(p ∧ q) ∨ ¬r # s',
       motivation: 'buggyrulename1',
     },
   ],

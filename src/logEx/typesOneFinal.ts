@@ -1,6 +1,7 @@
 import { Rule } from './rules';
 
 export type OneFinalResponse = {
+  name?: string;
   distractors?: Distractor[];
   onefinal: OneFinal;
   version: string;

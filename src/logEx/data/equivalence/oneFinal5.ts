@@ -21,6 +21,19 @@ const request = {
 };
 
 export const response: OneFinalResponse = {
+  name: 'Exercise 5',
+  distractors: [
+    {
+      fromTerm: 'q ∧ (r ∨ ¬p) ∧ T',
+      term: 'q ∧ (r ∨ ¬p) $ T',
+      motivation: 'buggyrulename1',
+    },
+    {
+      fromTerm: 'q ∧ ((¬p ∧ ¬r) ∨ r)',
+      term: 'q ∧ ((¬p ∧ ¬r) & r)',
+      motivation: 'buggyrulename2',
+    },
+  ],
   onefinal: {
     context: {
       term: [
