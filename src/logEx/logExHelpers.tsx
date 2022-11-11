@@ -13,9 +13,6 @@ export const OneFinalToParsonsProblemProperties = (
 
   const listLeft = exerciseSolution
     .slice(1, -1)
-    .map((i) => {
-      return { ...i, rule: undefined };
-    })
     // inject the distractors
     .map((i) => {
       const index = oneFinal.distractors?.findIndex(
@@ -30,7 +27,7 @@ export const OneFinalToParsonsProblemProperties = (
               text: oneFinal.distractors[index].term,
             },
           ]
-        : [i];
+        : [{ ...i, rule: undefined }];
     })
     .flat();
 

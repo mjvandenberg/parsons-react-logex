@@ -40,9 +40,9 @@ const ParsonsBlock: FC<Props> = ({
 
   const showFeedbackClassName = `${
     isBlockPositionValid === true
-      ? 'border-[#00ff00] bg-[#00ff00]/100 '
+      ? 'border-[#008000] bg-[#DFF2BF] '
       : isBlockPositionValid === false
-      ? 'border-[#ff0000] bg-[#ff0000]/100 '
+      ? 'border-[#ff0000] bg-[#FFBABA] '
       : ''
   }`;
 
