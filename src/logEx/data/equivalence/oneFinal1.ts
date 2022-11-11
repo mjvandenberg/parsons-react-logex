@@ -25,7 +25,7 @@ const response: OneFinalResponse = {
   distractors: [
     {
       fromTerm: '¬(p ∧ q) ∨ ¬r ∨ s',
-      term: '¬(p ∧ q) ∨ ¬r # s',
+      term: '¬(p ∧ q) ∨ ¬r → ¬s',
       motivation: 'buggyrulename1',
     },
   ],

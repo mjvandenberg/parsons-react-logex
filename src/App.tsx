@@ -6,13 +6,16 @@ import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useState } from 'react';
 import SelectExerciseButton from './components/SelectExerciseButton';
 
-const defaultExercise = 'Exercise 5';
+const defaultExercise = 'Exercise 1';
+const exerciseType = 'equivalence';
+const includeDistractors = true;
 
 const App = () => {
   const [parsonsProps, setParsonsProps] = useState(
     OneFinalToParsonsProblemProperties(
       allExercises[defaultExercise],
-      'equivalence'
+      exerciseType,
+      includeDistractors
     )
   );
 
@@ -24,7 +27,8 @@ const App = () => {
 
     const newParsonsProps = OneFinalToParsonsProblemProperties(
       allExercises[exerciseName],
-      'equivalence'
+      exerciseType,
+      includeDistractors
     );
     setParsonsProps(newParsonsProps);
   };

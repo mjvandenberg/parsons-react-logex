@@ -46,9 +46,6 @@ const Parsons: FC<ParsonsProblemProperties> = ({
 
   return (
     <>
-      <pre className="text-left">
-        {false && JSON.stringify(listLeft, null, 2)}
-      </pre>
       <ParsonsTitle exerciseName={exerciseName}>
         {exerciseDescription}
       </ParsonsTitle>
@@ -85,6 +82,9 @@ const Parsons: FC<ParsonsProblemProperties> = ({
         </button>
         <HelpButton />
       </div>
+      <pre className="text-left">
+        {true && JSON.stringify(exerciseSolution, null, 2)}
+      </pre>
     </>
   );
 };
