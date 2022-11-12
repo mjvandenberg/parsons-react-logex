@@ -9,6 +9,7 @@ export interface ParsonsItem extends ItemInterface {
   isStaticFirst?: boolean;
   isStaticLast?: boolean;
   pairedGroupName?: string;
+  isValid?: boolean;
 }
 
 export interface ParsonsProblemProperties {

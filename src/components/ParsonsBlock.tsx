@@ -2,7 +2,7 @@ import { ChangeEventHandler, FC } from 'react';
 import { Rule, rules, ruleTranslations } from '../logEx/rules';
 import { ParsonsItem } from '../types';
 
-interface Props {
+interface ParsonsBlockProps {
   isStatic?: boolean;
   item: ParsonsItem;
   rule?: Rule;
@@ -11,11 +11,9 @@ interface Props {
   onChangeItem: (item: ParsonsItem) => void;
   position: 'left' | 'right';
   showFeedback: boolean;
-  isBlockPositionValid?: boolean;
-  isRuleValid?: boolean;
 }
 
-const ParsonsBlock: FC<Props> = ({
+const ParsonsBlock: FC<ParsonsBlockProps> = ({
   item,
   isStatic = false,
   isGrouped = false,
@@ -23,8 +21,6 @@ const ParsonsBlock: FC<Props> = ({
   onChangeItem,
   position,
   showFeedback,
-  isBlockPositionValid,
-  isRuleValid,
 }) => {
   const handleOnChangeRule: ChangeEventHandler<HTMLSelectElement> = ({
     target,
@@ -39,17 +35,17 @@ const ParsonsBlock: FC<Props> = ({
     'z-10 katex z-1 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
 
   const showFeedbackClassName = `${
-    isBlockPositionValid === true
+    item.isValid === true
       ? 'border-[#008000] bg-[#DFF2BF] '
-      : isBlockPositionValid === false
+      : item.isValid === false
       ? 'border-[#ff0000] bg-[#FFBABA] '
       : ''
   }`;
 
   const showFeedbackRuleClassName = `${
-    isRuleValid === true
+    item.isValid === true
       ? 'select-success '
-      : isRuleValid === false
+      : item.isValid === false
       ? 'select-error '
       : ''
   }`;

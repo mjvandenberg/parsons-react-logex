@@ -21,23 +21,6 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         position === 'left' ? classLeft : classRight
       }`}
     >
-      {hasStaticFirst &&
-        list
-          .filter((i) => i.isStaticFirst)
-          .map((item) => (
-            <ParsonsBlock
-              key={item.id}
-              item={item}
-              isStatic={true}
-              isFirst={true}
-              isGrouped={item.groupName !== undefined}
-              onChangeItem={onChangeItem}
-              position={position!}
-              showFeedback={showFeedback!}
-              isBlockPositionValid={exerciseSolution!.at(0)!.text === item.text}
-              isRuleValid={true}
-            />
-          ))}
       <ReactSortable
         className={`w-full leading-[37px] select-none ${
           position === 'left' && classLeftSortable
@@ -47,44 +30,23 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         setList={setList}
         group="p"
       >
-        {position === 'right' &&
-        list.filter((i) => !i.isStaticFirst && !i.isStaticLast).length === 0 ? (
+        {position === 'right' && list.length === 0 ? (
           <></>
         ) : (
-          list
-            .filter((i) => !i.isStaticFirst && !i.isStaticLast)
-            .map((item, x) => (
-              <ParsonsBlock
-                key={item.id}
-                item={item}
-                isStatic={false}
-                isFirst={!hasStaticFirst && x === 0}
-                isGrouped={item.groupName !== undefined}
-                onChangeItem={onChangeItem}
-                position={position!}
-                showFeedback={showFeedback!}
-                isBlockPositionValid={false}
-                isRuleValid={true}
-              />
-            ))
+          list.map((item, x) => (
+            <ParsonsBlock
+              key={item.id}
+              item={item}
+              isStatic={false}
+              isFirst={!hasStaticFirst && x === 0}
+              isGrouped={item.groupName !== undefined}
+              onChangeItem={onChangeItem}
+              position={position!}
+              showFeedback={showFeedback!}
+            />
+          ))
         )}
       </ReactSortable>
-      {list
-        .filter((i) => i.isStaticLast)
-        .map((item) => (
-          <ParsonsBlock
-            key={item.id}
-            item={item}
-            isStatic={true}
-            isFirst={false}
-            isGrouped={item.groupName !== undefined}
-            onChangeItem={onChangeItem}
-            position={position!}
-            showFeedback={showFeedback!}
-            isBlockPositionValid={false}
-            isRuleValid={true}
-          />
-        ))}
     </div>
   );
 };

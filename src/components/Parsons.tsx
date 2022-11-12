@@ -11,7 +11,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
-  const [listRight, setListRight] = useState<ParsonsItem[]>(props.listRight);
+  const [listRight, setListRight_] = useState<ParsonsItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string | undefined>(undefined);
 
@@ -19,6 +19,14 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   const [initialListRight] = useState<ParsonsItem[]>(props.listRight);
 
   const [exerciseSolution] = useState<ParsonsItem[]>(props.exerciseSolution);
+
+  const setListRight = (list: ParsonsItem[]) => {
+    setListRight_(
+      list.map((i, x) => {
+        return { ...i, isValid: x === 1 };
+      })
+    );
+  };
 
   const handleChangeItemLeft: (item: ParsonsItem) => void = (item) => {
     setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
@@ -63,7 +71,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           setList={setListRight}
           position="right"
           onChangeItem={handleChangeItemRight}
-          showFeedback={showFeedback}
+          showFeedback={true}
           exerciseSolution={exerciseSolution}
         />
       </div>
