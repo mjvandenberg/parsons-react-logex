@@ -9,12 +9,11 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   setList,
   onChangeItem,
   showFeedback,
-  exerciseSolution,
 }) => {
   const classLeft = 'bg-[#efefff]';
   const classLeftSortable = 'min-h-[42px]';
   const classRight = 'bg-[#ffffaa]';
-  const hasStaticFirst = list.findIndex((i) => i.isStaticFirst === true) > -1;
+
   return (
     <div
       className={`flex flex-col border border-indigo-200 min-h-[40px] pb-1 px-1 ${
@@ -37,8 +36,10 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
             <ParsonsBlock
               key={item.id}
               item={item}
-              isStatic={false}
-              isFirst={!hasStaticFirst && x === 0}
+              isStatic={
+                position === 'right' && (x === 0 || x === list.length - 1)
+              }
+              isFirst={x === 0}
               isGrouped={item.groupName !== undefined}
               onChangeItem={onChangeItem}
               position={position!}

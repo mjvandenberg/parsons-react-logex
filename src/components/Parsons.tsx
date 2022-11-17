@@ -2,7 +2,11 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ParsonsItem, ParsonsProblemProperties } from '../types';
+import {
+  ParsonsItem,
+  ParsonsProblemProperties,
+  ParsonsSolutionItem,
+} from '../types';
 import HelpButton from './HelpButton';
 
 const Parsons: FC<ParsonsProblemProperties> = ({
@@ -11,28 +15,38 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
-  const [listRight, setListRight_] = useState<ParsonsItem[]>(props.listRight);
+  const [listRight, _setListRight] = useState<ParsonsItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string | undefined>(undefined);
 
   const [initialListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [initialListRight] = useState<ParsonsItem[]>(props.listRight);
 
-  const [exerciseSolution] = useState<ParsonsItem[]>(props.exerciseSolution);
+  const [exerciseSolution] = useState<ParsonsSolutionItem[]>(
+    props.exerciseSolution
+  );
 
   const setListRight = (list: ParsonsItem[]) => {
-    setListRight_(
+    setShowFeedback(false);
+    _setListRight(
       list.map((i, x) => {
-        return { ...i, isValid: x === 1 };
+        return {
+          ...i,
+          isValid:
+            exerciseSolution[x].text === i.text &&
+            exerciseSolution[x].rule === i.rule,
+        };
       })
     );
   };
 
   const handleChangeItemLeft: (item: ParsonsItem) => void = (item) => {
+    setShowFeedback(false);
     setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
   };
 
   const handleChangeItemRight: (item: ParsonsItem) => void = (item) => {
+    setShowFeedback(false);
     setListRight(listRight.map((i) => (i.id === item.id ? item : i)));
   };
 
@@ -71,7 +85,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           setList={setListRight}
           position="right"
           onChangeItem={handleChangeItemRight}
-          showFeedback={true}
+          showFeedback={showFeedback}
           exerciseSolution={exerciseSolution}
         />
       </div>

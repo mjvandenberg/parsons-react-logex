@@ -15,7 +15,12 @@ export interface ParsonsItem extends ItemInterface {
 export interface ParsonsProblemProperties {
   exerciseName: string;
   exerciseDescription: JSX.Element | string;
-  exerciseSolution: ParsonsItem[];
+  exerciseSolution: ParsonsSolutionItem[];
   listLeft: ParsonsItem[];
   listRight: ParsonsItem[];
+}
+
+export interface ParsonsSolutionItem {
+  text: string;
+  rule?: string;
 }

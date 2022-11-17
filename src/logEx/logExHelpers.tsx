@@ -1,4 +1,4 @@
-import { ParsonsItem } from '../types';
+import { ParsonsItem, ParsonsSolutionItem } from '../types';
 import { OneFinalResponse, Term } from '../logEx/typesOneFinal';
 import { ruleMapping } from '../logEx/ruleHelpers';
 
@@ -41,8 +41,8 @@ export const OneFinalToParsonsProblemProperties = (
   return {
     exerciseName: 'Exercise 5',
     exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
-    exerciseSolution: exerciseSolution.map((i) => {
-      return { text: i.text, rule: i.rule };
+    exerciseSolution: exerciseSolution.map<ParsonsSolutionItem>((i) => {
+      return i.rule ? { text: i.text, rule: i.rule } : { text: i.text };
     }),
     listLeft,
     listRight,
