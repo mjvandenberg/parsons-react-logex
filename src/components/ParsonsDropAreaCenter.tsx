@@ -9,6 +9,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   setList,
   onChangeItem,
   showFeedback,
+  isValid,
 }) => {
   const classLeft = 'bg-[#efefff]';
   const classLeftSortable = 'min-h-[42px]';
@@ -16,9 +17,13 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
 
   return (
     <div
-      className={`flex flex-col border border-indigo-200 min-h-[40px] pb-1 px-1 ${
-        position === 'left' ? classLeft : classRight
-      }`}
+      className={`flex flex-col border ${
+        isValid === undefined
+          ? 'border-indigo-200'
+          : isValid === true
+          ? 'border-[#008000]'
+          : 'border-[#ff0000]'
+      } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
       <ReactSortable
         className={`w-full leading-[37px] select-none ${

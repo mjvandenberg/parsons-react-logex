@@ -2,42 +2,33 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import {
-  ParsonsItem,
-  ParsonsProblemProperties,
-  ParsonsSolutionItem,
-} from '../types';
+import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import HelpButton from './HelpButton';
+import { validateParsonsProblem } from '../parsons';
 
 const Parsons: FC<ParsonsProblemProperties> = ({
   exerciseName,
   exerciseDescription,
+  exerciseSolution,
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [listRight, _setListRight] = useState<ParsonsItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string | undefined>(undefined);
+  const [isValid, setIsValid] = useState<boolean>(false);
 
   const [initialListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [initialListRight] = useState<ParsonsItem[]>(props.listRight);
 
-  const [exerciseSolution] = useState<ParsonsSolutionItem[]>(
-    props.exerciseSolution
-  );
-
   const setListRight = (list: ParsonsItem[]) => {
     setShowFeedback(false);
-    _setListRight(
-      list.map((i, x) => {
-        return {
-          ...i,
-          isValid:
-            exerciseSolution[x].text === i.text &&
-            exerciseSolution[x].rule === i.rule,
-        };
-      })
+    const [newList, newIsValid] = validateParsonsProblem(
+      list,
+      exerciseSolution
     );
+    _setListRight(newList);
+    setIsValid(newIsValid);
   };
 
   const handleChangeItemLeft: (item: ParsonsItem) => void = (item) => {
@@ -86,7 +77,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
           position="right"
           onChangeItem={handleChangeItemRight}
           showFeedback={showFeedback}
-          exerciseSolution={exerciseSolution}
+          isValid={showFeedback === false ? undefined : isValid}
         />
       </div>
       <div className="flex justify-center">
@@ -105,7 +96,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
         <HelpButton />
       </div>
       <pre className="text-left">
-        {true && JSON.stringify(exerciseSolution, null, 2)}
+        {false && JSON.stringify(exerciseSolution, null, 2)}
       </pre>
     </>
   );
