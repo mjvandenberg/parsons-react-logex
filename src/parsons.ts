@@ -9,7 +9,7 @@ export const validateParsonsProblem: (
   solutionToValidate: ParsonsItem[],
   validSolution: ParsonsSolutionItem[]
 ) => [ParsonsItem[], boolean] = (solutionToValidate, validSolution) => {
-  const newList = solutionToValidate.reduce<ParsonsItem[]>(
+  const list = solutionToValidate.reduce<ParsonsItem[]>(
     (accumulator, currentValue, currentIndex) => [
       ...accumulator,
       {
@@ -27,9 +27,9 @@ export const validateParsonsProblem: (
     ],
     []
   );
-  const newIsValid =
-    newList.length === validSolution.length &&
-    !newList.some((i) => i.isValid === undefined || i.isValid === false);
+  const isValid =
+    list.length === validSolution.length &&
+    !list.some((i) => i.isValid === undefined || i.isValid === false);
 
-  return [newList, newIsValid];
+  return [list, isValid];
 };
