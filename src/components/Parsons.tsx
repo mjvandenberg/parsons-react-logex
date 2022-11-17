@@ -6,10 +6,11 @@ import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblem } from '../parsons';
 
-const Parsons: FC<ParsonsProblemProperties> = ({
+const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   exerciseName,
   exerciseDescription,
   exerciseSolution,
+  onReset,
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
@@ -42,9 +43,7 @@ const Parsons: FC<ParsonsProblemProperties> = ({
   };
 
   const handleResetButtonClick = () => {
-    setListLeft(initialListLeft);
-    setListRight(initialListRight);
-    setShowFeedback(false);
+    onReset();
   };
 
   const handleFeedbackButtonClick = () => {
@@ -82,18 +81,18 @@ const Parsons: FC<ParsonsProblemProperties> = ({
       </div>
       <div className="flex justify-center">
         <button
-          className="btn btn-primary normal-case mx-1"
+          className="btn btn-primary normal-case mx-1 min-w-[130px]"
           onClick={handleResetButtonClick}
         >
           Reset
         </button>
         <button
-          className="btn btn-primary normal-case mx-1"
+          className="btn btn-primary normal-case mx-1 min-w-[130px]"
           onClick={handleFeedbackButtonClick}
         >
           Feedback
         </button>
-        <HelpButton />
+        {/*<HelpButton />*/}
       </div>
       <pre className="text-left">
         {false && JSON.stringify(exerciseSolution, null, 2)}

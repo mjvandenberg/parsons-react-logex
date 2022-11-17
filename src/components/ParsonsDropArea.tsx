@@ -1,7 +1,6 @@
 import { FC } from 'react';
 import ParsonsDropAreaSide from './ParsonsDropAreaSide';
-import { ParsonsItem, ParsonsSolutionItem } from '../types';
-import { groupBy } from '../array';
+import { ParsonsItem } from '../types';
 import ParsonsDropAreaCenter from './ParsonsDropAreaCenter';
 
 export type ParsonsDropAreaProps = {
@@ -14,14 +13,36 @@ export type ParsonsDropAreaProps = {
   isValid?: boolean;
 };
 
+export type ParsonsGroupBlock = {
+  groupName: string;
+  size: number;
+};
+
 const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
   title,
   list,
   ...props
 }) => {
-  const grouped = groupBy<ParsonsItem, string>(
-    list,
-    (i) => i.pairedGroupName ?? ''
+  const grouped = list.reduce<ParsonsGroupBlock[]>(
+    (accumulator, currentValue, currentIndex, array) => {
+      const newValue =
+        accumulator.length === 0 ||
+        accumulator[accumulator.length - 1].groupName !==
+          currentValue.pairedGroupName
+          ? { groupName: currentValue.pairedGroupName || '', size: 1 }
+          : undefined;
+
+      return newValue
+        ? [...accumulator, newValue]
+        : [
+            ...accumulator.slice(0, -1),
+            {
+              ...accumulator[accumulator.length - 1],
+              size: accumulator[accumulator.length - 1].size + 1,
+            },
+          ];
+    },
+    [] //[{groupName: "1", size: 2},{groupName: "2", size: 1}]
   );
 
   const padding = '2px';
@@ -38,13 +59,13 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
         </div>
         <div className={`grid grid-cols-[25px_minmax(0,_1fr)_10px]`}>
           <ParsonsDropAreaSide
-            grouped={grouped}
+            grouped={props.position === 'left' ? grouped : undefined}
             side="left"
             padding={padding}
           />
           <ParsonsDropAreaCenter title={title} list={list} {...props} />
           <ParsonsDropAreaSide
-            grouped={grouped}
+            grouped={props.position === 'left' ? grouped : undefined}
             side="right"
             padding={padding}
           />
