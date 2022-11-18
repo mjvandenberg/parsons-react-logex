@@ -16,11 +16,8 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
   const [listRight, _setListRight] = useState<ParsonsItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [help, setHelp] = useState<string | undefined>(undefined);
+  const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
-
-  const [initialListLeft] = useState<ParsonsItem[]>(props.listLeft);
-  const [initialListRight] = useState<ParsonsItem[]>(props.listRight);
 
   const setListRight = (list: ParsonsItem[]) => {
     setShowFeedback(false);
