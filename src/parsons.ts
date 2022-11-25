@@ -12,6 +12,40 @@ function addArrayToStart<T>(arr: T[], item: T) {
   return [item, ...arr];
 }
 
+type reducers = 'reduce' | 'reduceRight';
+type reducerOrder = {
+  type: reducers;
+  getPreviousItem: (solutionToValidate: ParsonsItem[]) => ParsonsItem;
+  getFirstItemIndex: (solutionToValidate: ParsonsItem[]) => number;
+  addToArray: AddToArrayFn<ParsonsItem>;
+  getValidItem: (
+    solutionToValidate: ParsonsItem[],
+    currentIndex: number,
+    validSolution: ParsonsSolutionItem[]
+  ) => ParsonsSolutionItem;
+};
+const orders: reducerOrder[] = [
+  {
+    type: 'reduce',
+    getPreviousItem: (solutionToValidate) => solutionToValidate[0],
+    getFirstItemIndex: (_) => 0,
+    addToArray: addArrayToEnd,
+    getValidItem: (_, currentIndex, validSolution) =>
+      validSolution[currentIndex],
+  },
+  {
+    type: 'reduceRight',
+    getPreviousItem: (solutionToValidate) =>
+      solutionToValidate[solutionToValidate.length - 1],
+    getFirstItemIndex: (solutionToValidate) => solutionToValidate.length - 1,
+    addToArray: addArrayToStart,
+    getValidItem: (solutionToValidate, currentIndex, validSolution) =>
+      validSolution[
+        validSolution.length - (solutionToValidate.length - currentIndex)
+      ],
+  },
+];
+
 /**
  * Validates if a parsons problem solution is valid according to the valid solution
  * Returns the solution with feedback for the student in the isValid property and
@@ -21,53 +55,13 @@ export const validateParsonsProblem: (
   solutionToValidate: ParsonsItem[],
   validSolution: ParsonsSolutionItem[]
 ) => [ParsonsItem[], boolean] = (solutionToValidate, validSolution) => {
-  //reduce -> -1 or reduceRight -> +1
-  type reducers = 'reduce' | 'reduceRight';
-  type reducerOrder = {
-    type: reducers;
-    previousItem: (
-      solutionToValidate: ParsonsItem[],
-      currentIndex: number,
-      validSolution: ParsonsSolutionItem[]
-    ) => ParsonsItem;
-    firstItemIndex: number;
-    addToArray: AddToArrayFn<ParsonsItem>;
-    getValidItem: (
-      solutionToValidate: ParsonsItem[],
-      currentIndex: number,
-      validSolution: ParsonsSolutionItem[]
-    ) => ParsonsSolutionItem;
-  };
-  const orders: reducerOrder[] = [
-    {
-      type: 'reduce',
-      previousItem: (solutionToValidate, currentIndex, validSolution) =>
-        solutionToValidate[0],
-      firstItemIndex: 0,
-      addToArray: addArrayToEnd,
-      getValidItem: (solutionToValidate, currentIndex, validSolution) =>
-        validSolution[currentIndex],
-    },
-    {
-      type: 'reduceRight',
-      previousItem: (solutionToValidate, currentIndex, validSolution) =>
-        solutionToValidate[0],
-      firstItemIndex: solutionToValidate.length - 1,
-      addToArray: addArrayToStart,
-      getValidItem: (solutionToValidate, currentIndex, validSolution) =>
-        validSolution[
-          validSolution.length - (solutionToValidate.length - currentIndex)
-        ],
-    },
-  ];
-
-  const reducer: (reduceOrder: reducerOrder) => ParsonsItem[] = ({
-    type,
-    firstItemIndex,
-    previousItem,
-    addToArray,
-    getValidItem,
-  }) =>
+  const reducer: (
+    solutionToValidate: ParsonsItem[],
+    reduceOrder: reducerOrder
+  ) => ParsonsItem[] = (
+    solutionToValidate,
+    { type, getFirstItemIndex, getPreviousItem, addToArray, getValidItem }
+  ) =>
     solutionToValidate[type]<ParsonsItem[]>(
       (accumulator, currentValue, currentIndex) => {
         const validItem = getValidItem(
@@ -75,27 +69,29 @@ export const validateParsonsProblem: (
           currentIndex,
           validSolution
         );
-        console.info(`validItem index ${currentIndex}`, validItem);
+        const previousItem = getPreviousItem(accumulator);
+        const firstItemIndex = getFirstItemIndex(solutionToValidate);
         return addToArray(accumulator, {
           ...currentValue,
-          isValid:
-            'isValid' in currentValue && currentValue.isValid
-              ? true
-              : currentIndex === firstItemIndex ||
-                (currentIndex < validSolution.length &&
-                  previousItem(accumulator, currentIndex, validSolution)
-                    .isValid === true)
-              ? validItem.text === currentValue.text &&
-                validItem.rule === currentValue.rule
-              : previousItem(accumulator, currentIndex, validSolution)
-                  .isValid === true
-              ? false
-              : undefined,
+          isValid: currentValue.isValid
+            ? true
+            : currentIndex === firstItemIndex ||
+              (currentIndex < validSolution.length &&
+                previousItem.isValid === true)
+            ? validItem.text === currentValue.text &&
+              validItem.rule === currentValue.rule
+            : previousItem.isValid === true
+            ? false
+            : undefined,
         });
       },
       []
     );
-  const list = reducer(orders[1]);
+  //const list = reducer(solutionToValidate, orders[1]);
+  const list = orders.reduce((accumulator, currentValue) => {
+    return reducer(accumulator, currentValue);
+  }, solutionToValidate);
+
   const isValid =
     list.length === validSolution.length && list.every((i) => i.isValid);
 
