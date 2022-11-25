@@ -88,9 +88,14 @@ export const validateParsonsProblem: (
       []
     );
   //const list = reducer(solutionToValidate, orders[1]);
-  const list = orders.reduce((accumulator, currentValue) => {
-    return reducer(accumulator, currentValue);
-  }, solutionToValidate);
+  const list = orders.reduce(
+    (accumulator, currentValue) => {
+      return reducer(accumulator, currentValue);
+    },
+    solutionToValidate.map((i) => {
+      return { ...i, isValid: undefined };
+    })
+  );
 
   const isValid =
     list.length === validSolution.length && list.every((i) => i.isValid);
