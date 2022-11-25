@@ -12,9 +12,9 @@ function addArrayToStart<T>(arr: T[], item: T) {
   return [item, ...arr];
 }
 
-type reducers = 'reduce' | 'reduceRight';
-type reducerOrder = {
-  type: reducers;
+type reducerType = 'reduce' | 'reduceRight';
+type validationOrder = {
+  type: reducerType;
   getPreviousItem: (solutionToValidate: ParsonsItem[]) => ParsonsItem;
   getFirstItemIndex: (solutionToValidate: ParsonsItem[]) => number;
   addToArray: AddToArrayFn<ParsonsItem>;
@@ -24,7 +24,7 @@ type reducerOrder = {
     validSolution: ParsonsSolutionItem[]
   ) => ParsonsSolutionItem;
 };
-const orders: reducerOrder[] = [
+const validationOrders: validationOrder[] = [
   {
     type: 'reduce',
     getPreviousItem: (solutionToValidate) => solutionToValidate[0],
@@ -57,7 +57,7 @@ export const validateParsonsProblem: (
 ) => [ParsonsItem[], boolean] = (solutionToValidate, validSolution) => {
   const reducer: (
     solutionToValidate: ParsonsItem[],
-    reduceOrder: reducerOrder
+    reduceOrder: validationOrder
   ) => ParsonsItem[] = (
     solutionToValidate,
     { type, getFirstItemIndex, getPreviousItem, addToArray, getValidItem }
@@ -87,8 +87,8 @@ export const validateParsonsProblem: (
       },
       []
     );
-  //const list = reducer(solutionToValidate, orders[1]);
-  const list = orders.reduce(
+
+  const list = validationOrders.reduce<ParsonsItem[]>(
     (accumulator, currentValue) => {
       return reducer(accumulator, currentValue);
     },

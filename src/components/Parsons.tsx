@@ -4,7 +4,7 @@ import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsItem, ParsonsProblemProperties } from '../types';
 import HelpButton from './HelpButton';
-import { validateParsonsProblem } from '../parsons';
+import { validateParsonsProblem } from '../validate';
 
 const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   exerciseName,
