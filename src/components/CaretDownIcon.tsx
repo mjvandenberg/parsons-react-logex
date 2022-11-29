@@ -2,7 +2,7 @@ const CaretDownIcon = () => {
   return (
     <svg
       className="relative left-[4px]"
-      enable-background="new 0 0 29 14"
+      enableBackground="new 0 0 29 14"
       height="14px"
       id="Layer_1"
       version="1.1"
