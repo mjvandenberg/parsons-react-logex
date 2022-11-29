@@ -47,28 +47,6 @@ const validationOrders: validationOrder[] = [
   },
 ];
 
-const getIsValid = (
-  currentValue: ParsonsItem,
-  previousItem: ParsonsItem,
-  currentIndex: number,
-  validSolution: ParsonsSolutionItem[],
-  validItem: ParsonsSolutionItem
-) => {
-  if (currentValue.isValid === true) return true;
-  if (
-    previousItem === undefined ||
-    (currentIndex < validSolution.length && previousItem.isValid === true)
-  ) {
-    return (
-      validItem.text === currentValue.text &&
-      validItem.rule === currentValue.rule
-    );
-  }
-  if (previousItem.isValid === true) return false;
-
-  return undefined;
-};
-
 /**
  * Validates if a parsons problem solution is valid according to the valid solution
  * Returns the solution with feedback for the student in the isValid property and
@@ -97,22 +75,16 @@ export const validateParsonsProblem: (
 
         return addToArray(accumulator, {
           ...currentValue,
-          isValid: getIsValid(
-            currentValue,
-            previousItem,
-            currentIndex,
-            validSolution,
-            validItem
-          ) /*currentValue.isValid
+          isValid: currentValue.isValid
             ? true
+            : currentValue.isValid === false
+            ? false
             : previousItem === undefined ||
               (currentIndex < validSolution.length &&
                 previousItem.isValid === true)
             ? validItem.text === currentValue.text &&
               validItem.rule === currentValue.rule
-            : previousItem.isValid === true
-            ? false
-            : undefined,*/,
+            : undefined,
         });
       },
       []
