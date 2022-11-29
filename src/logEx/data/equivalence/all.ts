@@ -1,4 +1,7 @@
 import oneFinal1 from './oneFinal1';
+import oneFinal2 from './oneFinal2';
+import oneFinal3 from './oneFinal3';
+import oneFinal4 from './oneFinal4';
 import oneFinal5 from './oneFinal5';
 
 const allExercises = {
