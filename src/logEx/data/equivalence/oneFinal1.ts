@@ -1,24 +1,6 @@
 import { OneFinalResponse } from '../../typesOneFinal';
 
-const request = {
-  service: 'onefinal',
-  state: {
-    exerciseid: 'logic.propositional.proof-new.unicode',
-    prefix: '[]',
-    context: {
-      term: [
-        '¬(p∧q)∨s∨¬r',
-        {
-          type: '=',
-          motivation: '<GAP>',
-        },
-        '(p∧q)→(r→s)',
-      ],
-      environment: {},
-      location: [],
-    },
-  },
-};
+// request: https://ideas.science.uu.nl/cgi-bin/ideas-logic.cgi?input={"service":"onefinal","state":{"exerciseid":"logic.propositional.proof-new.unicode","prefix":"[]","context":{"term":["¬(p ∧ q) ∨ s ∨ ¬r",{"type":"=","motivation":"<GAP>"},"(p ∧ q) → (r → s)"],"environment":{},"location":[]}}}
 
 const response: OneFinalResponse = {
   name: 'Exercise 1',
