@@ -94,7 +94,6 @@ export const validateParsonsProblem: (
         );
 
         const previousItem = getPreviousItem(accumulator, currentIndex);
-        console.info(type, accumulator, currentValue, previousItem);
 
         return addToArray(accumulator, {
           ...currentValue,
@@ -133,11 +132,3 @@ export const validateParsonsProblem: (
 
   return [list, isValid];
 };
-
-if (import.meta.vitest) {
-  const { it, expect } = import.meta.vitest;
-
-  it('should work', () => {
-    expect('test').toBeInstanceOf(Number);
-  });
-}
