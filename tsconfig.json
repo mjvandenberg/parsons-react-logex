@@ -15,7 +15,8 @@
     "typeRoots": ["./src/types/custom.d.ts"],
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["vitest/importMeta"]
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

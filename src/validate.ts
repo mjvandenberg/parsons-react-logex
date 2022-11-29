@@ -15,8 +15,10 @@ function addArrayToStart<T>(arr: T[], item: T) {
 type reducerType = 'reduce' | 'reduceRight';
 type validationOrder = {
   type: reducerType;
-  getPreviousItem: (solutionToValidate: ParsonsItem[]) => ParsonsItem;
-  getFirstItemIndex: (solutionToValidate: ParsonsItem[]) => number;
+  getPreviousItem: (
+    solutionToValidate: ParsonsItem[],
+    currentIndex: number
+  ) => ParsonsItem;
   addToArray: AddToArrayFn<ParsonsItem>;
   getValidItem: (
     solutionToValidate: ParsonsItem[],
@@ -27,17 +29,16 @@ type validationOrder = {
 const validationOrders: validationOrder[] = [
   {
     type: 'reduce',
-    getPreviousItem: (solutionToValidate) => solutionToValidate[0],
-    getFirstItemIndex: (_) => 0,
+    getPreviousItem: (solutionToValidate, currentIndex) =>
+      solutionToValidate[currentIndex - 1],
     addToArray: addArrayToEnd,
     getValidItem: (_, currentIndex, validSolution) =>
       validSolution[currentIndex],
   },
   {
     type: 'reduceRight',
-    getPreviousItem: (solutionToValidate) =>
-      solutionToValidate[solutionToValidate.length - 1],
-    getFirstItemIndex: (solutionToValidate) => solutionToValidate.length - 1,
+    getPreviousItem: (solutionToValidate, currentIndex) =>
+      solutionToValidate[0],
     addToArray: addArrayToStart,
     getValidItem: (solutionToValidate, currentIndex, validSolution) =>
       validSolution[
@@ -45,6 +46,28 @@ const validationOrders: validationOrder[] = [
       ],
   },
 ];
+
+const getIsValid = (
+  currentValue: ParsonsItem,
+  previousItem: ParsonsItem,
+  currentIndex: number,
+  validSolution: ParsonsSolutionItem[],
+  validItem: ParsonsSolutionItem
+) => {
+  if (currentValue.isValid === true) return true;
+  if (
+    previousItem === undefined ||
+    (currentIndex < validSolution.length && previousItem.isValid === true)
+  ) {
+    return (
+      validItem.text === currentValue.text &&
+      validItem.rule === currentValue.rule
+    );
+  }
+  if (previousItem.isValid === true) return false;
+
+  return undefined;
+};
 
 /**
  * Validates if a parsons problem solution is valid according to the valid solution
@@ -60,7 +83,7 @@ export const validateParsonsProblem: (
     reduceOrder: validationOrder
   ) => ParsonsItem[] = (
     solutionToValidate,
-    { type, getFirstItemIndex, getPreviousItem, addToArray, getValidItem }
+    { type, getPreviousItem, addToArray, getValidItem }
   ) =>
     solutionToValidate[type]<ParsonsItem[]>(
       (accumulator, currentValue, currentIndex) => {
@@ -69,20 +92,28 @@ export const validateParsonsProblem: (
           currentIndex,
           validSolution
         );
-        const previousItem = getPreviousItem(accumulator);
-        const firstItemIndex = getFirstItemIndex(solutionToValidate);
+
+        const previousItem = getPreviousItem(accumulator, currentIndex);
+        console.info(type, accumulator, currentValue, previousItem);
+
         return addToArray(accumulator, {
           ...currentValue,
-          isValid: currentValue.isValid
+          isValid: getIsValid(
+            currentValue,
+            previousItem,
+            currentIndex,
+            validSolution,
+            validItem
+          ) /*currentValue.isValid
             ? true
-            : currentIndex === firstItemIndex ||
+            : previousItem === undefined ||
               (currentIndex < validSolution.length &&
                 previousItem.isValid === true)
             ? validItem.text === currentValue.text &&
               validItem.rule === currentValue.rule
             : previousItem.isValid === true
             ? false
-            : undefined,
+            : undefined,*/,
         });
       },
       []
@@ -102,3 +133,11 @@ export const validateParsonsProblem: (
 
   return [list, isValid];
 };
+
+if (import.meta.vitest) {
+  const { it, expect } = import.meta.vitest;
+
+  it('should work', () => {
+    expect('test').toBeInstanceOf(Number);
+  });
+}
