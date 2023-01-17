@@ -19,3 +19,19 @@
   transform: rotate(-135deg);
   -webkit-transform: rotate(-135deg);
 }
+
+.ghostcls {
+  visibility: hidden;
+}
+
+.dragcls {
+  /*background-color: red;
+  background-image: linear-gradient(red, #f06d06);
+  border: 10px solid blue !important;*/
+  opacity: 1 !important;
+}
+
+.chosencls {
+  /*background-color: yellow !important;
+  border: 1px solid blue !important;*/
+}

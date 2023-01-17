@@ -33,7 +33,11 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         list={list}
         setList={setList}
         group="p"
-        animation={80}
+        animation={20}
+        ghostClass="ghostcls"
+        dragClass="dragcls"
+        chosenClass="chosencls"
+        forceFallback={true}
       >
         {position === 'right' && list.length === 0 ? (
           <></>
