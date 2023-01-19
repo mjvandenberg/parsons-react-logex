@@ -7,7 +7,7 @@ type Props = {
 
 const ParsonsTitle: FC<Props> = ({ exerciseName, children }) => {
   return (
-    <div className="basis-0 bg-[#fcfcfc] rounded border-[#b8b8b8] border-1 border border-dashed p-2 m-3">
+    <div className="basis-0 bg-[#fcfcfc] rounded border-[#b8b8b8] border-1 border p-2 m-3">
       <img
         src="/src/info.svg"
         style={{ width: '1em', height: '1em', verticalAlign: '-.125em' }}
