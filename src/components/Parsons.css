@@ -21,9 +21,15 @@
 }
 
 .ghostcls {
-  /*visibility: hidden;*/
   color: transparent !important;
   border: 1px dashed black !important;
+}
+
+#left .ghostcls {
+  background-color: #efefff !important;
+}
+
+#right .ghostcls {
   background-color: #ffffaa !important;
 }
 
@@ -32,9 +38,6 @@
 }
 
 .dragcls {
-  /*background-color: red;
-  background-image: linear-gradient(red, #f06d06);
-  border: 10px solid blue !important;*/
   opacity: 1 !important;
 }
 

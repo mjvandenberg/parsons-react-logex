@@ -17,6 +17,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
 
   return (
     <div
+      id={position}
       className={`flex flex-col border ${
         isValid === undefined
           ? 'border-indigo-200'
@@ -33,7 +34,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         list={list}
         setList={setList}
         group="p"
-        animation={20}
+        animation={200}
         ghostClass="ghostcls"
         dragClass="dragcls"
         chosenClass="chosencls"
