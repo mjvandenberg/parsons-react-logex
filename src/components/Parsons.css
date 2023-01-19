@@ -21,9 +21,14 @@
 }
 
 .ghostcls {
-  visibility: visible;
-  border: 1px solid black !important;
-  /*background-color: white !important;*/
+  /*visibility: hidden;*/
+  color: transparent !important;
+  border: 1px dashed black !important;
+  background-color: #ffffaa !important;
+}
+
+.ghostcls div {
+  visibility: hidden;
 }
 
 .dragcls {
@@ -36,4 +41,11 @@
 .chosencls {
   /*background-color: yellow !important;
   border: 1px solid blue !important;*/
+}
+
+.caret {
+  width: 10px !important;
+  position: relative !important;
+  left: 4px !important;
+  top: 1px !important;
 }

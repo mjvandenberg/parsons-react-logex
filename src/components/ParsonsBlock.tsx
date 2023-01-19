@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FC } from 'react';
 import { Rule, rules, ruleTranslations } from '../logEx/rules';
 import { ParsonsItem } from '../types';
+import CaretDownIcon from './CaretDownIcon';
 
 interface ParsonsBlockProps {
   isStatic?: boolean;
@@ -22,17 +23,17 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   position,
   showFeedback,
 }) => {
-  const handleOnChangeRule: ChangeEventHandler<HTMLSelectElement> = ({
-    target,
-  }) => {
+  const handleOnChangeRule: (newRule: string) => void = (newRule) => {
     onChangeItem({
       ...item,
-      rule: target.value === '' ? undefined : target.value,
+      rule: newRule === '' ? undefined : newRule,
     });
+    // @ts-ignore
+    document?.activeElement?.blur();
   };
 
   const defaultClassName =
-    'z-10 katex z-1 relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
+    'katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
 
   const showFeedbackClassName = `${
     item.isValid === true
@@ -65,22 +66,33 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
       </span>
       <span className="ml-5 ineline-block">{item.text}</span>
       {(!isFirst || !isStatic) && (
-        <select
-          onChange={handleOnChangeRule}
-          value={item.rule ? item.rule : ''}
-          className={`select select-bordered select-sm  max-w-xs bg-gray-50 ${
-            showFeedback ? showFeedbackRuleClassName : ''
-          } text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 inline-block p-1.5 mt-[1px] mr-[1px] float-right font-light`}
-        >
-          <option translate-key="shared.button.selectRule" value="">
-            -- Select rule --
-          </option>
-          {rules.map((i, x) => (
-            <option key={x} value={i}>
-              {ruleTranslations['en'][i]}
-            </option>
-          ))}
-        </select>
+        <div className="dropdown dropdown-end static">
+          <label
+            tabIndex={0}
+            className="btn btn-primary btn-xs m-1 normal-case right-[3px] top-[3px] absolute max-w-[150px] truncate font-sans"
+          >
+            {item.rule
+              ? // @ts-ignore
+                ruleTranslations['en'][item.rule]
+              : 'Select rule'}
+            <CaretDownIcon />
+          </label>
+          <ul
+            tabIndex={0}
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-xs relative top-[35px]"
+          >
+            {rules.map((i, x) => (
+              <li>
+                <a
+                  onClick={() => handleOnChangeRule(i)}
+                  className="leading-none"
+                >
+                  {ruleTranslations['en'][i]}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </div>
   );

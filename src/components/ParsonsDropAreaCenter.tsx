@@ -37,7 +37,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         ghostClass="ghostcls"
         dragClass="dragcls"
         chosenClass="chosencls"
-        forceFallback={false}
+        forceFallback={true}
       >
         {position === 'right' && list.length === 0 ? (
           <></>

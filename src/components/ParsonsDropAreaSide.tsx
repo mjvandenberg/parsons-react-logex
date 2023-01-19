@@ -9,12 +9,12 @@ type Props = {
 };
 
 const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
-  const classGrouped = 'bg-indigo-300 relative z-0';
+  const classGrouped = 'bg-indigo-300 relative';
   const classLeftGrouped = 'rounded-l-lg left-[2px]';
   const classRightGrouped = 'rounded-r-lg left-[-11px]';
 
   const classLeft = 'flex w-[32px]';
-  const classRight = 'flex w-[12px]';
+  const classRight = 'flex w-[6px]';
 
   return (
     <div
