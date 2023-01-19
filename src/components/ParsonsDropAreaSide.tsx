@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { ParsonsItem } from '../types';
 import { ParsonsGroupBlock } from './ParsonsDropArea';
 
 type Props = {
@@ -11,9 +10,9 @@ type Props = {
 const ParsonsDropAreaSide: FC<Props> = ({ grouped, side, padding }) => {
   const classGrouped = 'bg-indigo-300 relative';
   const classLeftGrouped = 'rounded-l-lg left-[2px]';
-  const classRightGrouped = 'rounded-r-lg left-[-11px]';
+  const classRightGrouped = 'rounded-r-lg left-[-1px]';
 
-  const classLeft = 'flex w-[32px]';
+  const classLeft = 'flex w-[100%]';
   const classRight = 'flex w-[6px]';
 
   return (

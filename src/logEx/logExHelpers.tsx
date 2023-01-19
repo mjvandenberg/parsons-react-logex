@@ -109,10 +109,9 @@ export const OneFinaleResponseToParsonsSolution: (
                       text: current.toString(),
                       id: index,
                       pairedGroupName: index.toString(),
-                      rule:
-                        index > 0
+                      rule: /*index > 0
                           ? ruleMapping[(arr[index - 1] as Term).motivation]
-                          : undefined,
+                          :*/ undefined,
                     },
             };
           },

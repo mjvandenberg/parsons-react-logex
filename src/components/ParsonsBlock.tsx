@@ -69,18 +69,18 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
         <div className="dropdown dropdown-end static">
           <label
             tabIndex={0}
-            className="btn btn-primary btn-xs m-1 normal-case right-[3px] top-[3px] absolute max-w-[550px] min-w-[150px] truncate font-sans bg-white text-right"
+            className="btn btn-primary btn-sm m-1 normal-case right-[-2px] top-[-2px] absolute max-w-[550px] min-w-[150px] truncate font-sans bg-white text-right"
           >
             {item.rule
               ? // @ts-ignore
                 ruleTranslations['en'][item.rule]
-              : 'Select rule'}
+              : '-- Select rule --'}
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <CaretDownIcon />
           </label>
           <ul
             tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-xs relative top-[35px]"
+            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[35px]"
           >
             {rules.map((i, x) => (
               <li>
