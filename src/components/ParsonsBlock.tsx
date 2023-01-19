@@ -69,7 +69,7 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
         <div className="dropdown dropdown-end static">
           <label
             tabIndex={0}
-            className="btn btn-primary btn-xs m-1 normal-case right-[3px] top-[3px] absolute max-w-[150px] truncate font-sans"
+            className="btn btn-primary btn-xs m-1 normal-case right-[3px] top-[3px] absolute max-w-[150px] truncate font-sans bg-white"
           >
             {item.rule
               ? // @ts-ignore
