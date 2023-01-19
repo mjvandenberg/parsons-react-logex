@@ -10,8 +10,8 @@ type Props = {
 const SelectExerciseButton: FC<Props> = ({ exercises, onExerciseChange }) => {
   return (
     <div className="dropdown dropdown-end">
-      <label tabIndex={0} className="btn btn-primary normal-case mx-1">
-        Select exercise
+      <label tabIndex={0} className="btn btn-primary normal-case">
+        Select exercise &nbsp;&nbsp;&nbsp;
         <CaretDownIcon />
       </label>
       <ul

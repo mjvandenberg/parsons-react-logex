@@ -45,6 +45,6 @@
 
 .caret {
   width: 10px !important;
-  position: relative !important;
-  left: 4px !important;
+  position: absolute !important;
+  right: 12px !important;
 }

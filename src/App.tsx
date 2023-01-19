@@ -51,7 +51,7 @@ const App = () => {
           </h1>
         </div>
         <div className="basis-1/2">
-          <div className="float-right">
+          <div className="float-right pr-1">
             <SelectExerciseButton
               exercises={allExercises}
               onExerciseChange={handleExerciseChange}
