@@ -27,9 +27,12 @@ export const OneFinalToParsonsProblemProperties = (
               text: oneFinal.distractors[index].term,
             },
           ]
-        : [{ ...i, rule: undefined }];
+        : [i];
     })
-    .flat();
+    .flat()
+    .map((i) => {
+      return { ...i, rule: undefined };
+    });
 
   const listRight: ParsonsItem[] = [
     { ...exerciseSolution.at(0)!, isStaticFirst: true },
@@ -109,9 +112,10 @@ export const OneFinaleResponseToParsonsSolution: (
                       text: current.toString(),
                       id: index,
                       pairedGroupName: index.toString(),
-                      rule: /*index > 0
+                      rule:
+                        index > 0
                           ? ruleMapping[(arr[index - 1] as Term).motivation]
-                          :*/ undefined,
+                          : undefined,
                     },
             };
           },
