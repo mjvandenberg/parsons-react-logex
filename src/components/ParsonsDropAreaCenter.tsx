@@ -51,6 +51,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
                 position === 'right' && (x === 0 || x === list.length - 1)
               }
               isFirst={x === 0}
+              isLast={x == list.length - 1}
               isGrouped={item.groupName !== undefined}
               onChangeItem={onChangeItem}
               position={position!}
