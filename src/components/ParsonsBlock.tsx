@@ -9,6 +9,7 @@ interface ParsonsBlockProps {
   rule?: Rule;
   isGrouped: boolean;
   isFirst: boolean;
+  isLast: boolean;
   onChangeItem: (item: ParsonsItem) => void;
   position: 'left' | 'right';
   showFeedback: boolean;
@@ -19,6 +20,7 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   isStatic = false,
   isGrouped = false,
   isFirst = false,
+  isLast = false,
   onChangeItem,
   position,
   showFeedback,
@@ -32,8 +34,9 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
     document?.activeElement?.blur();
   };
 
-  const defaultClassName =
-    'katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
+  const defaultClassName = `katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none static bg-slate-200 ${
+    position === 'left' ? 'mt-1' : 'mt-[25px]'
+  } ${position === 'left' ? 'mb-0' : 'mb-[25px]'}`;
 
   const showFeedbackClassName = `${
     item.isValid === true

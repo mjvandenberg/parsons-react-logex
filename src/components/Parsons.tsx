@@ -79,16 +79,17 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
       <div className="flex justify-center">
         <button
           className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleResetButtonClick}
+          onClick={handleFeedbackButtonClick}
         >
-          Reset
+          Check solution
         </button>
         <button
           className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleFeedbackButtonClick}
+          onClick={handleResetButtonClick}
         >
-          Feedback
+          Reset puzzle
         </button>
+
         {/*<HelpButton />*/}
       </div>
       <pre className="text-left">
