@@ -10,6 +10,7 @@ interface ParsonsBlockProps {
   isGrouped: boolean;
   isFirst: boolean;
   isLast: boolean;
+  totalItems: number;
   onChangeItem: (item: ParsonsItem) => void;
   position: 'left' | 'right';
   showFeedback: boolean;
@@ -21,6 +22,7 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   isGrouped = false,
   isFirst = false,
   isLast = false,
+  totalItems = 2,
   onChangeItem,
   position,
   showFeedback,
@@ -33,10 +35,17 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
     // @ts-ignore
     document?.activeElement?.blur();
   };
+  const margin = 30;
 
   const defaultClassName = `katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none static bg-slate-200 ${
-    position === 'left' ? 'mt-1' : 'mt-[25px]'
-  } ${position === 'left' ? 'mb-0' : 'mb-[25px]'}`;
+    totalItems === 2
+      ? 'mt-1'
+      : position === 'left' || isFirst
+      ? 'mt-1'
+      : `mt-1`
+  } ${
+    totalItems === 2 ? '' : position === 'left' || isLast ? 'mb-0' : `mb-0`
+  }`;
 
   const showFeedbackClassName = `${
     item.isValid === true
@@ -58,46 +67,27 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
     <div
       className={`${defaultClassName} ${
         showFeedback ? showFeedbackClassName : ''
-      }${isStatic ? '' : 'cursor-move'} ${isGrouped ? '' : ''}`}
+      }${isStatic ? 'filtered' : 'cursor-move'} ${isGrouped ? '' : ''}`}
     >
       <span
         className={`katex float-left relative left-[0px] top-[3px] ${
-          isFirst && position === 'right' ? 'invisible' : ''
+          position === 'left'
+            ? 'invisible'
+            : isFirst && position === 'right'
+            ? 'invisible'
+            : ''
         }`}
       >
         ⇔
       </span>
-      <span className="ml-5 ineline-block">{item.text}</span>
-      {(!isFirst || !isStatic) && (
-        <div className="dropdown dropdown-end static">
-          <label
-            tabIndex={0}
-            className="btn btn-primary btn-sm m-1 normal-case right-[-2px] top-[-2px] absolute max-w-[550px] min-w-[150px] truncate font-sans bg-white text-right"
-          >
-            {item.rule
-              ? // @ts-ignore
-                ruleTranslations['en'][item.rule]
-              : '-- Select rule --'}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <CaretDownIcon />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[35px]"
-          >
-            {rules.map((i, x) => (
-              <li>
-                <a
-                  onClick={() => handleOnChangeRule(i)}
-                  className="leading-none"
-                >
-                  {ruleTranslations['en'][i]}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <span
+        className={`${
+          position === 'left' ? 'ml-[-20px]' : 'ml-5'
+        } ineline-block`}
+      >
+        {item.text}
+      </span>
+      {position === 'right' && (!isFirst || !isStatic) && <></>}
     </div>
   );
 };
