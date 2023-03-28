@@ -39,3 +39,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.parsons-drop-area-right > .parsons-block:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.outer {
+  position: relative;
+}
+
+.inner {
+  position: absolute;
+  width: 100%;
+}
+
+.new-rule {
+  width: 100%;
+  /*background-color: #d3d3d3;*/
+}

@@ -37,14 +37,8 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   };
   const margin = 30;
 
-  const defaultClassName = `katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none static bg-slate-200 ${
-    totalItems === 2
-      ? 'mt-1'
-      : position === 'left' || isFirst
-      ? 'mt-1'
-      : `mt-1`
-  } ${
-    totalItems === 2 ? '' : position === 'left' || isLast ? 'mb-0' : `mb-0`
+  const defaultClassName = `parsons-block katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none static bg-slate-200 ${
+    totalItems === 2 ? 'mt-1' : position === 'left' || isFirst ? 'mt-1' : `mt-1`
   }`;
 
   const showFeedbackClassName = `${
