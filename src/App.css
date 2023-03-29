@@ -41,7 +41,7 @@
 }
 
 .parsons-block {
-  z-index: 10;
+  z-index: 20;
 }
 
 .parsons-drop-area-right > .parsons-block:not(:last-child) {
