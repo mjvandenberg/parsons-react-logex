@@ -33,6 +33,6 @@
     "vitest": "^0.29.8"
   },
   "stackblitz": {
-    "startCommand": "npm run dev && npm run test:watch"
+    "startCommand": "npm run test:watch && npm run dev"
   }
 }
