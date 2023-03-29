@@ -45,7 +45,61 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
                 padding: '0 20px 0 20px',
               }}
             >
-              <div className="new-rule">
+              <svg
+                width="32"
+                height="32"
+                style={{
+                  position: 'absolute',
+                  left: '10px',
+                  display: 'block',
+                  zIndex: '15',
+                  transform: 'scale(1.1)',
+                }}
+                stroke-width="1.0"
+                fill="blue"
+                stroke="#D3D3D3"
+              >
+                <circle cx="15" cy="12.2" fill="#ffffaa" r="11" />
+                <rect
+                  y="1.5"
+                  x="0"
+                  width="16"
+                  height="21.5"
+                  style={{
+                    fill: '#ffffaa',
+                    strokeWidth: 0,
+                    stroke: 'rgb(0,0,0)',
+                  }}
+                />
+              </svg>
+              <svg
+                width="32"
+                height="32"
+                style={{
+                  position: 'absolute',
+                  right: 10,
+                  display: 'block',
+                  zIndex: '15',
+                  transform: 'scale(-1, 1.1)',
+                }}
+                stroke-width="1.0"
+                fill="blue"
+                stroke="#D3D3D3"
+              >
+                <circle cx="15" cy="12.2" fill="#ffffaa" r="11" />
+                <rect
+                  y="1.5"
+                  x="0"
+                  width="16"
+                  height="21.5"
+                  style={{
+                    fill: '#ffffaa',
+                    strokeWidth: 0,
+                    stroke: 'rgb(0,0,0)',
+                  }}
+                />
+              </svg>
+              <div className="rule-block">
                 <div
                   className="dropdown dropdown-end w-full"
                   style={{ top: '-3px' }}
@@ -63,7 +117,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
                   </label>
                   <ul
                     tabIndex={0}
-                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[35px]"
+                    className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[27px]"
                   >
                     {rules.map((i, x) => (
                       <li>

@@ -40,6 +40,10 @@
   color: #888;
 }
 
+.parsons-block {
+  z-index: 10;
+}
+
 .parsons-drop-area-right > .parsons-block:not(:last-child) {
   margin-bottom: 24px;
 }
@@ -53,7 +57,11 @@
   width: 100%;
 }
 
-.new-rule {
+.rule-block {
   width: 100%;
-  /*background-color: #d3d3d3;*/
+  background-color: #d3d3d3;
+}
+
+.rule-block > div > label > svg {
+  transform: translateX(-10px);
 }
