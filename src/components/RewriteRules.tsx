@@ -31,7 +31,7 @@ const RewriteRules: FC<Props> = ({ list, onChangeRule }) => {
             >
               <label
                 tabIndex={0}
-                className="btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans bg-white text-right"
+                className="btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 bg-slate-100 text-right"
               >
                 {item.rule
                   ? // @ts-ignore
