@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "test": "vitest",
+    "test": "vitest run",
     "test:ui": "vitest --ui"
   },
   "dependencies": {
@@ -33,6 +33,6 @@
     "vitest": "^0.29.8"
   },
   "stackblitz": {
-    "startCommand": "npm run dev"
+    "startCommand": "npm run test && npm run dev"
   }
 }
