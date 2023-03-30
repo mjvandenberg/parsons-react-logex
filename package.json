@@ -33,6 +33,6 @@
     "vitest": "^0.29.8"
   },
   "stackblitz": {
-    "startCommand": "npm run test:ui"
+    "startCommand": "npm run dev"
   }
 }
