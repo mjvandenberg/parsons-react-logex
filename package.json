@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:ui": "vitest --ui"
+    "test:ui": "vitest --ui",
+    "test:watch": "vitest"
   },
   "dependencies": {
     "daisyui": "^2.37.0",
@@ -19,12 +20,12 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.7",
-    "@testing-library/react": "^12.0.0",
+    "@testing-library/react": "^14.0.0",
     "@types/react": "^18.0.19",
     "@types/react-dom": "^18.0.6",
     "@types/sortablejs": "^1.15.0",
     "@vitejs/plugin-react": "^2.1.0",
-    "@vitest/ui": "^0.25.3",
+    "@vitest/ui": "^0.29.8",
     "autoprefixer": "^10.4.11",
     "postcss": "^8.4.16",
     "tailwindcss": "^3.1.8",
