@@ -1,7 +1,16 @@
 import { expect, test, assert } from 'vitest';
+import { ParsonsItem, ParsonsSolutionItem } from './types';
+import { validateParsonsProblem } from './validate';
 
-test('Math.sqrt()', () => {
-  assert.equal(Math.sqrt(4), 2);
-  assert.equal(Math.sqrt(144), 12);
-  assert.equal(Math.sqrt(2), Math.SQRT2);
-});
+test('validateParsonsProblem()', () => {
+  // Arrange
+  const solutionToValidate : ParsonsItem[] = [];
+  const validSolution : ParsonsSolutionItem[] = [];
+
+  // Act
+  const [result, isValid] = validateParsonsProblem(solutionToValidate, validSolution);
+
+  // Assert
+  assert.equal(isValid, false);
+  assert.equal(result.length, 1);
+})
