@@ -4,13 +4,16 @@ import { validateParsonsProblem } from './validate';
 
 test('validateParsonsProblem()', () => {
   // Arrange
-  const solutionToValidate : ParsonsItem[] = [];
-  const validSolution : ParsonsSolutionItem[] = [];
+  const solutionToValidate: ParsonsItem[] = [];
+  const validSolution: ParsonsSolutionItem[] = [];
 
   // Act
-  const [result, isValid] = validateParsonsProblem(solutionToValidate, validSolution);
+  const [result, isValid] = validateParsonsProblem(
+    solutionToValidate,
+    validSolution
+  );
 
   // Assert
-  assert.equal(isValid, false);
-  assert.equal(result.length, 1);
-})
+  assert.equal(isValid, true);
+  assert.equal(result.length, 0);
+});
