@@ -9,7 +9,8 @@ export interface ParsonsUiItem extends ItemInterface {
   isStaticFirst?: boolean;
   isStaticLast?: boolean;
   pairedGroupName?: string;
-  isValid?: boolean;
+  isValid: ParsonsStatus;
+  isValidRule: ParsonsStatus;
 }
 
 export interface RewriteRule {
@@ -31,20 +32,19 @@ export interface ParsonsSolutionItem {
 }
 
 ////////
-export const status = ['green', 'red', "yellow", "unknown"] as const;
+export const status = ['green', 'red', 'yellow', 'unknown'] as const;
 export type ParsonsStatus = typeof status[number];
 
-export type WithStatus = { status: ParsonsStatus }
+export type WithStatus = { status: ParsonsStatus };
 export type WithText = { text: string };
 export type ParsonsItem = {
   text: string;
   type: Block | Rule;
-}
+};
 export type ValidatedParsonsItem = ParsonsItem & WithStatus;
 
-export type Block = "block";
-export type Rule = "rule";
+export type Block = 'block';
+export type Rule = 'rule';
 
-export const b = "block";
-export const r = "rule";
-
+export const b = 'block';
+export const r = 'rule';
