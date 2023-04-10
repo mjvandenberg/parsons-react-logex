@@ -29,10 +29,10 @@ export const ConvertUiItemToItem: (from: ParsonsUiItem[]) => ParsonsItem[] = (
       index === 0
         ? [{ text: curr.text, type: 'block' }]
         : [
-            ...acc,
-            { text: curr.rule ? curr.rule : '', type: 'rule' },
-            { text: curr.text, type: 'block' },
-          ],
+          ...acc,
+          { text: curr.rule ? curr.rule : '', type: 'rule' },
+          { text: curr.text, type: 'block' },
+        ],
     []
   );
 
@@ -40,9 +40,13 @@ export const ConvertItemToUiItem: (
   source: ParsonsUiItem[],
   validated: ValidatedParsonsItem[]
 ) => ParsonsUiItem[] = (source, validated) =>
-  source.map<ParsonsUiItem>((i, x) => {
-    return { ...i, isValid: validated[x * 2].status };
-  });
+    source.map<ParsonsUiItem>((i, x) => {
+      return {
+        ...i,
+        isValid: validated[x * 2].status,
+        isValidRule: ((x * 2 - 1) < 0 ? "unknown" : validated[x * 2 - 1].status)
+      };
+    });
 
 type ParsonsBlockValidator<T, T2> = {
   type: reducerType;
@@ -88,21 +92,29 @@ export const validateParsonsProblem2: (
     .map<ValidatedParsonsItem>((e, i, arr) =>
       e.type === 'block'
         ? e
-        : arr[i - 1].status === 'green' && arr[i + 1].status === 'green'
-        ? { ...e, status: solution[i].text === e.text ? 'green' : 'red' }
-        : { ...e, status: 'red' }
+        : ifBothBlocksValid(arr[i - 1].status, arr[i + 1].status)
+          ? { ...e, status: solution[i].text === e.text ? 'green' : 'red' }
+          : e
     );
 
-  return [result, true];
+  const isValid = !result.some(i => i.status !== "green")
+
+  return [result, isValid];
 };
+
+const ifBothBlocksValid
+  : (a: ParsonsStatus, b: ParsonsStatus) => boolean
+  = (a, b) =>
+    ifCombinationIs([a, b], ["green", "green"]) || ifCombinationIs([a, b], ["green", "yellow"]);
+
 
 const combineValidatorResults: (
   a: ValidatedParsonsItem[],
   b: ValidatedParsonsItem[]
 ) => ValidatedParsonsItem[] = (a, b) =>
-  a.map<ValidatedParsonsItem>((i, x) => {
-    return { ...i, status: combineStatus([i.status, b[x].status]) };
-  });
+    a.map<ValidatedParsonsItem>((i, x) => {
+      return { ...i, status: combineStatus([i.status, b[x].status]) };
+    });
 
 export const combineStatus: (
   tuple: [ParsonsStatus, ParsonsStatus]
@@ -155,7 +167,7 @@ export const getPreviousItemReduce: <T>(
   arr: T[],
   index: number
 ) => T | undefined = (arr, index) =>
-  index - 2 >= 0 && arr.length < index + 2 ? arr[index - 2] : undefined;
+    index - 2 >= 0 && arr.length < index + 2 ? arr[index - 2] : undefined;
 
 export const getPreviousItemReduceRight: <T>(
   arr: T[],
@@ -179,7 +191,7 @@ export const isItemValid: (
   learnersItem: WithText,
   validItem: WithText
 ) => ParsonsStatus = (learnersItem, validItem) =>
-  learnersItem.text === validItem.text ? 'green' : 'red';
+    learnersItem.text === validItem.text ? 'green' : 'red';
 
 export const executeValidator: ParsonsValidateFunc<
   ParsonsItem,

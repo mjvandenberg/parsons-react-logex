@@ -21,8 +21,9 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
 
   const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
+    const converted = ConvertUiItemToItem(list);
     const [newList, newIsValid] = validateParsonsProblem2(
-      ConvertUiItemToItem(list),
+      converted,
       exerciseSolution
     );
     _setListRight(ConvertItemToUiItem(list, newList));

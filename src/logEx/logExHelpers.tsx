@@ -44,12 +44,21 @@ export const OneFinalToParsonsProblemProperties = (
   return {
     exerciseName: 'Exercise 5',
     exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
-    exerciseSolution: oneFinal.onefinal.context.term.map<ParsonsItem>((i, x) => {
-      if (x % 2 === 0) {
-        return { text: i.toString(), type: "block" };
+    exerciseSolution: oneFinal.onefinal.context.term.reduce<ParsonsItem[]>((prev, curr, index, arr) => {
+      if (index % 2 === 0) {
+        if (prev.some(i => i.text === curr.toString())) {
+          return prev;
+        }
+        return [...prev, { text: curr.toString(), type: "block" }];
       }
-      return { text: (i as Term).motivation, type: "rule" };
-    }),
+      const term = (curr as Term);
+      if (term.motivation === "<CLOSE>") {
+        return prev;
+      }
+      const ruleName = ruleMapping[term.motivation];
+      return [...prev, { text: ruleName, type: "rule" }];
+
+    }, []),
     listLeft,
     listRight,
   };
@@ -98,6 +107,8 @@ export const OneFinaleResponseToParsonsSolution: (
       isStaticLast: false,
       id: `right_${0}`,
       pairedGroupName: `right_${0}`,
+      isValid: "unknown",
+      isValidRule: "unknown"
     },
     ...(Object.values(
       oneFinalResponse.onefinal.context.term
@@ -118,6 +129,8 @@ export const OneFinaleResponseToParsonsSolution: (
                       index > 0
                         ? ruleMapping[(arr[index - 1] as Term).motivation]
                         : undefined,
+                    isValid: "unknown",
+                    isValidRule: "unknown"
                   },
             };
           },

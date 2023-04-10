@@ -1,18 +1,17 @@
-import { expect, test, assert } from 'vitest';
+import { test, assert } from 'vitest';
 import { executeValidator, getParsonsBlockValidatorDown, getParsonsBlockValidatorUp, validateParsonsProblem2 } from '../../validate';
-import { ValidatedParsonsItem, ParsonsItem, b, r } from '../../types';
-import { parseTest, parseTestHr, stringToParsonsItems as q, toExpectedResult as w } from '../testHelper';
+import { parseTestHr } from '../testHelper';
 
-test('scenario 2', () => {
+test('scenario 5', () => {
     // Arrange
     const input = [
         '1,1,g',
-        'a,a,?',
-        '2,@,r',
-        'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,r'
+        'a,a,g',
+        '2,2,y',
+        'b,-,?',
+        '3,4,y',
+        'c, , ',
+        '4, , '
     ];
     const [solution, learners, expected] = parseTestHr(input);
 
@@ -21,19 +20,17 @@ test('scenario 2', () => {
 
     // Assert
     assert.deepEqual(result, expected);
-    assert.isFalse(isValid)
+    assert.isFalse(isValid);
 })
-
-test('scenario 2 down', () => {
+/*
+test('scenario 5 down', () => {
     // Arrange
     const input = [
         '1,1,g',
         'a,a,?',
-        '2,@,r',
+        '2,2,g',
         'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,?'
+        '3,3,g'
     ];
     const [solution, learners, expected] = parseTestHr(input);
     const validator = getParsonsBlockValidatorDown();
@@ -45,16 +42,14 @@ test('scenario 2 down', () => {
     assert.deepEqual(result, expected);
 })
 
-test('scenario 2 up', () => {
+test('scenario 5 up', () => {
     // Arrange
     const input = [
-        '1,1,?',
+        '1,1,g',
         'a,a,?',
-        '2,@,?',
+        '2,2,g',
         'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,r'
+        '3,3,g'
     ];
     const [solution, learners, expected] = parseTestHr(input);
     const validator = getParsonsBlockValidatorUp();
@@ -64,4 +59,4 @@ test('scenario 2 up', () => {
 
     // Assert
     assert.deepEqual(result, expected);
-})
+})*/

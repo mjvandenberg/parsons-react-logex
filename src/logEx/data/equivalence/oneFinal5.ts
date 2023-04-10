@@ -1,4 +1,4 @@
-import { OneFinalResponse } from '../typesOneFinal';
+import { OneFinalResponse } from '../../typesOneFinal';
 
 const request = {
   service: 'onefinal',
@@ -25,12 +25,12 @@ export const response: OneFinalResponse = {
   distractors: [
     {
       fromTerm: 'q ∧ (r ∨ ¬p) ∧ T',
-      term: 'q ∧ (r ∨ ¬p) $ T',
+      term: 'q ∧ (r ∨ ¬p) → ¬T',
       motivation: 'buggyrulename1',
     },
     {
       fromTerm: 'q ∧ ((¬p ∧ ¬r) ∨ r)',
-      term: 'q ∧ ((¬p ∧ ¬r) & r)',
+      term: 'q ∧ ((¬p ∧ ¬r) → ¬r)',
       motivation: 'buggyrulename2',
     },
   ],

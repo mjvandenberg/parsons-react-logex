@@ -1,10 +1,13 @@
 import { FC } from 'react';
+import { ParsonsStatus } from '../types';
 
 interface Props {
   position: 'left' | 'right';
+  status: ParsonsStatus;
 }
 
-const RewriteRuleDivider: FC<Props> = ({ position }) => {
+const RewriteRuleDivider: FC<Props> = ({ position, status }) => {
+  const stroke = status === "red" ? "#ff0000" : status === "green" ? "#008000" : "#D3D3D3";
   return (
     <svg
       width="32"
@@ -16,9 +19,9 @@ const RewriteRuleDivider: FC<Props> = ({ position }) => {
         zIndex: '15',
         transform: position === 'right' ? `scale(-1, 1.1)` : 'scale(1.1)',
       }}
-      stroke-width="1.0"
+      strokeWidth="0.7"
       fill="blue"
-      stroke="#D3D3D3"
+      stroke={stroke}
     >
       <circle cx="15" cy="12.2" fill="#ffffaa" r="11" />
       <rect

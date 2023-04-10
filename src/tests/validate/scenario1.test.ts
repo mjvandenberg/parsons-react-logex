@@ -15,10 +15,11 @@ test('scenario 1 wn', () => {
     const [solution, learners, expected] = parseTestHr(input);
 
     // Act
-    const [result] = validateParsonsProblem2(learners, solution);
+    const [result, isValid] = validateParsonsProblem2(learners, solution);
 
     // Assert
     assert.deepEqual(result, expected);
+    assert.isFalse(isValid);
 })
 
 test('scenario 1 down', () => {

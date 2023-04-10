@@ -40,7 +40,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
       {position === 'right' && (
-        <RewriteRules list={list} onChangeRule={handleOnChangeRule} />
+        <RewriteRules showFeedback={showFeedback!} list={list} onChangeRule={handleOnChangeRule} />
       )}
       <ReactSortable
         className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${position === 'left' && classLeftSortable
@@ -60,22 +60,19 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
           <></>
         ) : (
           list.map((item, x) => (
-            <>
-              <ParsonsBlock
-                key={item.id}
-                item={item}
-                isStatic={
-                  false //position === 'right' && (x === 0 || x === list.length - 1)
-                }
-                isFirst={x === 0}
-                isLast={x == list.length - 1}
-                totalItems={list.length}
-                isGrouped={item.groupName !== undefined}
-                onChangeItem={onChangeItem}
-                position={position!}
-                showFeedback={showFeedback!}
-              />
-            </>
+            <ParsonsBlock
+              key={item.id}
+              item={item}
+              isStatic={
+                false //position === 'right' && (x === 0 || x === list.length - 1)
+              }
+              isFirst={x === 0}
+              totalItems={list.length}
+              isGrouped={item.groupName !== undefined}
+              position={position!}
+              showFeedback={showFeedback!}
+            />
+
           ))
         )}
       </ReactSortable>
