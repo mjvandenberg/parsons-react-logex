@@ -1,4 +1,4 @@
-import { ParsonsItem, ParsonsSolutionItem } from '../types';
+import { ParsonsItem, ParsonsUiItem, ParsonsSolutionItem } from '../types';
 import { OneFinalResponse, Term } from '../logEx/typesOneFinal';
 import { ruleMapping } from '../logEx/ruleHelpers';
 
@@ -20,13 +20,13 @@ export const OneFinalToParsonsProblemProperties = (
       )!;
       return includeDistractors && oneFinal.distractors && index >= 0
         ? [
-            i,
-            {
-              ...i,
-              id: `${i.id}_${index}`,
-              text: oneFinal.distractors[index].term,
-            },
-          ]
+          i,
+          {
+            ...i,
+            id: `${i.id}_${index}`,
+            text: oneFinal.distractors[index].term,
+          },
+        ]
         : [i];
     })
     .flat()
@@ -34,7 +34,7 @@ export const OneFinalToParsonsProblemProperties = (
       return { ...i, rule: undefined };
     });
 
-  const listRight: ParsonsItem[] = [
+  const listRight: ParsonsUiItem[] = [
     { ...exerciseSolution.at(0)!, isStaticFirst: true },
     { ...exerciseSolution.at(-1)!, isStaticLast: true },
   ].map((i) => {
@@ -44,8 +44,11 @@ export const OneFinalToParsonsProblemProperties = (
   return {
     exerciseName: 'Exercise 5',
     exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
-    exerciseSolution: exerciseSolution.map<ParsonsSolutionItem>((i) => {
-      return i.rule ? { text: i.text, rule: i.rule } : { text: i.text };
+    exerciseSolution: oneFinal.onefinal.context.term.map<ParsonsItem>((i, x) => {
+      if (x % 2 === 0) {
+        return { text: i.toString(), type: "block" };
+      }
+      return { text: (i as Term).motivation, type: "rule" };
     }),
     listLeft,
     listRight,
@@ -77,9 +80,8 @@ const GetExerciseDescription = (
           <span className="katex">
             {oneFinal.onefinal.context.term.at(0)?.toString()}
           </span>
-          {` to ${exerciseType === 'cnv' && 'conjunctive'}${
-            exerciseType === 'dnv' && 'disjuntive'
-          } normal form`}
+          {` to ${exerciseType === 'cnv' && 'conjunctive'}${exerciseType === 'dnv' && 'disjuntive'
+            } normal form`}
         </>
       );
   }
@@ -87,7 +89,7 @@ const GetExerciseDescription = (
 
 export const OneFinaleResponseToParsonsSolution: (
   oneFinalResponse: OneFinalResponse
-) => ParsonsItem[] = (oneFinalResponse) => {
+) => ParsonsUiItem[] = (oneFinalResponse) => {
   const first = oneFinalResponse.onefinal.context.term.at(0)!;
   return [
     {
@@ -100,27 +102,27 @@ export const OneFinaleResponseToParsonsSolution: (
     ...(Object.values(
       oneFinalResponse.onefinal.context.term
         .slice(1)
-        .reduce<{ [index: string]: ParsonsItem | undefined }>(
+        .reduce<{ [index: string]: ParsonsUiItem | undefined }>(
           (prev, current, index, arr) => {
             return {
               ...prev,
               [index.toString()]:
                 index % 2 === 0 ||
-                (index > 0 && (arr[index - 1] as Term).motivation === '<CLOSE>')
+                  (index > 0 && (arr[index - 1] as Term).motivation === '<CLOSE>')
                   ? undefined
                   : {
-                      text: current.toString(),
-                      id: index,
-                      pairedGroupName: index.toString(),
-                      rule:
-                        index > 0
-                          ? ruleMapping[(arr[index - 1] as Term).motivation]
-                          : undefined,
-                    },
+                    text: current.toString(),
+                    id: index,
+                    pairedGroupName: index.toString(),
+                    rule:
+                      index > 0
+                        ? ruleMapping[(arr[index - 1] as Term).motivation]
+                        : undefined,
+                  },
             };
           },
           {}
         )
-    ).filter((i) => i !== undefined) as ParsonsItem[]),
+    ).filter((i) => i !== undefined) as ParsonsUiItem[]),
   ];
 };

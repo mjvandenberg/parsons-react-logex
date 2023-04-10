@@ -1,12 +1,12 @@
 import { FC } from 'react';
 import { rules, ruleTranslations } from '../logEx/rules';
-import { ParsonsItem } from '../types';
+import { ParsonsUiItem } from '../types';
 import CaretDownIcon from './CaretDownIcon';
 import RewriteRuleDivider from './RewriteRuleDivider';
 
 interface Props {
-  list: ParsonsItem[];
-  onChangeRule: (item: ParsonsItem, newRule: string) => void;
+  list: ParsonsUiItem[];
+  onChangeRule: (item: ParsonsUiItem, newRule: string) => void;
 }
 
 const RewriteRules: FC<Props> = ({ list, onChangeRule }) => {
@@ -35,7 +35,7 @@ const RewriteRules: FC<Props> = ({ list, onChangeRule }) => {
               >
                 {item.rule
                   ? // @ts-ignore
-                    ruleTranslations['en'][item.rule]
+                  ruleTranslations['en'][item.rule]
                   : '-- Select rule --'}
                 <CaretDownIcon />
               </label>
