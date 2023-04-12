@@ -39,3 +39,28 @@
 .read-the-docs {
   color: #888;
 }
+
+.parsons-block {
+  z-index: 20;
+}
+
+.parsons-drop-area-right > .parsons-block:not(:last-child) {
+  margin-bottom: 24px;
+}
+
+.outer {
+  position: relative;
+}
+
+.inner {
+  position: absolute;
+  width: 100%;
+}
+
+.rule-block {
+  width: 100%;
+}
+
+.rule-block > div > label > svg {
+  transform: translateX(-10px);
+}

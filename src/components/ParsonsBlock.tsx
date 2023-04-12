@@ -1,15 +1,14 @@
-import { ChangeEventHandler, FC } from 'react';
-import { Rule, rules, ruleTranslations } from '../logEx/rules';
-import { ParsonsItem } from '../types';
-import CaretDownIcon from './CaretDownIcon';
+import { FC } from 'react';
+import { Rule } from '../logEx/rules';
+import { ParsonsUiItem } from '../types';
 
 interface ParsonsBlockProps {
   isStatic?: boolean;
-  item: ParsonsItem;
+  item: ParsonsUiItem;
   rule?: Rule;
   isGrouped: boolean;
   isFirst: boolean;
-  onChangeItem: (item: ParsonsItem) => void;
+  totalItems: number;
   position: 'left' | 'right';
   showFeedback: boolean;
 }
@@ -19,35 +18,19 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   isStatic = false,
   isGrouped = false,
   isFirst = false,
-  onChangeItem,
+  totalItems = 2,
   position,
   showFeedback,
 }) => {
-  const handleOnChangeRule: (newRule: string) => void = (newRule) => {
-    onChangeItem({
-      ...item,
-      rule: newRule === '' ? undefined : newRule,
-    });
-    // @ts-ignore
-    document?.activeElement?.blur();
-  };
-
-  const defaultClassName =
-    'katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none mt-1 static bg-slate-200';
-
-  const showFeedbackClassName = `${
-    item.isValid === true
-      ? 'border-[#008000] bg-[#DFF2BF] '
-      : item.isValid === false
-      ? 'border-[#ff0000] bg-[#FFBABA] '
-      : ''
+  const defaultClassName = `parsons-block katex relative text-left pl-2 leading-9 rounded-lg border border-[#D3D3D3] select-none static bg-slate-200 ${
+    totalItems === 2 ? 'mt-1' : position === 'left' || isFirst ? 'mt-1' : `mt-1`
   }`;
 
-  const showFeedbackRuleClassName = `${
-    item.isValid === true
-      ? 'select-success '
-      : item.isValid === false
-      ? 'select-error '
+  const showFeedbackClassName = `${
+    item.isValid === 'green' || item.isValid === 'yellow'
+      ? 'border-[#008000] bg-[#DFF2BF] '
+      : item.isValid === 'red'
+      ? 'border-[#ff0000] bg-[#FFBABA] '
       : ''
   }`;
 
@@ -55,46 +38,27 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
     <div
       className={`${defaultClassName} ${
         showFeedback ? showFeedbackClassName : ''
-      }${isStatic ? '' : 'cursor-move'} ${isGrouped ? '' : ''}`}
+      }${isStatic ? 'filtered' : 'cursor-move'} ${isGrouped ? '' : ''}`}
     >
       <span
         className={`katex float-left relative left-[0px] top-[3px] ${
-          isFirst && position === 'right' ? 'invisible' : ''
+          position === 'left'
+            ? 'invisible'
+            : isFirst && position === 'right'
+            ? 'invisible'
+            : ''
         }`}
       >
         ⇔
       </span>
-      <span className="ml-5 ineline-block">{item.text}</span>
-      {(!isFirst || !isStatic) && (
-        <div className="dropdown dropdown-end static">
-          <label
-            tabIndex={0}
-            className="btn btn-primary btn-sm m-1 normal-case right-[-2px] top-[-2px] absolute max-w-[550px] min-w-[150px] truncate font-sans bg-white text-right"
-          >
-            {item.rule
-              ? // @ts-ignore
-                ruleTranslations['en'][item.rule]
-              : '-- Select rule --'}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <CaretDownIcon />
-          </label>
-          <ul
-            tabIndex={0}
-            className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[35px]"
-          >
-            {rules.map((i, x) => (
-              <li>
-                <a
-                  onClick={() => handleOnChangeRule(i)}
-                  className="leading-none"
-                >
-                  {ruleTranslations['en'][i]}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      <span
+        className={`${
+          position === 'left' ? 'ml-[-20px]' : 'ml-5'
+        } ineline-block`}
+      >
+        {item.text}
+      </span>
+      {position === 'right' && (!isFirst || !isStatic) && <></>}
     </div>
   );
 };

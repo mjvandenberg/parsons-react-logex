@@ -2,9 +2,9 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ParsonsItem, ParsonsProblemProperties } from '../types';
+import { ParsonsUiItem, ParsonsProblemProperties } from '../types';
 import HelpButton from './HelpButton';
-import { validateParsonsProblem } from '../validate';
+import { validateParsonsProblemFromUi } from '../validate';
 
 const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   exerciseName,
@@ -13,15 +13,15 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   onReset,
   ...props
 }) => {
-  const [listLeft, setListLeft] = useState<ParsonsItem[]>(props.listLeft);
-  const [listRight, _setListRight] = useState<ParsonsItem[]>(props.listRight);
+  const [listLeft, setListLeft] = useState<ParsonsUiItem[]>(props.listLeft);
+  const [listRight, _setListRight] = useState<ParsonsUiItem[]>(props.listRight);
   const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
 
-  const setListRight = (list: ParsonsItem[]) => {
+  const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
-    const [newList, newIsValid] = validateParsonsProblem(
+    const [newList, newIsValid] = validateParsonsProblemFromUi(
       list,
       exerciseSolution
     );
@@ -29,12 +29,12 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
     setIsValid(newIsValid);
   };
 
-  const handleChangeItemLeft: (item: ParsonsItem) => void = (item) => {
+  const handleChangeItemLeft: (item: ParsonsUiItem) => void = (item) => {
     setShowFeedback(false);
     setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
   };
 
-  const handleChangeItemRight: (item: ParsonsItem) => void = (item) => {
+  const handleChangeItemRight: (item: ParsonsUiItem) => void = (item) => {
     setShowFeedback(false);
     setListRight(listRight.map((i) => (i.id === item.id ? item : i)));
   };
@@ -79,16 +79,17 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
       <div className="flex justify-center">
         <button
           className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleResetButtonClick}
+          onClick={handleFeedbackButtonClick}
         >
-          Reset
+          Check solution
         </button>
         <button
           className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleFeedbackButtonClick}
+          onClick={handleResetButtonClick}
         >
-          Feedback
+          Reset puzzle
         </button>
+
         {/*<HelpButton />*/}
       </div>
       <pre className="text-left">
