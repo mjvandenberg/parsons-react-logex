@@ -32,19 +32,16 @@ export interface ParsonsSolutionItem {
 }
 
 ////////
-export const status = ['green', 'red', 'yellow', 'unknown'] as const;
+type Block = 'block';
+type Rule = 'rule';
+
+const status = ['green', 'red', 'yellow', 'unknown'] as const;
 export type ParsonsStatus = typeof status[number];
 
-export type WithStatus = { status: ParsonsStatus };
+type WithStatus = { status: ParsonsStatus };
 export type WithText = { text: string };
 export type ParsonsItem = {
   text: string;
   type: Block | Rule;
 };
 export type ValidatedParsonsItem = ParsonsItem & WithStatus;
-
-export type Block = 'block';
-export type Rule = 'rule';
-
-export const b = 'block';
-export const r = 'rule';

@@ -1,4 +1,4 @@
-import { ValidatedParsonsItem, ParsonsItem, b, r } from "../types";
+import { ValidatedParsonsItem, ParsonsItem } from "../types";
 
 export const parseTestHr
     : (arr: string[]) => [ParsonsItem[], ParsonsItem[], ValidatedParsonsItem[]]
@@ -36,7 +36,7 @@ export const stringToParsonsItems: (input: string) => ParsonsItem[] = (input) =>
             }
             return {
                 text: e,
-                type: i % 2 === 0 ? b : r
+                type: i % 2 === 0 ? 'block' : 'rule'
             };
         })
         .reduce<ParsonsItem[]>((acc, curr) => {

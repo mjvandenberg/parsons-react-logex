@@ -1,7 +1,6 @@
-import { expect, test, assert } from 'vitest';
-import { executeValidator, getParsonsBlockValidatorDown, getParsonsBlockValidatorUp, validateParsonsProblem2 } from '../../validate';
-import { ValidatedParsonsItem, ParsonsItem, b, r } from '../../types';
-import { parseTest, parseTestHr, stringToParsonsItems as q, toExpectedResult as w } from '../testHelper';
+import { test, assert } from 'vitest';
+import { executeValidator, getParsonsBlockValidatorDown, getParsonsBlockValidatorUp, validateParsonsProblem } from '../../validate';
+import { parseTestHr } from '../testHelper';
 
 test('scenario 3', () => {
     // Arrange
@@ -15,7 +14,7 @@ test('scenario 3', () => {
     const [solution, learners, expected] = parseTestHr(input);
 
     // Act
-    const [result, isValid] = validateParsonsProblem2(learners, solution);
+    const [result, isValid] = validateParsonsProblem(learners, solution);
 
     // Assert
     assert.deepEqual(result, expected);

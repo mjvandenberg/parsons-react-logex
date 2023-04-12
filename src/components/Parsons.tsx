@@ -4,7 +4,7 @@ import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
 import { ParsonsUiItem, ParsonsProblemProperties } from '../types';
 import HelpButton from './HelpButton';
-import { ConvertItemToUiItem, ConvertUiItemToItem, validateParsonsProblem2 } from '../validate';
+import { validateParsonsProblemFromUi } from '../validate';
 
 const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   exerciseName,
@@ -21,12 +21,11 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
 
   const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
-    const converted = ConvertUiItemToItem(list);
-    const [newList, newIsValid] = validateParsonsProblem2(
-      converted,
+    const [newList, newIsValid] = validateParsonsProblemFromUi(
+      list,
       exerciseSolution
     );
-    _setListRight(ConvertItemToUiItem(list, newList));
+    _setListRight(newList);
     setIsValid(newIsValid);
   };
 
