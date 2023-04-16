@@ -24,6 +24,11 @@ export interface ParsonsProblemProperties {
   exerciseSolution: ParsonsItem[];
   listLeft: ParsonsUiItem[];
   listRight: ParsonsUiItem[];
+  settings: ParsonsSettings;
+}
+
+export interface ParsonsSettings {
+  instantFeedback: boolean;
 }
 
 export interface ParsonsSolutionItem {

@@ -6,6 +6,7 @@ import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useEffect, useState } from 'react';
 import SelectExerciseButton from './components/SelectExerciseButton';
 import { ParsonsProblemProperties } from './types';
+import SettingsModal from './components/SettingsModal';
 
 const defaultExercise = 'Exercise 1';
 const exerciseType = 'equivalence';
@@ -43,26 +44,35 @@ const App = () => {
   }, []);
 
   return (
-    <div className="text-left">
-      <div className="flex flex-row">
-        <div className="basis-1/2 text-left">
-          <h1 className="m-3 text-lg font-semibold">
-            Prove Logical Equivalence
-          </h1>
-        </div>
-        <div className="basis-1/2">
-          <div className="float-right pr-1">
-            <SelectExerciseButton
-              exercises={allExercises}
-              onExerciseChange={handleExerciseChange}
-            />
+    <>
+      <div className="text-left">
+        <div className="flex flex-row">
+          <div className="basis-1/2 text-left">
+            <h1 className="m-3 text-lg font-semibold">
+              Prove Logical Equivalence
+            </h1>
+          </div>
+          <div className="basis-1/2">
+            <div className="float-right pr-1">
+              <label
+                htmlFor="my-modal-6"
+                className="btn btn-primary normal-case mx-1"
+              >
+                Settings
+              </label>
+              <SelectExerciseButton
+                exercises={allExercises}
+                onExerciseChange={handleExerciseChange}
+              />
+            </div>
           </div>
         </div>
-      </div>
 
-      <hr />
-      {parsonsProps && <Parsons {...parsonsProps} onReset={handleReset} />}
-    </div>
+        <hr />
+        {parsonsProps && <Parsons {...parsonsProps} onReset={handleReset} />}
+      </div>
+      <SettingsModal settings={parsonsProps!.settings} />
+    </>
   );
 };
 
