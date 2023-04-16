@@ -3,35 +3,43 @@ import { ParsonsSettings } from '../types';
 
 interface Props {
   settings: ParsonsSettings;
+  onUpdateSettings: (settings: ParsonsSettings) => void;
 }
 
-const SettingsModal: FC<Props> = ({ settings }) => {
+const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
   return (
     <>
       {/* Put this part before </body> tag */}
-      <input type="checkbox" id="my-modal-6" className="modal-toggle" />
-      <div className="modal modal-bottom sm:modal-middle">
-        <div className="modal-box">
-          <h3 className="font-bold text-lg">Settings</h3>
+      <input type="checkbox" id="my-modal-4" className="modal-toggle" />
+      <label htmlFor="my-modal-4" className="modal cursor-pointer">
+        <label className="modal-box relative" htmlFor="">
+          <label
+            htmlFor="my-modal-4"
+            className="btn btn-sm btn-circle absolute right-2 top-2"
+          >
+            ✕
+          </label>
+          <h3 className="text-lg font-bold">Change settings</h3>
           <p className="py-4">
             <div className="form-control">
               <label className="label cursor-pointer">
-                <span className="label-text">Remember me</span>
+                <span className="label-text">Instant feedback</span>
                 <input
                   type="checkbox"
                   checked={settings.instantFeedback}
-                  className="checkbox"
+                  className="toggle"
+                  onChange={() =>
+                    onUpdateSettings({
+                      ...settings,
+                      instantFeedback: !settings.instantFeedback,
+                    })
+                  }
                 />
               </label>
             </div>
           </p>
-          <div className="modal-action">
-            <label htmlFor="my-modal-6" className="btn">
-              Yay!
-            </label>
-          </div>
-        </div>
-      </div>
+        </label>
+      </label>
     </>
   );
 };

@@ -67,9 +67,6 @@ export const OneFinalToParsonsProblemProperties: (
     ),
     listLeft,
     listRight,
-    settings: {
-      instantFeedback: false,
-    },
   };
 };
 

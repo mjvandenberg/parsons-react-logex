@@ -5,8 +5,9 @@ import Parsons from './components/Parsons';
 import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
 import { useEffect, useState } from 'react';
 import SelectExerciseButton from './components/SelectExerciseButton';
-import { ParsonsProblemProperties } from './types';
+import { ParsonsProblemProperties, Settings } from './types';
 import SettingsModal from './components/SettingsModal';
+import { useStatePersist } from 'use-state-persist';
 
 const defaultExercise = 'Exercise 1';
 const exerciseType = 'equivalence';
@@ -14,6 +15,13 @@ const includeDistractors = true;
 
 const App = () => {
   const [parsonsProps, setParsonsProps] = useState<ParsonsProblemProperties>();
+  const [showFeedback, setShowFeedback] = useState(false);
+  const [settings, setSettings] = useStatePersist<Settings>(
+    '@parsons-settings',
+    {
+      instantFeedback: false,
+    }
+  );
 
   const selectExercise = (exerciseName: exerciseNames) => {
     const newParsonsProps = OneFinalToParsonsProblemProperties(
@@ -43,6 +51,13 @@ const App = () => {
     selectExercise(defaultExercise);
   }, []);
 
+  const handleUpdateSettings: (settings: Settings) => void = (settings) => {
+    setSettings(settings);
+    if (settings.instantFeedback === true) {
+      setShowFeedback(true);
+    }
+  };
+
   return (
     <>
       <div className="text-left">
@@ -55,7 +70,7 @@ const App = () => {
           <div className="basis-1/2">
             <div className="float-right pr-1">
               <label
-                htmlFor="my-modal-6"
+                htmlFor="my-modal-4"
                 className="btn btn-primary normal-case mx-1"
               >
                 Settings
@@ -69,9 +84,22 @@ const App = () => {
         </div>
 
         <hr />
-        {parsonsProps && <Parsons {...parsonsProps} onReset={handleReset} />}
+        {parsonsProps && (
+          <Parsons
+            {...parsonsProps}
+            onReset={handleReset}
+            showFeedback={showFeedback}
+            setShowFeedback={setShowFeedback}
+            settings={settings}
+          />
+        )}
       </div>
-      <SettingsModal settings={parsonsProps!.settings} />
+      {parsonsProps && (
+        <SettingsModal
+          settings={settings}
+          onUpdateSettings={handleUpdateSettings}
+        />
+      )}
     </>
   );
 };

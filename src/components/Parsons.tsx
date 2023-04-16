@@ -2,25 +2,36 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ParsonsUiItem, ParsonsProblemProperties } from '../types';
+import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblemFromUi } from '../validate';
 
-const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
+const Parsons: FC<
+  ParsonsProblemProperties & {
+    onReset: () => void;
+    showFeedback: boolean;
+    setShowFeedback: (val: boolean) => void;
+    settings: Settings;
+  }
+> = ({
   exerciseName,
   exerciseDescription,
   exerciseSolution,
   onReset,
+  showFeedback,
+  setShowFeedback,
+  settings,
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsUiItem[]>(props.listLeft);
   const [listRight, _setListRight] = useState<ParsonsUiItem[]>(props.listRight);
-  const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const setListRight = (list: ParsonsUiItem[]) => {
-    setShowFeedback(false);
+    if (settings.instantFeedback === false) {
+      setShowFeedback(false);
+    }
     const [newList, newIsValid] = validateParsonsProblemFromUi(
       list,
       exerciseSolution
@@ -30,12 +41,16 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   };
 
   const handleChangeItemLeft: (item: ParsonsUiItem) => void = (item) => {
-    setShowFeedback(false);
+    if (settings.instantFeedback === false) {
+      setShowFeedback(false);
+    }
     setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
   };
 
   const handleChangeItemRight: (item: ParsonsUiItem) => void = (item) => {
-    setShowFeedback(false);
+    if (settings.instantFeedback === false) {
+      setShowFeedback(false);
+    }
     setListRight(listRight.map((i) => (i.id === item.id ? item : i)));
   };
 
@@ -48,10 +63,12 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   };
 
   useEffect(() => {
-    setShowFeedback(false);
+    if (settings.instantFeedback === false) {
+      setShowFeedback(false);
+    }
     setListLeft(props.listLeft);
     setListRight(props.listRight);
-  }, [props.listLeft, props.listRight]);
+  }, [props.listLeft, props.listRight, settings.instantFeedback]);
 
   return (
     <>
@@ -77,12 +94,14 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
         />
       </div>
       <div className="flex justify-center">
-        <button
-          className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleFeedbackButtonClick}
-        >
-          Check solution
-        </button>
+        {settings.instantFeedback === false && (
+          <button
+            className="btn btn-primary normal-case mx-1 min-w-[130px]"
+            onClick={handleFeedbackButtonClick}
+          >
+            Check solution
+          </button>
+        )}
         <button
           className="btn btn-primary normal-case mx-1 min-w-[130px]"
           onClick={handleResetButtonClick}
