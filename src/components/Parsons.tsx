@@ -2,9 +2,18 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
+import {
+  ParsonsUiItem,
+  ParsonsProblemProperties,
+  Settings,
+  GetFeedbackStyle,
+} from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblemFromUi } from '../validate';
+import {
+  getFeedbackStyleBlockDefault,
+  getFeedbackStyleBlockOnlyInvalidItems,
+} from './feedback';
 
 const Parsons: FC<
   ParsonsProblemProperties & {
@@ -29,9 +38,7 @@ const Parsons: FC<
   const [isValid, setIsValid] = useState<boolean>(false);
 
   const setListRight = (list: ParsonsUiItem[]) => {
-    if (settings.instantFeedback === false) {
-      setShowFeedback(false);
-    }
+    setShowFeedback(false);
     const [newList, newIsValid] = validateParsonsProblemFromUi(
       list,
       exerciseSolution
@@ -41,16 +48,12 @@ const Parsons: FC<
   };
 
   const handleChangeItemLeft: (item: ParsonsUiItem) => void = (item) => {
-    if (settings.instantFeedback === false) {
-      setShowFeedback(false);
-    }
+    setShowFeedback(false);
     setListLeft(listLeft.map((i) => (i.id === item.id ? item : i)));
   };
 
   const handleChangeItemRight: (item: ParsonsUiItem) => void = (item) => {
-    if (settings.instantFeedback === false) {
-      setShowFeedback(false);
-    }
+    setShowFeedback(false);
     setListRight(listRight.map((i) => (i.id === item.id ? item : i)));
   };
 
@@ -63,9 +66,7 @@ const Parsons: FC<
   };
 
   useEffect(() => {
-    if (settings.instantFeedback === false) {
-      setShowFeedback(false);
-    }
+    setShowFeedback(false);
     setListLeft(props.listLeft);
     setListRight(props.listRight);
   }, [props.listLeft, props.listRight, settings.instantFeedback]);
@@ -82,6 +83,7 @@ const Parsons: FC<
           setList={setListLeft}
           position="left"
           onChangeItem={handleChangeItemLeft}
+          settings={settings}
         />
         <ParsonsDropArea
           title="Construct your solution here"
@@ -91,6 +93,7 @@ const Parsons: FC<
           onChangeItem={handleChangeItemRight}
           showFeedback={showFeedback}
           isValid={showFeedback === false ? undefined : isValid}
+          settings={settings}
         />
       </div>
       <div className="flex justify-center">

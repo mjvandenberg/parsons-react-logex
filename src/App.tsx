@@ -15,13 +15,22 @@ const includeDistractors = true;
 
 const App = () => {
   const [parsonsProps, setParsonsProps] = useState<ParsonsProblemProperties>();
-  const [showFeedback, setShowFeedback] = useState(false);
+  const [showFeedback, _setShowFeedback] = useState(false);
   const [settings, setSettings] = useStatePersist<Settings>(
     '@parsons-settings',
     {
       instantFeedback: false,
+      markInvalidItems: true,
     }
   );
+
+  const setShowFeedback = (value: boolean) => {
+    if (value === false && settings.instantFeedback === false) {
+      _setShowFeedback(value);
+    } else if (value === true) {
+      _setShowFeedback(value);
+    }
+  };
 
   const selectExercise = (exerciseName: exerciseNames) => {
     const newParsonsProps = OneFinalToParsonsProblemProperties(

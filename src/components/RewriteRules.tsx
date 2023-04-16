@@ -1,25 +1,39 @@
 import { FC } from 'react';
 import { rules, ruleTranslations } from '../logEx/rules';
-import { ParsonsUiItem } from '../types';
+import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import CaretDownIcon from './CaretDownIcon';
+import {
+  getFeedbackStyleRewriteRuleDefault,
+  getFeedbackStyleRewriteRuleOnlyInvalidItems,
+} from './feedback';
 import RewriteRuleDivider from './RewriteRuleDivider';
 
 interface Props {
   list: ParsonsUiItem[];
   onChangeRule: (item: ParsonsUiItem, newRule: string) => void;
   showFeedback: boolean;
+  settings: Settings;
 }
 
-const RewriteRules: FC<Props> = ({ list, onChangeRule, showFeedback }) => {
+const getFeedbackStyleRewriteRule: (settings: Settings) => GetFeedbackStyle = (
+  settings
+) => {
+  if (settings.markInvalidItems) {
+    return getFeedbackStyleRewriteRuleDefault;
+  }
+  return getFeedbackStyleRewriteRuleOnlyInvalidItems;
+};
+
+const RewriteRules: FC<Props> = ({
+  list,
+  onChangeRule,
+  showFeedback,
+  settings,
+}) => {
   return (
     <div className="inner">
       {list.slice(1).map((item, x) => {
-        const showFeedbackClassName = `${item.isValidRule === 'green' || item.isValidRule === 'yellow'
-          ? 'bg-[#DFF2BF]'
-          : item.isValidRule === 'red'
-            ? 'bg-[#FFBABA]'
-            : 'bg-slate-100'
-          }`;
+        const feedbackStyle = getFeedbackStyleRewriteRule(settings)(item);
         return (
           <div
             key={x}
@@ -31,8 +45,14 @@ const RewriteRules: FC<Props> = ({ list, onChangeRule, showFeedback }) => {
               padding: '0 20px 0 20px',
             }}
           >
-            <RewriteRuleDivider position="left" status={(!showFeedback ? "unknown" : item.isValidRule)} />
-            <RewriteRuleDivider position="right" status={(!showFeedback ? "unknown" : item.isValidRule)} />
+            <RewriteRuleDivider
+              position="left"
+              status={!showFeedback ? 'unknown' : item.isValidRule}
+            />
+            <RewriteRuleDivider
+              position="right"
+              status={!showFeedback ? 'unknown' : item.isValidRule}
+            />
             <div className="rule-block">
               <div
                 className="dropdown dropdown-end w-full"
@@ -40,11 +60,13 @@ const RewriteRules: FC<Props> = ({ list, onChangeRule, showFeedback }) => {
               >
                 <label
                   tabIndex={0}
-                  className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 text-right ${showFeedback ? showFeedbackClassName : 'bg-slate-100'}`}
+                  className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 text-right ${
+                    showFeedback ? feedbackStyle : 'bg-slate-100'
+                  }`}
                 >
                   {item.rule
                     ? // @ts-ignore
-                    ruleTranslations['en'][item.rule]
+                      ruleTranslations['en'][item.rule]
                     : '-- Select rule --'}
                   <CaretDownIcon />
                 </label>

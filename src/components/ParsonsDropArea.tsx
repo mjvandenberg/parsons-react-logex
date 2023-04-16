@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import ParsonsDropAreaSide from './ParsonsDropAreaSide';
-import { ParsonsUiItem } from '../types';
+import { ParsonsUiItem, Settings } from '../types';
 import ParsonsDropAreaCenter from './ParsonsDropAreaCenter';
 
 export type ParsonsDropAreaProps = {
@@ -11,6 +11,7 @@ export type ParsonsDropAreaProps = {
   onChangeItem: (item: ParsonsUiItem) => void;
   showFeedback?: boolean;
   isValid?: boolean;
+  settings: Settings;
 };
 
 export type ParsonsGroupBlock = {

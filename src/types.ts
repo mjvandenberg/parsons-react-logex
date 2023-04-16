@@ -28,12 +28,15 @@ export interface ParsonsProblemProperties {
 
 export interface Settings {
   instantFeedback: boolean;
+  markInvalidItems: boolean;
 }
 
 export interface ParsonsSolutionItem {
   text: string;
   rule?: string;
 }
+
+export type GetFeedbackStyle = (item: ParsonsUiItem) => string;
 
 ////////
 type Block = 'block';

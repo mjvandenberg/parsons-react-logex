@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { ParsonsSettings } from '../types';
+import { Settings } from '../types';
 
 interface Props {
-  settings: ParsonsSettings;
-  onUpdateSettings: (settings: ParsonsSettings) => void;
+  settings: Settings;
+  onUpdateSettings: (settings: Settings) => void;
 }
 
 const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
@@ -23,7 +23,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           <p className="py-4">
             <div className="form-control">
               <label className="label cursor-pointer">
-                <span className="label-text">Instant feedback</span>
+                <span className="label-text">Instant feedback!</span>
                 <input
                   type="checkbox"
                   checked={settings.instantFeedback}
@@ -32,6 +32,24 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
                     onUpdateSettings({
                       ...settings,
                       instantFeedback: !settings.instantFeedback,
+                    })
+                  }
+                />
+              </label>
+            </div>
+          </p>
+          <p className="py-4">
+            <div className="form-control">
+              <label className="label cursor-pointer">
+                <span className="label-text">Mark invalid items</span>
+                <input
+                  type="checkbox"
+                  checked={settings.markInvalidItems}
+                  className="toggle"
+                  onChange={() =>
+                    onUpdateSettings({
+                      ...settings,
+                      markInvalidItems: !settings.markInvalidItems,
                     })
                   }
                 />

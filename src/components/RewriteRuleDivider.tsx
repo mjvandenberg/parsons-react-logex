@@ -7,7 +7,8 @@ interface Props {
 }
 
 const RewriteRuleDivider: FC<Props> = ({ position, status }) => {
-  const stroke = status === "red" ? "#ff0000" : status === "green" ? "#008000" : "#D3D3D3";
+  const stroke =
+    status === 'red' ? '#ff0000' : status === 'green' ? '#008000' : '#d3d3d3';
   return (
     <svg
       width="32"
