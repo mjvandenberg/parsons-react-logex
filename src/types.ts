@@ -36,7 +36,10 @@ export interface ParsonsSolutionItem {
   rule?: string;
 }
 
-export type GetFeedbackStyle = (item: ParsonsUiItem) => string;
+export type GetFeedbackStyle = (
+  showFeedback: boolean,
+  item: ParsonsUiItem
+) => string;
 
 ////////
 type Block = 'block';

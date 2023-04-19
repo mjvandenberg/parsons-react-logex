@@ -1,14 +1,47 @@
-import { FC } from 'react';
-import { ParsonsStatus } from '../types';
+import { FC, useEffect, useState } from 'react';
+import {
+  GetFeedbackStyle,
+  ParsonsStatus,
+  ParsonsUiItem,
+  Settings,
+} from '../types';
+import {
+  getFeedbackStyleRewriteRuleDividerDefault,
+  getFeedbackStyleRewriteRuleDividerOnlyInvalidItems,
+} from './feedback';
 
 interface Props {
   position: 'left' | 'right';
-  status: ParsonsStatus;
+  item: ParsonsUiItem;
+  showFeedback: boolean;
+  settings: Settings;
 }
 
-const RewriteRuleDivider: FC<Props> = ({ position, status }) => {
-  const stroke =
-    status === 'red' ? '#ff0000' : status === 'green' ? '#008000' : '#d3d3d3';
+const getFeedbackStyleRewriteRuleDivider: (
+  settings: Settings
+) => GetFeedbackStyle = (settings) => {
+  if (settings.markInvalidItems) {
+    return getFeedbackStyleRewriteRuleDividerDefault;
+  }
+  return getFeedbackStyleRewriteRuleDividerOnlyInvalidItems;
+};
+
+const RewriteRuleDivider: FC<Props> = ({
+  position,
+  item,
+  showFeedback,
+  settings,
+}) => {
+  const [feedbackStyle, setFeedbackStyle] = useState<string>();
+
+  useEffect(() => {
+    const newStyle = getFeedbackStyleRewriteRuleDivider(settings)(
+      showFeedback,
+      item
+    );
+    setFeedbackStyle(newStyle);
+  }, [getFeedbackStyleRewriteRuleDivider, settings, item, showFeedback]);
+
   return (
     <svg
       width="32"
@@ -21,8 +54,7 @@ const RewriteRuleDivider: FC<Props> = ({ position, status }) => {
         transform: position === 'right' ? `scale(-1, 1.1)` : 'scale(1.1)',
       }}
       strokeWidth="0.7"
-      fill="blue"
-      stroke={stroke}
+      stroke={feedbackStyle}
     >
       <circle cx="15" cy="12.2" fill="#ffffaa" r="11" />
       <rect

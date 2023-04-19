@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Rule } from '../logEx/rules';
 import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import {
@@ -37,15 +37,20 @@ const ParsonsBlock: FC<ParsonsBlockProps> = ({
   showFeedback,
   settings,
 }) => {
-  const defaultClassName = `parsons-block katex relative text-left pl-2 leading-9 rounded-lg border border-[#d3d3d3] select-none static bg-slate-200 ${
+  const defaultClassName = `parsons-block katex relative text-left pl-2 leading-9 rounded-lg border select-none static ${
     totalItems === 2 ? 'mt-1' : position === 'left' || isFirst ? 'mt-1' : `mt-1`
   }`;
 
-  const feedbackStyle = getFeedbackStyle(settings)(item);
+  const [feedbackStyle, setFeedbackStyle] = useState<string>();
+
+  useEffect(() => {
+    const newStyle = getFeedbackStyle(settings)(showFeedback, item);
+    setFeedbackStyle(newStyle);
+  }, [getFeedbackStyle, settings, item, showFeedback]);
 
   return (
     <div
-      className={`${defaultClassName} ${showFeedback ? feedbackStyle : ''}${
+      className={`${defaultClassName} ${feedbackStyle}${
         isStatic ? 'filtered' : 'cursor-move'
       } ${isGrouped ? '' : ''}`}
     >
