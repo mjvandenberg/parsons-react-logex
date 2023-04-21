@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import ParsonsBlock from './ParsonsBlock';
 import { ParsonsDropAreaProps } from './ParsonsDropArea';
@@ -12,7 +12,13 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   onChangeItem,
   showFeedback,
   isValid,
+  settings,
+  setDragInfo,
+  dragInfo,
+  numberOfItemForSize,
 }) => {
+  const [isChoosen, setIsChoosen] = useState<boolean>(false);
+
   const classLeft = 'bg-[#efefff]';
   const classLeftSortable = 'min-h-[42px]';
   const classRight = 'bg-[#ffffaa]';
@@ -29,22 +35,65 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
     document?.activeElement?.blur();
   };
 
+  const handleOnStart = (evt: any) => {
+    setDragInfo({
+      ...dragInfo,
+      dragging: true,
+      from: position,
+    });
+  };
+
+  const handleOnEnd = (evt: any) => {
+    setDragInfo({
+      dragging: false,
+      from: undefined,
+      to: undefined,
+    });
+  };
+
+  const handleOnChange = (evt: any) => {
+    setDragInfo({
+      ...dragInfo,
+      to: evt.to.id.split('_')[1],
+    });
+  };
+
   return (
     <div
       id={position}
-      className={`flex flex-col border outer ${isValid === undefined
-        ? 'border-indigo-200'
-        : isValid === true
-          ? 'border-[#008000]'
+      className={`flex flex-col border outer ${
+        isValid === undefined
+          ? 'border-indigo-200'
+          : isValid === true
+          ? 'border-[#008000] drop-shadow-green'
           : 'border-[#ff0000]'
-        } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
+      } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
       {position === 'right' && (
-        <RewriteRules showFeedback={showFeedback!} list={list} onChangeRule={handleOnChangeRule} />
+        <RewriteRules
+          showFeedback={showFeedback!}
+          drawOneMore={
+            dragInfo.dragging &&
+            dragInfo.from !== position &&
+            dragInfo.to === position
+          }
+          drawOneLess={
+            dragInfo.dragging &&
+            dragInfo.from === position &&
+            dragInfo.to !== position
+          }
+          isDragging={dragInfo.dragging}
+          list={list}
+          onChangeRule={handleOnChangeRule}
+          settings={settings}
+        />
       )}
       <ReactSortable
-        className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${position === 'left' && classLeftSortable
-          }`}
+        id={`sortable_${position}`}
+        className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${
+          position === 'left' && classLeftSortable
+        }`}
+        style={{ minHeight: `${numberOfItemForSize * 42}px` }}
         tag="div"
         list={list}
         setList={setList}
@@ -54,6 +103,9 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         dragClass="dragcls"
         chosenClass="chosencls"
         forceFallback={true}
+        onStart={handleOnStart}
+        onEnd={handleOnEnd}
+        onChange={handleOnChange}
         filter={'.filtered'}
       >
         {position === 'right' && list.length === 0 ? (
@@ -71,8 +123,8 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
               isGrouped={item.groupName !== undefined}
               position={position!}
               showFeedback={showFeedback!}
+              settings={settings}
             />
-
           ))
         )}
       </ReactSortable>

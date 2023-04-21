@@ -26,10 +26,21 @@ export interface ParsonsProblemProperties {
   listRight: ParsonsUiItem[];
 }
 
+export interface Settings {
+  instantFeedback: boolean;
+  markInvalidItems: boolean;
+  autoFillRewriteRules: boolean;
+}
+
 export interface ParsonsSolutionItem {
   text: string;
   rule?: string;
 }
+
+export type GetFeedbackStyle = (
+  showFeedback: boolean,
+  item: ParsonsUiItem
+) => string;
 
 ////////
 type Block = 'block';

@@ -2,7 +2,27 @@
 module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      dropShadow: {
+        red: '0 35px 35px rgba(255, 186, 186, .25)',
+        green: [
+          '0 0px 35px rgba(223, 242, 191, .90)',
+          '0 0px 65px rgba(0, 0, 0, 0.15)',
+        ],
+      },
+      // that is animation class
+      animation: {
+        fade: 'fadeOut 5s ease-in-out',
+      },
+
+      // that is actual animation
+      keyframes: (theme) => ({
+        fadeOut: {
+          '0%': { backgroundColor: theme('colors.red.300') },
+          '100%': { backgroundColor: theme('colors.transparent') },
+        },
+      }),
+    },
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
   daisyui: {

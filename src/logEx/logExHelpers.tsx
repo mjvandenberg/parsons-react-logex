@@ -1,13 +1,17 @@
-import { ParsonsItem, ParsonsUiItem, ParsonsSolutionItem } from '../types';
+import { ParsonsItem, ParsonsUiItem, ParsonsProblemProperties } from '../types';
 import { OneFinalResponse, Term } from '../logEx/typesOneFinal';
 import { ruleMapping } from '../logEx/ruleHelpers';
 
 type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
 
-export const OneFinalToParsonsProblemProperties = (
+export const OneFinalToParsonsProblemProperties: (
   oneFinal: OneFinalResponse,
   exerciseType: ExerciseType,
   includeDistractors: boolean
+) => ParsonsProblemProperties = (
+  oneFinal,
+  exerciseType,
+  includeDistractors
 ) => {
   const exerciseSolution = OneFinaleResponseToParsonsSolution(oneFinal);
 
@@ -20,13 +24,13 @@ export const OneFinalToParsonsProblemProperties = (
       )!;
       return includeDistractors && oneFinal.distractors && index >= 0
         ? [
-          i,
-          {
-            ...i,
-            id: `${i.id}_${index}`,
-            text: oneFinal.distractors[index].term,
-          },
-        ]
+            i,
+            {
+              ...i,
+              id: `${i.id}_${index}`,
+              text: oneFinal.distractors[index].term,
+            },
+          ]
         : [i];
     })
     .flat()
@@ -44,21 +48,23 @@ export const OneFinalToParsonsProblemProperties = (
   return {
     exerciseName: 'Exercise 5',
     exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
-    exerciseSolution: oneFinal.onefinal.context.term.reduce<ParsonsItem[]>((prev, curr, index, arr) => {
-      if (index % 2 === 0) {
-        if (prev.some(i => i.text === curr.toString())) {
+    exerciseSolution: oneFinal.onefinal.context.term.reduce<ParsonsItem[]>(
+      (prev, curr, index, arr) => {
+        if (index % 2 === 0) {
+          if (prev.some((i) => i.text === curr.toString())) {
+            return prev;
+          }
+          return [...prev, { text: curr.toString(), type: 'block' }];
+        }
+        const term = curr as Term;
+        if (term.motivation === '<CLOSE>') {
           return prev;
         }
-        return [...prev, { text: curr.toString(), type: "block" }];
-      }
-      const term = (curr as Term);
-      if (term.motivation === "<CLOSE>") {
-        return prev;
-      }
-      const ruleName = ruleMapping[term.motivation];
-      return [...prev, { text: ruleName, type: "rule" }];
-
-    }, []),
+        const ruleName = ruleMapping[term.motivation];
+        return [...prev, { text: ruleName, type: 'rule' }];
+      },
+      []
+    ),
     listLeft,
     listRight,
   };
@@ -89,8 +95,9 @@ const GetExerciseDescription = (
           <span className="katex">
             {oneFinal.onefinal.context.term.at(0)?.toString()}
           </span>
-          {` to ${exerciseType === 'cnv' && 'conjunctive'}${exerciseType === 'dnv' && 'disjuntive'
-            } normal form`}
+          {` to ${exerciseType === 'cnv' && 'conjunctive'}${
+            exerciseType === 'dnv' && 'disjuntive'
+          } normal form`}
         </>
       );
   }
@@ -107,8 +114,8 @@ export const OneFinaleResponseToParsonsSolution: (
       isStaticLast: false,
       id: `right_${0}`,
       pairedGroupName: `right_${0}`,
-      isValid: "unknown",
-      isValidRule: "unknown"
+      isValid: 'unknown',
+      isValidRule: 'unknown',
     },
     ...(Object.values(
       oneFinalResponse.onefinal.context.term
@@ -119,19 +126,19 @@ export const OneFinaleResponseToParsonsSolution: (
               ...prev,
               [index.toString()]:
                 index % 2 === 0 ||
-                  (index > 0 && (arr[index - 1] as Term).motivation === '<CLOSE>')
+                (index > 0 && (arr[index - 1] as Term).motivation === '<CLOSE>')
                   ? undefined
                   : {
-                    text: current.toString(),
-                    id: index,
-                    pairedGroupName: index.toString(),
-                    rule:
-                      index > 0
-                        ? ruleMapping[(arr[index - 1] as Term).motivation]
-                        : undefined,
-                    isValid: "unknown",
-                    isValidRule: "unknown"
-                  },
+                      text: current.toString(),
+                      id: index,
+                      pairedGroupName: index.toString(),
+                      rule:
+                        index > 0
+                          ? ruleMapping[(arr[index - 1] as Term).motivation]
+                          : undefined,
+                      isValid: 'unknown',
+                      isValidRule: 'unknown',
+                    },
             };
           },
           {}

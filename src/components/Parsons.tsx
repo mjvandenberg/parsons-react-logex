@@ -1,29 +1,44 @@
 import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
-import ParsonsDropArea from './ParsonsDropArea';
-import { ParsonsUiItem, ParsonsProblemProperties } from '../types';
+import ParsonsDropArea, { dragInfo, position } from './ParsonsDropArea';
+import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblemFromUi } from '../validate';
 
-const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
+const Parsons: FC<
+  ParsonsProblemProperties & {
+    onReset: () => void;
+    showFeedback: boolean;
+    setShowFeedback: (val: boolean) => void;
+    settings: Settings;
+  }
+> = ({
   exerciseName,
   exerciseDescription,
   exerciseSolution,
   onReset,
+  showFeedback,
+  setShowFeedback,
+  settings,
   ...props
 }) => {
   const [listLeft, setListLeft] = useState<ParsonsUiItem[]>(props.listLeft);
   const [listRight, _setListRight] = useState<ParsonsUiItem[]>(props.listRight);
-  const [showFeedback, setShowFeedback] = useState(false);
   const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [dragInfo, setDragInfo] = useState<dragInfo>({
+    dragging: false,
+    from: undefined,
+    to: undefined,
+  });
 
   const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
     const [newList, newIsValid] = validateParsonsProblemFromUi(
       list,
-      exerciseSolution
+      exerciseSolution,
+      settings.autoFillRewriteRules
     );
     _setListRight(newList);
     setIsValid(newIsValid);
@@ -44,7 +59,7 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
   };
 
   const handleFeedbackButtonClick = () => {
-    setShowFeedback(true);
+    setShowFeedback(!showFeedback);
   };
 
   useEffect(() => {
@@ -52,6 +67,18 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
     setListLeft(props.listLeft);
     setListRight(props.listRight);
   }, [props.listLeft, props.listRight]);
+
+  useEffect(() => {
+    if (settings.autoFillRewriteRules) {
+      setListRight(listRight);
+    } else {
+      setListRight(
+        listRight.map((i) => {
+          return { ...i, rule: undefined };
+        })
+      );
+    }
+  }, [settings.autoFillRewriteRules]);
 
   return (
     <>
@@ -65,6 +92,10 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
           setList={setListLeft}
           position="left"
           onChangeItem={handleChangeItemLeft}
+          settings={settings}
+          dragInfo={dragInfo}
+          setDragInfo={setDragInfo}
+          numberOfItemForSize={listLeft.length + listRight.length - 2}
         />
         <ParsonsDropArea
           title="Construct your solution here"
@@ -74,17 +105,27 @@ const Parsons: FC<ParsonsProblemProperties & { onReset: () => void }> = ({
           onChangeItem={handleChangeItemRight}
           showFeedback={showFeedback}
           isValid={showFeedback === false ? undefined : isValid}
+          settings={settings}
+          dragInfo={dragInfo}
+          setDragInfo={setDragInfo}
+          numberOfItemForSize={listLeft.length + listRight.length - 2}
         />
       </div>
       <div className="flex justify-center">
+        {settings.instantFeedback === false && (
+          <button
+            className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
+              dragInfo.dragging && 'opacity-0'
+            }`}
+            onClick={handleFeedbackButtonClick}
+          >
+            Validate solution
+          </button>
+        )}
         <button
-          className="btn btn-primary normal-case mx-1 min-w-[130px]"
-          onClick={handleFeedbackButtonClick}
-        >
-          Check solution
-        </button>
-        <button
-          className="btn btn-primary normal-case mx-1 min-w-[130px]"
+          className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
+            dragInfo.dragging && 'opacity-0'
+          }`}
           onClick={handleResetButtonClick}
         >
           Reset puzzle

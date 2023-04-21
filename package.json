@@ -16,7 +16,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-sortablejs": "^6.1.4",
-    "sortablejs": "^1.15.0"
+    "sortablejs": "^1.15.0",
+    "use-state-persist": "^0.3.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.7",
