@@ -1,7 +1,7 @@
 import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
-import ParsonsDropArea from './ParsonsDropArea';
+import ParsonsDropArea, { dragInfo, position } from './ParsonsDropArea';
 import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblemFromUi } from '../validate';
@@ -27,7 +27,11 @@ const Parsons: FC<
   const [listRight, _setListRight] = useState<ParsonsUiItem[]>(props.listRight);
   const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragInfo, setDragInfo] = useState<dragInfo>({
+    dragging: false,
+    from: undefined,
+    to: undefined,
+  });
 
   const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
@@ -89,8 +93,9 @@ const Parsons: FC<
           position="left"
           onChangeItem={handleChangeItemLeft}
           settings={settings}
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
+          dragInfo={dragInfo}
+          setDragInfo={setDragInfo}
+          numberOfItemForSize={listLeft.length + listRight.length - 2}
         />
         <ParsonsDropArea
           title="Construct your solution here"
@@ -101,15 +106,16 @@ const Parsons: FC<
           showFeedback={showFeedback}
           isValid={showFeedback === false ? undefined : isValid}
           settings={settings}
-          isDragging={isDragging}
-          setIsDragging={setIsDragging}
+          dragInfo={dragInfo}
+          setDragInfo={setDragInfo}
+          numberOfItemForSize={listLeft.length + listRight.length - 2}
         />
       </div>
       <div className="flex justify-center">
         {settings.instantFeedback === false && (
           <button
             className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
-              isDragging && 'opacity-0'
+              dragInfo.dragging && 'opacity-0'
             }`}
             onClick={handleFeedbackButtonClick}
           >
@@ -118,7 +124,7 @@ const Parsons: FC<
         )}
         <button
           className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
-            isDragging && 'opacity-0'
+            dragInfo.dragging && 'opacity-0'
           }`}
           onClick={handleResetButtonClick}
         >

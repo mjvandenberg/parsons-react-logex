@@ -7,6 +7,9 @@ interface Props {
   onChangeRule: (item: ParsonsUiItem, newRule: string) => void;
   showFeedback: boolean;
   settings: Settings;
+  drawOneMore: boolean;
+  drawOneLess: boolean;
+  isDragging: boolean;
 }
 
 const RewriteRules: FC<Props> = ({
@@ -14,10 +17,13 @@ const RewriteRules: FC<Props> = ({
   onChangeRule,
   showFeedback,
   settings,
+  drawOneMore,
+  drawOneLess,
+  isDragging,
 }) => {
   return (
     <div className="inner">
-      {list.slice(1).map((item, x) => {
+      {list.slice(drawOneLess ? 2 : 1).map((item, x) => {
         return (
           <RewriteRule
             key={x}
@@ -26,9 +32,20 @@ const RewriteRules: FC<Props> = ({
             onChangeRule={onChangeRule}
             showFeedback={showFeedback}
             settings={settings}
+            isDragging={isDragging}
           />
         );
       })}
+      {drawOneMore && (
+        <RewriteRule
+          x={list.length - 1}
+          item={{ ...list[0], rule: undefined }}
+          onChangeRule={onChangeRule}
+          showFeedback={showFeedback}
+          settings={settings}
+          isDragging={isDragging}
+        />
+      )}
     </div>
   );
 };

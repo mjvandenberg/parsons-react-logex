@@ -13,7 +13,9 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   showFeedback,
   isValid,
   settings,
-  setIsDragging,
+  setDragInfo,
+  dragInfo,
+  numberOfItemForSize,
 }) => {
   const [isChoosen, setIsChoosen] = useState<boolean>(false);
 
@@ -33,13 +35,28 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
     document?.activeElement?.blur();
   };
 
-  const handleOnStart = () => setIsDragging(true);
+  const handleOnStart = (evt: any) => {
+    setDragInfo({
+      ...dragInfo,
+      dragging: true,
+      from: position,
+    });
+  };
 
-  const handleOnEnd = () => setIsDragging(false);
+  const handleOnEnd = (evt: any) => {
+    setDragInfo({
+      dragging: false,
+      from: undefined,
+      to: undefined,
+    });
+  };
 
-  const handleOnChoose = () => setIsChoosen(true);
-
-  const handleOnUnChoose = () => setIsChoosen(false);
+  const handleOnChange = (evt: any) => {
+    setDragInfo({
+      ...dragInfo,
+      to: evt.to.id.split('_')[1],
+    });
+  };
 
   return (
     <div
@@ -52,20 +69,31 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
           : 'border-[#ff0000]'
       } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
-      {' '}
-      {isChoosen ? 'yes' : 'no'}
       {position === 'right' && (
         <RewriteRules
           showFeedback={showFeedback!}
+          drawOneMore={
+            dragInfo.dragging &&
+            dragInfo.from !== position &&
+            dragInfo.to === position
+          }
+          drawOneLess={
+            dragInfo.dragging &&
+            dragInfo.from === position &&
+            dragInfo.to !== position
+          }
+          isDragging={dragInfo.dragging}
           list={list}
           onChangeRule={handleOnChangeRule}
           settings={settings}
         />
       )}
       <ReactSortable
+        id={`sortable_${position}`}
         className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${
           position === 'left' && classLeftSortable
         }`}
+        style={{ minHeight: `${numberOfItemForSize * 42}px` }}
         tag="div"
         list={list}
         setList={setList}
@@ -77,8 +105,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         forceFallback={true}
         onStart={handleOnStart}
         onEnd={handleOnEnd}
-        onChoose={handleOnChoose}
-        onUnchoose={handleOnUnChoose}
+        onChange={handleOnChange}
         filter={'.filtered'}
       >
         {position === 'right' && list.length === 0 ? (

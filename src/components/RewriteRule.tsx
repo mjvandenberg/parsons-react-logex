@@ -14,6 +14,7 @@ interface Props {
   showFeedback: boolean;
   settings: Settings;
   x: number;
+  isDragging: boolean;
 }
 
 const getFeedbackStyleRewriteRule: (settings: Settings) => GetFeedbackStyle = (
@@ -31,6 +32,7 @@ const RewriteRule: FC<Props> = ({
   showFeedback,
   settings,
   x,
+  isDragging,
 }) => {
   const [feedbackStyle, setFeedbackStyle] = useState<string>();
 
@@ -44,7 +46,7 @@ const RewriteRule: FC<Props> = ({
       <div
         style={{
           position: 'absolute',
-          top: `${-82.2 + (2 + x) * 62}px`,
+          top: `${(2 + x) * 62 - 81.5}px`,
           display: 'block',
           width: 'calc(100% - 9px)',
           padding: '0 20px 0 20px',
@@ -52,13 +54,13 @@ const RewriteRule: FC<Props> = ({
       >
         <RewriteRuleDivider
           position="left"
-          showFeedback={showFeedback}
+          showFeedback={isDragging === false && showFeedback}
           item={item}
           settings={settings}
         />
         <RewriteRuleDivider
           position="right"
-          showFeedback={showFeedback}
+          showFeedback={isDragging === false && showFeedback}
           item={item}
           settings={settings}
         />
@@ -67,7 +69,9 @@ const RewriteRule: FC<Props> = ({
             <label
               tabIndex={0}
               className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 text-right ${
-                showFeedback ? feedbackStyle : 'bg-slate-100'
+                isDragging === false && showFeedback
+                  ? feedbackStyle
+                  : 'bg-slate-100'
               } ${
                 settings.autoFillRewriteRules
                   ? 'cursor-default hover:bg-[#f1f5f9]'

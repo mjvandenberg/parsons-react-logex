@@ -3,17 +3,25 @@ import ParsonsDropAreaSide from './ParsonsDropAreaSide';
 import { ParsonsUiItem, Settings } from '../types';
 import ParsonsDropAreaCenter from './ParsonsDropAreaCenter';
 
+export type position = 'left' | 'right' | undefined;
+export type dragInfo = {
+  dragging: boolean;
+  from: position;
+  to: position;
+};
+
 export type ParsonsDropAreaProps = {
   title: string;
-  position?: 'left' | 'right';
+  position: position;
   list: ParsonsUiItem[];
   setList: (items: ParsonsUiItem[]) => void;
   onChangeItem: (item: ParsonsUiItem) => void;
   showFeedback?: boolean;
   isValid?: boolean;
   settings: Settings;
-  isDragging: boolean;
-  setIsDragging: (isDragging: boolean) => void;
+  setDragInfo: (dragInfo: dragInfo) => void;
+  dragInfo: dragInfo;
+  numberOfItemForSize: number;
 };
 
 export type ParsonsGroupBlock = {
