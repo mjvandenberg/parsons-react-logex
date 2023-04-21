@@ -49,19 +49,20 @@ const RewriteRuleDivider: FC<Props> = ({
       style={{
         position: 'absolute',
         [position]: '10px',
+        top: '-0.4px',
         display: 'block',
         zIndex: '15',
         transform: position === 'right' ? `scale(-1, 1.1)` : 'scale(1.1)',
       }}
-      strokeWidth="0.7"
+      strokeWidth="0.9"
       stroke={feedbackStyle}
     >
-      <circle cx="15" cy="12.2" fill="#ffffaa" r="11" />
+      <circle cx="15" cy="12.2" fill="#ffffaa" r="11.4" />
       <rect
-        y="1.5"
+        y="1.3"
         x="0"
-        width="16"
-        height="21.5"
+        width="15"
+        height="21.8"
         style={{
           fill: '#ffffaa',
           strokeWidth: 0,

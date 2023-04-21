@@ -46,7 +46,7 @@ const RewriteRule: FC<Props> = ({
       <div
         style={{
           position: 'absolute',
-          top: `${(2 + x) * 62 - 81.5}px`,
+          top: `${(2 + x) * 62 - 81.4}px`,
           display: 'block',
           width: 'calc(100% - 9px)',
           padding: '0 20px 0 20px',
@@ -68,7 +68,7 @@ const RewriteRule: FC<Props> = ({
           <div className="dropdown dropdown-end w-full" style={{ top: '-3px' }}>
             <label
               tabIndex={0}
-              className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 text-right ${
+              className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[1px] relative truncate font-sans border-0 text-right ${
                 isDragging === false && showFeedback
                   ? feedbackStyle
                   : 'bg-slate-100'
