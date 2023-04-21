@@ -78,7 +78,9 @@ const RewriteRule: FC<Props> = ({
                   : 'hover:bg-[#dbe6f0]'
               }`}
             >
-              {item.rule
+              {isDragging
+                ? ''
+                : item.rule
                 ? // @ts-ignore
                   ruleTranslations['en'][item.rule]
                 : settings.autoFillRewriteRules
