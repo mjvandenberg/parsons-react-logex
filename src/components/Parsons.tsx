@@ -61,7 +61,7 @@ const Parsons: FC<
     setShowFeedback(false);
     setListLeft(props.listLeft);
     setListRight(props.listRight);
-  }, [props.listLeft, props.listRight, settings.instantFeedback]);
+  }, [props.listLeft, props.listRight]);
 
   return (
     <>

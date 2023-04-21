@@ -68,6 +68,10 @@ const RewriteRule: FC<Props> = ({
               tabIndex={0}
               className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[2px] relative truncate font-sans border-0 text-right ${
                 showFeedback ? feedbackStyle : 'bg-slate-100'
+              } ${
+                settings.autoFillRewriteRules
+                  ? 'cursor-default hover:bg-[#f1f5f9]'
+                  : 'hover:bg-[#dbe6f0]'
               }`}
             >
               {item.rule
@@ -79,6 +83,20 @@ const RewriteRule: FC<Props> = ({
               {!settings.autoFillRewriteRules && <CaretDownIcon />}
             </label>
             {!settings.autoFillRewriteRules && (
+              <div className="dropdown-content flex flex-row flex-wrap bg-base-100 w-[545px] relative top-[27px] shadow rounded-box p-1">
+                {rules.map((i, x) => (
+                  <div key={x * 100}>
+                    <button
+                      onClick={() => onChangeRule(item, i)}
+                      className="btn btn-ghost normal-case btn-sm m-[1px] w-[175px]"
+                    >
+                      {ruleTranslations['en'][i]}
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            {/*!settings.autoFillRewriteRules && (
               <ul
                 tabIndex={0}
                 className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[27px]"
@@ -94,7 +112,7 @@ const RewriteRule: FC<Props> = ({
                   </li>
                 ))}
               </ul>
-            )}
+                )*/}
           </div>
         </div>
       </div>

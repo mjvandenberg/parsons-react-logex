@@ -63,7 +63,7 @@ const App = () => {
 
   useEffect(() => {
     setShowFeedback(settings.instantFeedback);
-  }, []);
+  }, [settings.instantFeedback]);
 
   const handleUpdateSettings: (settings: Settings) => void = (settings) => {
     setSettings(settings);

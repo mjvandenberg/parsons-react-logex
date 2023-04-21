@@ -56,7 +56,7 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
             ? title
             : props.isValid === true
             ? 'Congratulations, your solution is valid'
-            : 'Your solution is not yet right'}
+            : 'Your solution is not yet valid'}
         </div>
         <div className={`grid grid-cols-[25px_minmax(0,_1fr)_10px]`}>
           <ParsonsDropAreaSide
