@@ -27,6 +27,7 @@ const Parsons: FC<
   const [listRight, _setListRight] = useState<ParsonsUiItem[]>(props.listRight);
   const [help, setHelp] = useState<string>();
   const [isValid, setIsValid] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const setListRight = (list: ParsonsUiItem[]) => {
     setShowFeedback(false);
@@ -88,6 +89,8 @@ const Parsons: FC<
           position="left"
           onChangeItem={handleChangeItemLeft}
           settings={settings}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
         />
         <ParsonsDropArea
           title="Construct your solution here"
@@ -98,19 +101,25 @@ const Parsons: FC<
           showFeedback={showFeedback}
           isValid={showFeedback === false ? undefined : isValid}
           settings={settings}
+          isDragging={isDragging}
+          setIsDragging={setIsDragging}
         />
       </div>
       <div className="flex justify-center">
         {settings.instantFeedback === false && (
           <button
-            className="btn btn-primary normal-case mx-1 min-w-[130px]"
+            className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
+              isDragging && 'opacity-0'
+            }`}
             onClick={handleFeedbackButtonClick}
           >
             Validate solution
           </button>
         )}
         <button
-          className="btn btn-primary normal-case mx-1 min-w-[130px] z-10"
+          className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
+            isDragging && 'opacity-0'
+          }`}
           onClick={handleResetButtonClick}
         >
           Reset puzzle

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { ReactSortable } from 'react-sortablejs';
 import ParsonsBlock from './ParsonsBlock';
 import { ParsonsDropAreaProps } from './ParsonsDropArea';
@@ -13,7 +13,10 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   showFeedback,
   isValid,
   settings,
+  setIsDragging,
 }) => {
+  const [isChoosen, setIsChoosen] = useState<boolean>(false);
+
   const classLeft = 'bg-[#efefff]';
   const classLeftSortable = 'min-h-[42px]';
   const classRight = 'bg-[#ffffaa]';
@@ -30,6 +33,14 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
     document?.activeElement?.blur();
   };
 
+  const handleOnStart = () => setIsDragging(true);
+
+  const handleOnEnd = () => setIsDragging(false);
+
+  const handleOnChoose = () => setIsChoosen(true);
+
+  const handleOnUnChoose = () => setIsChoosen(false);
+
   return (
     <div
       id={position}
@@ -37,10 +48,12 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         isValid === undefined
           ? 'border-indigo-200'
           : isValid === true
-          ? 'border-[#008000] drop-shadow-4xl'
-          : 'border-[#ff0000] drop-shadow-3xl'
+          ? 'border-[#008000] drop-shadow-green'
+          : 'border-[#ff0000]'
       } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
+      {' '}
+      {isChoosen ? 'yes' : 'no'}
       {position === 'right' && (
         <RewriteRules
           showFeedback={showFeedback!}
@@ -62,6 +75,10 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         dragClass="dragcls"
         chosenClass="chosencls"
         forceFallback={true}
+        onStart={handleOnStart}
+        onEnd={handleOnEnd}
+        onChoose={handleOnChoose}
+        onUnchoose={handleOnUnChoose}
         filter={'.filtered'}
       >
         {position === 'right' && list.length === 0 ? (
