@@ -110,7 +110,7 @@ const Parsons: FC<
           </button>
         )}
         <button
-          className="btn btn-primary normal-case mx-1 min-w-[130px]"
+          className="btn btn-primary normal-case mx-1 min-w-[130px] z-10"
           onClick={handleResetButtonClick}
         >
           Reset puzzle

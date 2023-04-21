@@ -37,7 +37,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
         isValid === undefined
           ? 'border-indigo-200'
           : isValid === true
-          ? 'border-[#008000]'
+          ? 'border-[#008000] drop-shadow-4xl'
           : 'border-[#ff0000] drop-shadow-3xl'
       } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >

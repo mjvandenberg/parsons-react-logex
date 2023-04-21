@@ -3,8 +3,9 @@ module.exports = {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
-      boxShadow: {
-        '3xl': '0 35px 60px -15px rgba(256, 0, 0, 0.3)',
+      dropShadow: {
+        '3xl': '0 35px 35px rgba(255, 186, 186, .25)',
+        '4xl': ['0 35px 35px rgba(223, 242, 191, .75)', '0 45px 65px rgba(0, 0, 0, 0.15)'],
       },
     },
   },
