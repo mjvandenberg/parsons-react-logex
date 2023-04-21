@@ -2,18 +2,9 @@ import './Parsons.css';
 import { FC, useEffect, useState } from 'react';
 import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea from './ParsonsDropArea';
-import {
-  ParsonsUiItem,
-  ParsonsProblemProperties,
-  Settings,
-  GetFeedbackStyle,
-} from '../types';
+import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
 import HelpButton from './HelpButton';
 import { validateParsonsProblemFromUi } from '../validate';
-import {
-  getFeedbackStyleBlockDefault,
-  getFeedbackStyleBlockOnlyInvalidItems,
-} from './feedback';
 
 const Parsons: FC<
   ParsonsProblemProperties & {

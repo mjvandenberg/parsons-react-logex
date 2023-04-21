@@ -17,7 +17,7 @@ export const getFeedbackStyleBlockDefault: GetFeedbackStyle = (
     case 'yellow':
       return greenStyle;
     default:
-      return '';
+      return neutralStyle;
   }
 };
 
@@ -25,14 +25,15 @@ export const getFeedbackStyleBlockOnlyInvalidItems: GetFeedbackStyle = (
   showFeedback,
   item
 ) => {
+  if (!showFeedback) return neutralStyle;
   switch (item.isValid) {
     case 'red':
-      return '';
+      return neutralStyle;
     case 'green':
     case 'yellow':
       return greenStyle;
     default:
-      return '';
+      return neutralStyle;
   }
 };
 
@@ -41,7 +42,7 @@ export const getFeedbackStyleRewriteRuleDefault: GetFeedbackStyle = (
   item
 ) => {
   if (!showFeedback) return 'bg-slate-100 ';
-  switch (item.isValid) {
+  switch (item.isValidRule) {
     case 'red':
       return 'bg-[#ffbaba] ';
     case 'green':
@@ -57,7 +58,7 @@ export const getFeedbackStyleRewriteRuleOnlyInvalidItems: GetFeedbackStyle = (
   item
 ) => {
   if (!showFeedback) return 'bg-slate-100 ';
-  switch (item.isValid) {
+  switch (item.isValidRule) {
     case 'red':
       return 'bg-slate-100 ';
     case 'green':

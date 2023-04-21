@@ -60,7 +60,13 @@ const App = () => {
     selectExercise(defaultExercise);
   }, []);
 
-  const handleUpdateSettings: (settings: Settings) => void = (settings) => {
+  useEffect(() => {
+    setShowFeedback(settings.instantFeedback);
+  }, []);
+
+  const handleUpdateSettings
+  : (settings: Settings) => void 
+  = (settings) => {
     setSettings(settings);
     if (settings.instantFeedback === true) {
       setShowFeedback(true);
