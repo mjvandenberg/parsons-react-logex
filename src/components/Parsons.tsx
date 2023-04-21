@@ -32,7 +32,8 @@ const Parsons: FC<
     setShowFeedback(false);
     const [newList, newIsValid] = validateParsonsProblemFromUi(
       list,
-      exerciseSolution
+      exerciseSolution,
+      settings.autoFillRewriteRules
     );
     _setListRight(newList);
     setIsValid(newIsValid);
@@ -53,7 +54,7 @@ const Parsons: FC<
   };
 
   const handleFeedbackButtonClick = () => {
-    setShowFeedback(true);
+    setShowFeedback(!showFeedback);
   };
 
   useEffect(() => {
@@ -93,7 +94,7 @@ const Parsons: FC<
             className="btn btn-primary normal-case mx-1 min-w-[130px]"
             onClick={handleFeedbackButtonClick}
           >
-            Check solution
+            Validate solution
           </button>
         )}
         <button

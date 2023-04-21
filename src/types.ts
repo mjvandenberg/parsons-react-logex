@@ -29,6 +29,7 @@ export interface ParsonsProblemProperties {
 export interface Settings {
   instantFeedback: boolean;
   markInvalidItems: boolean;
+  autoFillRewriteRules: boolean;
 }
 
 export interface ParsonsSolutionItem {

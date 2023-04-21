@@ -20,41 +20,59 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
             ✕
           </label>
           <h3 className="text-lg font-bold">Change settings</h3>
-          <p className="py-4">
-            <div className="form-control">
-              <label className="label cursor-pointer">
-                <span className="label-text">Instant feedback!</span>
-                <input
-                  type="checkbox"
-                  checked={settings.instantFeedback}
-                  className="toggle"
-                  onChange={() =>
-                    onUpdateSettings({
-                      ...settings,
-                      instantFeedback: !settings.instantFeedback,
-                    })
-                  }
-                />
-              </label>
-            </div>
+          <h5 className="text-left text-md font-bold py-2">Feedback</h5>
+          <p>
+            <label className="label cursor-pointer">
+              <span className="label-text">Instant feedback</span>
+              <input
+                type="checkbox"
+                checked={settings.instantFeedback}
+                className="toggle"
+                onChange={() =>
+                  onUpdateSettings({
+                    ...settings,
+                    instantFeedback: !settings.instantFeedback,
+                  })
+                }
+              />
+            </label>
           </p>
-          <p className="py-4">
-            <div className="form-control">
-              <label className="label cursor-pointer">
-                <span className="label-text">Mark invalid items</span>
-                <input
-                  type="checkbox"
-                  checked={settings.markInvalidItems}
-                  className="toggle"
-                  onChange={() =>
-                    onUpdateSettings({
-                      ...settings,
-                      markInvalidItems: !settings.markInvalidItems,
-                    })
-                  }
-                />
-              </label>
-            </div>
+          <p>
+            <label className="label cursor-pointer">
+              <span className="label-text">
+                Mark invalid items (blocks and rewrite rules)
+              </span>
+              <input
+                type="checkbox"
+                checked={settings.markInvalidItems}
+                className="toggle"
+                onChange={() =>
+                  onUpdateSettings({
+                    ...settings,
+                    markInvalidItems: !settings.markInvalidItems,
+                  })
+                }
+              />
+            </label>
+          </p>
+          <h5 className="text-left text-md font-bold py-2">Scaffolding</h5>
+          <p>
+            <label className="label cursor-pointer">
+              <span className="label-text">
+                Automatically fill in correct rule for correctly placed blocks
+              </span>
+              <input
+                type="checkbox"
+                checked={settings.autoFillRewriteRules}
+                className="toggle"
+                onChange={() =>
+                  onUpdateSettings({
+                    ...settings,
+                    autoFillRewriteRules: !settings.autoFillRewriteRules,
+                  })
+                }
+              />
+            </label>
           </p>
         </label>
       </label>

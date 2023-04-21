@@ -73,24 +73,28 @@ const RewriteRule: FC<Props> = ({
               {item.rule
                 ? // @ts-ignore
                   ruleTranslations['en'][item.rule]
+                : settings.autoFillRewriteRules
+                ? '...'
                 : '-- Select rule --'}
-              <CaretDownIcon />
+              {!settings.autoFillRewriteRules && <CaretDownIcon />}
             </label>
-            <ul
-              tabIndex={0}
-              className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[27px]"
-            >
-              {rules.map((i, x) => (
-                <li key={x * 100}>
-                  <a
-                    onClick={() => onChangeRule(item, i)}
-                    className="leading-none"
-                  >
-                    {ruleTranslations['en'][i]}
-                  </a>
-                </li>
-              ))}
-            </ul>
+            {!settings.autoFillRewriteRules && (
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 font-sans text-sm relative top-[27px]"
+              >
+                {rules.map((i, x) => (
+                  <li key={x * 100}>
+                    <a
+                      onClick={() => onChangeRule(item, i)}
+                      className="leading-none"
+                    >
+                      {ruleTranslations['en'][i]}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

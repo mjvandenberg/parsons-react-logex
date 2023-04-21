@@ -21,6 +21,7 @@ const App = () => {
     {
       instantFeedback: false,
       markInvalidItems: true,
+      autoFillRewriteRules: false,
     }
   );
 
@@ -64,9 +65,7 @@ const App = () => {
     setShowFeedback(settings.instantFeedback);
   }, []);
 
-  const handleUpdateSettings
-  : (settings: Settings) => void 
-  = (settings) => {
+  const handleUpdateSettings: (settings: Settings) => void = (settings) => {
     setSettings(settings);
     if (settings.instantFeedback === true) {
       setShowFeedback(true);

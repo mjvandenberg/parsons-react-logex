@@ -3,7 +3,7 @@ import { GetFeedbackStyle } from '../types';
 const neutralStyle = 'border-[#d3d3d3] bg-slate-200 ';
 const redStyle = 'border-[#ff0000] bg-[#ffbaba] ';
 const greenStyle = 'border-[#008200] bg-[#dff2bf] ';
-const yellowStyle = greenStyle;
+const yellowStyle = 'border-[#008200] bg-[#dff2bf] ';
 
 export const getFeedbackStyleBlockDefault: GetFeedbackStyle = (
   showFeedback,
@@ -14,8 +14,9 @@ export const getFeedbackStyleBlockDefault: GetFeedbackStyle = (
     case 'red':
       return redStyle;
     case 'green':
-    case 'yellow':
       return greenStyle;
+    case 'yellow':
+      return yellowStyle;
     default:
       return neutralStyle;
   }
@@ -30,8 +31,9 @@ export const getFeedbackStyleBlockOnlyInvalidItems: GetFeedbackStyle = (
     case 'red':
       return neutralStyle;
     case 'green':
-    case 'yellow':
       return greenStyle;
+    case 'yellow':
+      return yellowStyle;
     default:
       return neutralStyle;
   }
@@ -74,7 +76,7 @@ export const getFeedbackStyleRewriteRuleDividerDefault: GetFeedbackStyle = (
   item
 ) => {
   if (!showFeedback) return '#d3d3d3';
-  switch (item.isValid) {
+  switch (item.isValidRule) {
     case 'red':
       return '#ff0000';
     case 'green':
@@ -88,7 +90,7 @@ export const getFeedbackStyleRewriteRuleDividerDefault: GetFeedbackStyle = (
 export const getFeedbackStyleRewriteRuleDividerOnlyInvalidItems: GetFeedbackStyle =
   (showFeedback, item) => {
     if (!showFeedback) return '#d3d3d3';
-    switch (item.isValid) {
+    switch (item.isValidRule) {
       case 'red':
         return '#d3d3d3';
       case 'green':
