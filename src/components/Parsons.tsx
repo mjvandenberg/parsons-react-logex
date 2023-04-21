@@ -63,6 +63,18 @@ const Parsons: FC<
     setListRight(props.listRight);
   }, [props.listLeft, props.listRight]);
 
+  useEffect(() => {
+    if (settings.autoFillRewriteRules) {
+      setListRight(listRight);
+    } else {
+      setListRight(
+        listRight.map((i) => {
+          return { ...i, rule: undefined };
+        })
+      );
+    }
+  }, [settings.autoFillRewriteRules]);
+
   return (
     <>
       <ParsonsTitle exerciseName={exerciseName}>
