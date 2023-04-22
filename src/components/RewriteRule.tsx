@@ -46,36 +46,56 @@ const RewriteRule: FC<Props> = ({
       <div
         style={{
           position: 'absolute',
-          top: `${(2 + x) * 62 - 81.4}px`,
+          top: `${(2 + x) * 61.7 - 82.5}px`,
           display: 'block',
           width: 'calc(100% - 9px)',
           padding: '0 20px 0 20px',
+          //backgroundColor: 'red',
+          height: '26px',
+          zIndex: 900,
+          //borderTop: '1px solid red'
+          //overflow: 'hidden',
         }}
       >
-        <RewriteRuleDivider
-          position="left"
-          showFeedback={isDragging === false && showFeedback}
-          item={item}
-          settings={settings}
-        />
-        <RewriteRuleDivider
-          position="right"
-          showFeedback={isDragging === false && showFeedback}
-          item={item}
-          settings={settings}
-        />
-        <div className="rule-block">
-          <div className="dropdown dropdown-end w-full" style={{ top: '-3px' }}>
+        {false && (
+          <RewriteRuleDivider
+            position="left"
+            showFeedback={isDragging === false && showFeedback}
+            item={item}
+            settings={settings}
+          />
+        )}
+        {false && (
+          <RewriteRuleDivider
+            position="right"
+            showFeedback={isDragging === false && showFeedback}
+            item={item}
+            settings={settings}
+          />
+        )}
+        <div
+          className={`rule-block ${
+            isDragging === false && showFeedback
+              ? feedbackStyle
+              : 'bg-slate-100'
+          }`}
+          style={{
+            borderTop: '1px solid blue',
+            borderBottom: '1px solid blue',
+            borderLeft: '1px solid blue',
+            borderRight: '1px solid blue',
+          }}
+        >
+          <div
+            className="dropdown dropdown-end w-full"
+            style={{ top: '0px', height: '24px' }}
+          >
             <label
               tabIndex={0}
-              className={`btn btn-primary btn-xs w-full m-0 p-0 normal-case top-[1px] relative truncate font-sans border-0 text-right ${
-                isDragging === false && showFeedback
-                  ? feedbackStyle
-                  : 'bg-slate-100'
-              } ${
+              className={`btn btn-secondary no-animation rounded-none btn-xs w-full bg-transparent m-0 p-0 normal-case top-[0px] relative truncate font-sans border-0 text-right ${
                 settings.autoFillRewriteRules
-                  ? 'cursor-default hover:bg-[#f1f5f9]'
-                  : 'hover:bg-[#dbe6f0]'
+                  ? 'cursor-default hover:bg-transparent'
+                  : 'hover:bg-transparent'
               }`}
             >
               {item.rule
