@@ -4,6 +4,8 @@ import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import CaretDownIcon from './CaretDownIcon';
 import {
   getFeedbackStyleRewriteRuleDefault,
+  getFeedbackStyleRewriteRuleDividerDefault,
+  getFeedbackStyleRewriteRuleDividerOnlyInvalidItems,
   getFeedbackStyleRewriteRuleOnlyInvalidItems,
 } from './feedback';
 import RewriteRuleDivider from './RewriteRuleDivider';
@@ -26,6 +28,15 @@ const getFeedbackStyleRewriteRule: (settings: Settings) => GetFeedbackStyle = (
   return getFeedbackStyleRewriteRuleOnlyInvalidItems;
 };
 
+const getFeedbackStyleRewriteRuleDivider: (
+  settings: Settings
+) => GetFeedbackStyle = (settings) => {
+  if (settings.markInvalidItems) {
+    return getFeedbackStyleRewriteRuleDividerDefault;
+  }
+  return getFeedbackStyleRewriteRuleDividerOnlyInvalidItems;
+};
+
 const RewriteRule: FC<Props> = ({
   item,
   onChangeRule,
@@ -35,11 +46,20 @@ const RewriteRule: FC<Props> = ({
   isDragging,
 }) => {
   const [feedbackStyle, setFeedbackStyle] = useState<string>();
+  const [feedbackStyleBorder, setFeedbackStyleBorder] = useState<string>();
 
   useEffect(() => {
     const newStyle = getFeedbackStyleRewriteRule(settings)(showFeedback, item);
     setFeedbackStyle(newStyle);
   }, [getFeedbackStyleRewriteRule, settings, item, showFeedback]);
+
+  useEffect(() => {
+    const newStyle = getFeedbackStyleRewriteRuleDivider(settings)(
+      showFeedback,
+      item
+    );
+    setFeedbackStyleBorder(newStyle);
+  }, [getFeedbackStyleRewriteRuleDivider, settings, item, showFeedback]);
 
   return (
     <div className="inner">
@@ -49,12 +69,8 @@ const RewriteRule: FC<Props> = ({
           top: `${(2 + x) * 61.7 - 82.5}px`,
           display: 'block',
           width: 'calc(100% - 9px)',
-          padding: '0 20px 0 20px',
-          //backgroundColor: 'red',
+          padding: '0 12px 0 12px',
           height: '26px',
-          zIndex: isDragging ? 1 : 900,
-          //borderTop: '1px solid red'
-          //overflow: 'hidden',
         }}
       >
         {false && (
@@ -80,15 +96,15 @@ const RewriteRule: FC<Props> = ({
               : 'bg-slate-100'
           }`}
           style={{
-            borderTop: '1px solid blue',
-            borderBottom: '1px solid blue',
-            borderLeft: '1px solid blue',
-            borderRight: '1px solid blue',
+            borderLeft: '1px solid ' + feedbackStyleBorder,
+            borderRight: '1px solid ' + feedbackStyleBorder,
+            borderRadius: '-7px',
+            //backgroundImage: 'radial-gradient(circle at 3px 13px, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 11px, blue 12px)'
           }}
         >
           <div
             className="dropdown dropdown-end w-full"
-            style={{ top: '0px', height: '24px' }}
+            style={{ top: '0px', height: '26px' }}
           >
             <label
               tabIndex={0}
