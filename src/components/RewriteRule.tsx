@@ -52,7 +52,7 @@ const RewriteRule: FC<Props> = ({
           padding: '0 20px 0 20px',
           //backgroundColor: 'red',
           height: '26px',
-          zIndex: 900,
+          zIndex: isDragging ? 1 : 900,
           //borderTop: '1px solid red'
           //overflow: 'hidden',
         }}

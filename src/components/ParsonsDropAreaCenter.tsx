@@ -40,6 +40,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
       ...dragInfo,
       dragging: true,
       from: position,
+      to: position,
     });
   };
 
@@ -78,6 +79,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
             dragInfo.to === position
           }
           drawOneLess={
+            //false
             dragInfo.dragging &&
             dragInfo.from === position &&
             dragInfo.to !== position
