@@ -119,7 +119,7 @@ const Parsons: FC<
             }`}
             onClick={handleFeedbackButtonClick}
           >
-            Validate solution
+            Check me
           </button>
         )}
         <button
@@ -128,7 +128,7 @@ const Parsons: FC<
           }`}
           onClick={handleResetButtonClick}
         >
-          Reset puzzle
+          Reset
         </button>
 
         {/*<HelpButton />*/}
