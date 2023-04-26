@@ -33,13 +33,13 @@ const HelpButton: FC<Props> = ({
           <a onClick={onClickHint}>Hint</a>
         </li>
         <li>
-          <a onClick={onClickShowStep}>Show step</a>
+          <a onClick={onClickShowStep}>Complete one step</a>
         </li>
         <li>
-          <a onClick={onClickShowDerivation}>Show complete derivation</a>
+          <a onClick={onClickShowDerivation}>Show complete solution</a>
         </li>
         <li>
-          <a onClick={onClickCompleteDerivation}>Complete my derivation</a>
+          <a onClick={onClickCompleteDerivation}>Complete my exercise</a>
         </li>
       </ul>
     </div>

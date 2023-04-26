@@ -88,45 +88,101 @@ const Parsons: FC<
   const handleOnClickShowStep = () => {
     hideList();
 
-    const index = exerciseSolution.findIndex((item, index) => {
-      return index % 2 === 0 && listRight[index / 2].text !== item.text;
-    });
+    const downwards = false;
 
-    if (index === -1) {
-      return;
+    // top to bottom
+    if (downwards) {
+      const index = exerciseSolution.findIndex((item, index) => {
+        return index % 2 === 0 && listRight[index / 2].text !== item.text;
+      });
+
+      if (index === -1) {
+        return;
+      }
+
+      setListRight(
+        listRight.reduce<ParsonsUiItem[]>(
+          (previousValue, currentItem, currentIndex, arr) => {
+            return index / 2 === currentIndex
+              ? [
+                  ...previousValue,
+                  {
+                    ...exerciseSolution[index],
+                    isValid: 'green',
+                    id: `hinteditem_${index}`,
+                    isValidRule: 'red',
+                    rule:
+                      index === 0
+                        ? undefined
+                        : exerciseSolution[index - 1].text,
+                  } as ParsonsUiItem,
+                  currentItem,
+                ]
+              : [...previousValue, currentItem];
+          },
+          []
+        )
+      );
+      setListLeft(
+        listLeft.reduce<ParsonsUiItem[]>(
+          (previousValue, currentItem, currentIndex, arr) => {
+            return currentItem.text === exerciseSolution[index].text
+              ? [...previousValue]
+              : [...previousValue, currentItem];
+          },
+          []
+        )
+      );
     }
 
-    setListRight(
-      listRight.reduce<ParsonsUiItem[]>(
-        (previousValue, currentItem, currentIndex, arr) => {
-          return index / 2 === currentIndex
-            ? [
-                ...previousValue,
-                {
-                  ...exerciseSolution[index],
-                  isValid: 'green',
-                  id: `hinteditem_${index}`,
-                  isValidRule: 'red',
-                  rule:
-                    index === 0 ? undefined : exerciseSolution[index - 1].text,
-                } as ParsonsUiItem,
-                currentItem,
-              ]
-            : [...previousValue, currentItem];
-        },
-        []
-      )
-    );
-    setListLeft(
-      listLeft.reduce<ParsonsUiItem[]>(
-        (previousValue, currentItem, currentIndex, arr) => {
-          return currentItem.text === exerciseSolution[index].text
-            ? [...previousValue]
-            : [...previousValue, currentItem];
-        },
-        []
-      )
-    );
+    // bottom up
+    if (!downwards) {
+      //for (var x=listRight.length-1;x>0;x--)
+      let indexToAdd = -1;
+      let solutionIndex = -1;
+
+      for (var x = 0; x < listRight.length; x++) {
+        if (
+          listRight[listRight.length - 1 - x].text !==
+          exerciseSolution[exerciseSolution.length - 1 - 2 * x].text
+        ) {
+          indexToAdd = listRight.length - 1 - x;
+          solutionIndex = exerciseSolution.length - 1 - 2 * x;
+        }
+      }
+
+      if (indexToAdd === -1) {
+        return;
+      }
+
+      setListRight(
+        listRight.reduce<ParsonsUiItem[]>(
+          (previousValue, currentItem, currentIndex, arr) => {
+            return indexToAdd + 1 === currentIndex
+              ? [
+                  ...previousValue,
+                  {
+                    ...exerciseSolution[solutionIndex],
+                    isValid: 'green',
+                    id: `hinteditem_${solutionIndex}`,
+                    isValidRule: 'red',
+                  } as ParsonsUiItem,
+                  currentItem,
+                ]
+              : indexToAdd === currentIndex
+              ? [
+                  ...previousValue,
+                  {
+                    ...currentItem,
+                    rule: exerciseSolution[solutionIndex + 1].text,
+                  },
+                ]
+              : [...previousValue, currentItem];
+          },
+          []
+        )
+      );
+    }
   };
 
   const handleOnClickShowDerivation = () => {
