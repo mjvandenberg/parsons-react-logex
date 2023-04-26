@@ -6,6 +6,7 @@ type Props = {
   onClickShowStep: () => void;
   onClickShowDerivation: () => void;
   onClickCompleteDerivation: () => void;
+  className?: string;
 };
 
 const HelpButton: FC<Props> = ({
@@ -13,9 +14,10 @@ const HelpButton: FC<Props> = ({
   onClickShowStep,
   onClickShowDerivation,
   onClickCompleteDerivation,
+  className,
 }) => {
   return (
-    <div className="dropdown">
+    <div className={'dropdown ' + className}>
       <label
         tabIndex={0}
         className="btn btn-primary normal-case mx-1  min-w-[130px]"
@@ -25,7 +27,7 @@ const HelpButton: FC<Props> = ({
       </label>
       <ul
         tabIndex={0}
-        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 min-w-[130px]"
+        className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 min-w-[130px] "
       >
         <li>
           <a onClick={onClickHint}>Hint</a>

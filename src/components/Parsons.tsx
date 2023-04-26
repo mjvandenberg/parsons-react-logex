@@ -86,16 +86,45 @@ const Parsons: FC<
   };
 
   const handleOnClickShowStep = () => {
-    console.log('show step');
-    // 1. vind item dat geplaatst moet worden
+    hideList();
+
     const index = exerciseSolution.findIndex((item, index) => {
       return index % 2 === 0 && listRight[index / 2].text !== item.text;
     });
-    alert(JSON.stringify([index, exerciseSolution[index].text]));
-    // 2. markeer het item dat verplaatst moet worden inclusief begeleidende tekst
-    // 3. eventueel animeer dat het blok verplaatst wordt
-    // 4. verplaats het block
-    hideList();
+
+    if (index === -1) {
+      return;
+    }
+
+    setListRight(
+      listRight.reduce<ParsonsUiItem[]>(
+        (previousValue, currentItem, currentIndex, arr) => {
+          return index / 2 === currentIndex
+            ? [
+                ...previousValue,
+                {
+                  ...exerciseSolution[index],
+                  isValid: 'green',
+                  id: `hinteditem_${index}`,
+                  isValidRule: 'red',
+                } as ParsonsUiItem,
+                currentItem,
+              ]
+            : [...previousValue, currentItem];
+        },
+        []
+      )
+    );
+    setListLeft(
+      listLeft.reduce<ParsonsUiItem[]>(
+        (previousValue, currentItem, currentIndex, arr) => {
+          return currentItem.text === exerciseSolution[index].text
+            ? [...previousValue]
+            : [...previousValue, currentItem];
+        },
+        []
+      )
+    );
   };
 
   const handleOnClickShowDerivation = () => {
@@ -144,21 +173,19 @@ const Parsons: FC<
           numberOfItemForSize={listLeft.length + listRight.length - 2}
         />
       </div>
-      <div className="flex justify-center">
+      <div
+        className={`flex justify-center ${dragInfo.dragging && 'opacity-0'}`}
+      >
         {settings.instantFeedback === false && (
           <button
-            className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
-              dragInfo.dragging && 'opacity-0'
-            }`}
+            className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10`}
             onClick={handleFeedbackButtonClick}
           >
             Check me
           </button>
         )}
         <button
-          className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10 ${
-            dragInfo.dragging && 'opacity-0'
-          }`}
+          className={`btn btn-primary normal-case mx-1 min-w-[130px] z-10`}
           onClick={handleResetButtonClick}
         >
           Reset
