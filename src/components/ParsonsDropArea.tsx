@@ -38,7 +38,7 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
     (accumulator, currentValue, currentIndex, array) => {
       const newValue =
         accumulator.length === 0 ||
-        accumulator[accumulator.length - 1].groupName !==
+          accumulator[accumulator.length - 1].groupName !==
           currentValue.pairedGroupName
           ? { groupName: currentValue.pairedGroupName || '', size: 1 }
           : undefined;
@@ -46,12 +46,12 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
       return newValue
         ? [...accumulator, newValue]
         : [
-            ...accumulator.slice(0, -1),
-            {
-              ...accumulator[accumulator.length - 1],
-              size: accumulator[accumulator.length - 1].size + 1,
-            },
-          ];
+          ...accumulator.slice(0, -1),
+          {
+            ...accumulator[accumulator.length - 1],
+            size: accumulator[accumulator.length - 1].size + 1,
+          },
+        ];
     },
     [] //[{groupName: "1", size: 2},{groupName: "2", size: 1}]
   );
@@ -62,15 +62,14 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
     <>
       <div className="basis-1/2 text-center">
         <div
-          className={`my-1 mx-3 leading-9 ${
-            props.showFeedback && props.isValid ? 'font-medium' : ''
-          }`}
+          className={`my-1 mx-3 leading-9 ${props.showFeedback && props.isValid ? 'font-medium' : ''
+            }`}
         >
           {props.showFeedback === false || props.isValid === undefined
             ? title
             : props.isValid === true
-            ? 'Congratulations, your solution is valid!'
-            : 'Your solution is not yet valid'}
+              ? 'Congratulations, your solution is valid!'
+              : 'Your solution is not yet valid'}
         </div>
         <div className={`grid grid-cols-[25px_minmax(0,_1fr)_10px]`}>
           <ParsonsDropAreaSide
