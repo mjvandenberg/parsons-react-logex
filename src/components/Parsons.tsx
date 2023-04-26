@@ -107,6 +107,8 @@ const Parsons: FC<
                   isValid: 'green',
                   id: `hinteditem_${index}`,
                   isValidRule: 'red',
+                  rule:
+                    index === 0 ? undefined : exerciseSolution[index - 1].text,
                 } as ParsonsUiItem,
                 currentItem,
               ]
@@ -133,8 +135,41 @@ const Parsons: FC<
   };
 
   const handleOnClickCompleteDerivation = () => {
-    console.log('complete derivation');
     hideList();
+
+    setListLeft(
+      listLeft.reduce<ParsonsUiItem[]>(
+        (previousValue, currentItem, currentIndex, arr) => {
+          return exerciseSolution.findIndex(
+            (i) => i.text === currentItem.text
+          ) === -1
+            ? [...previousValue, currentItem]
+            : [...previousValue];
+        },
+        []
+      )
+    );
+
+    setListRight(
+      exerciseSolution.reduce<ParsonsUiItem[]>(
+        (previousValue, currentItem, currentIndex, arr) => {
+          return currentIndex % 2 === 0
+            ? [
+                ...previousValue,
+                {
+                  ...currentItem,
+                  id: `hinteditem_${currentIndex}`,
+                  isValid: 'green',
+                  isValidRule: 'green',
+                  rule:
+                    currentIndex === 0 ? undefined : arr[currentIndex - 1].text,
+                } as ParsonsUiItem,
+              ]
+            : [...previousValue];
+        },
+        []
+      )
+    );
   };
 
   const hideList = () => {
