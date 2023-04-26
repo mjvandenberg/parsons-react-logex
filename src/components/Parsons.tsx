@@ -4,7 +4,10 @@ import ParsonsTitle from './ParsonsTitle';
 import ParsonsDropArea, { dragInfo, position } from './ParsonsDropArea';
 import { ParsonsUiItem, ParsonsProblemProperties, Settings } from '../types';
 import HelpButton from './HelpButton';
-import { validateParsonsProblemFromUi } from '../validate';
+import {
+  CountNumberOfItemsValid,
+  validateParsonsProblemFromUi,
+} from '../validate';
 
 const Parsons: FC<
   ParsonsProblemProperties & {
@@ -88,7 +91,9 @@ const Parsons: FC<
   const handleOnClickShowStep = () => {
     hideList();
 
-    const downwards = false;
+    const downwards =
+      CountNumberOfItemsValid(listRight, 'downwards') >=
+      CountNumberOfItemsValid(listRight, 'upwards');
 
     // top to bottom
     if (downwards) {
@@ -167,11 +172,6 @@ const Parsons: FC<
                     id: `hinteditem_${solutionIndex}`,
                     isValidRule: 'red',
                   } as ParsonsUiItem,
-                  currentItem,
-                ]
-              : indexToAdd === currentIndex
-              ? [
-                  ...previousValue,
                   {
                     ...currentItem,
                     rule: exerciseSolution[solutionIndex + 1].text,

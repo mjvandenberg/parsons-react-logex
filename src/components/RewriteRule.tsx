@@ -66,7 +66,7 @@ const RewriteRule: FC<Props> = ({
       <div
         style={{
           position: 'absolute',
-          top: `${(2 + x) * 61.7 - 82.5}px`,
+          top: `${(2 + x) * 61.9 - 82.5}px`,
           display: 'block',
           width: 'calc(100% - 9px)',
           padding: '0 12px 0 12px',

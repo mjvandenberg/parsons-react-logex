@@ -277,3 +277,23 @@ export const addArrayToStart: <T>(arr: T[], item: T) => T[] = (arr, item) => [
   item,
   ...arr,
 ];
+
+export const CountNumberOfItemsValid: (
+  list: ParsonsUiItem[],
+  direction: 'downwards' | 'upwards'
+) => number = (list, direction) => {
+  return list[direction === 'downwards' ? 'reduce' : 'reduceRight']<
+    [boolean, number]
+  >(
+    (previousValue, currentItem, currentIndex, arr) => {
+      if (previousValue[0]) {
+        return previousValue;
+      }
+      if (currentItem.isValid && currentItem.isValidRule) {
+        return [previousValue[0], previousValue[1] + 1];
+      }
+      return [true, previousValue[1]];
+    },
+    [false, 0]
+  )[1];
+};
