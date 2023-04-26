@@ -80,6 +80,39 @@ const Parsons: FC<
     }
   }, [settings.autoFillRewriteRules]);
 
+  const handleOnClickHint = () => {
+    console.log('hint');
+    hideList();
+  };
+
+  const handleOnClickShowStep = () => {
+    console.log('show step');
+    // 1. vind item dat geplaatst moet worden
+    const index = exerciseSolution.findIndex((item, index) => {
+      return index % 2 === 0 && listRight[index / 2].text !== item.text;
+    });
+    alert(JSON.stringify([index, exerciseSolution[index].text]));
+    // 2. markeer het item dat verplaatst moet worden inclusief begeleidende tekst
+    // 3. eventueel animeer dat het blok verplaatst wordt
+    // 4. verplaats het block
+    hideList();
+  };
+
+  const handleOnClickShowDerivation = () => {
+    console.log('show derivation');
+    hideList();
+  };
+
+  const handleOnClickCompleteDerivation = () => {
+    console.log('complete derivation');
+    hideList();
+  };
+
+  const hideList = () => {
+    // @ts-ignore
+    document?.activeElement?.blur();
+  };
+
   return (
     <>
       <ParsonsTitle exerciseName={exerciseName}>
@@ -131,7 +164,12 @@ const Parsons: FC<
           Reset
         </button>
 
-        {/*<HelpButton />*/}
+        <HelpButton
+          onClickHint={handleOnClickHint}
+          onClickShowStep={handleOnClickShowStep}
+          onClickShowDerivation={handleOnClickShowDerivation}
+          onClickCompleteDerivation={handleOnClickCompleteDerivation}
+        />
       </div>
       <pre className="text-left">
         {false && JSON.stringify(exerciseSolution, null, 2)}

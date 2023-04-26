@@ -1,9 +1,25 @@
+import { FC } from 'react';
 import CaretDownIcon from './CaretDownIcon';
 
-const HelpButton = () => {
+type Props = {
+  onClickHint: () => void;
+  onClickShowStep: () => void;
+  onClickShowDerivation: () => void;
+  onClickCompleteDerivation: () => void;
+};
+
+const HelpButton: FC<Props> = ({
+  onClickHint,
+  onClickShowStep,
+  onClickShowDerivation,
+  onClickCompleteDerivation,
+}) => {
   return (
     <div className="dropdown">
-      <label tabIndex={0} className="btn btn-primary normal-case mx-1">
+      <label
+        tabIndex={0}
+        className="btn btn-primary normal-case mx-1  min-w-[130px]"
+      >
         Help
         <CaretDownIcon />
       </label>
@@ -12,16 +28,16 @@ const HelpButton = () => {
         className="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52 min-w-[130px]"
       >
         <li>
-          <a>Hint</a>
+          <a onClick={onClickHint}>Hint</a>
         </li>
         <li>
-          <a>Show step</a>
+          <a onClick={onClickShowStep}>Show step</a>
         </li>
         <li>
-          <a>Show complete derivation</a>
+          <a onClick={onClickShowDerivation}>Show complete derivation</a>
         </li>
         <li>
-          <a>Complete my derivation</a>
+          <a onClick={onClickCompleteDerivation}>Complete my derivation</a>
         </li>
       </ul>
     </div>
