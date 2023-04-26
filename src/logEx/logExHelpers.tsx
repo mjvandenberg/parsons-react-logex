@@ -14,7 +14,6 @@ export const OneFinalToParsonsProblemProperties: (
   includeDistractors
 ) => {
   const exerciseSolution = OneFinaleResponseToParsonsSolution(oneFinal);
-
   const listLeft = exerciseSolution
     .slice(1, -1)
     // inject the distractors
@@ -65,9 +64,35 @@ export const OneFinalToParsonsProblemProperties: (
       },
       []
     ),
-    listLeft,
+    listLeft: groupPairs(shuffle(listLeft)),
     listRight,
   };
+};
+
+export const groupPairs = (list: ParsonsUiItem[]) => {
+  return list.reduce<ParsonsUiItem[]>(
+    (previousValue, currentItem, currentIndex, arr) => {
+      return !currentItem.pairedGroupName ||
+        arr.filter((i) => i.pairedGroupName === currentItem.pairedGroupName)
+          .length === 1
+        ? [...previousValue, currentItem]
+        : previousValue.find(
+            (i) => i.pairedGroupName === currentItem.pairedGroupName
+          )
+        ? [...previousValue]
+        : [
+            ...previousValue,
+            currentItem,
+            arr.find((i) => {
+              return (
+                i.pairedGroupName === currentItem.pairedGroupName &&
+                i.text !== currentItem.text
+              );
+            })!,
+          ];
+    },
+    []
+  );
 };
 
 const GetExerciseDescription = (
@@ -146,3 +171,23 @@ export const OneFinaleResponseToParsonsSolution: (
     ).filter((i) => i !== undefined) as ParsonsUiItem[]),
   ];
 };
+
+export function shuffle<T>(array: T[]): T[] {
+  let currentIndex = array.length,
+    randomIndex;
+
+  // While there remain elements to shuffle.
+  while (currentIndex != 0) {
+    // Pick a remaining element.
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    // And swap it with the current element.
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
