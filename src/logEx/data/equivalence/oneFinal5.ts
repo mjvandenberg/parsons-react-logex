@@ -1,4 +1,4 @@
-import { OneFinalResponse } from '../typesOneFinal';
+import { OneFinalResponse } from '../../typesOneFinal';
 
 const request = {
   service: 'onefinal',

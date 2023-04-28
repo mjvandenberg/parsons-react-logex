@@ -18,6 +18,7 @@ export const rules = [
   'rule.logic.propositional.trueconjunction',
   'rule.logic.propositional.truedisjunction',
   'rule.logic.propositional.notfalse',
+  'rule.logic.propositional.axiomatic.assumption',
 ] as const;
 
 export type Rule = typeof rules[number];
@@ -41,6 +42,7 @@ export const ruleTranslations: Record<Language, Record<Rule, string>> = {
     'rule.logic.propositional.trueconjunction': 'T-rule conjunction',
     'rule.logic.propositional.truedisjunction': 'T-rule disjunction',
     'rule.logic.propositional.notfalse': 'T-rule not F',
+    'rule.logic.propositional.axiomatic.assumption': 'Assumption',
   },
   nl: {
     'rule.logic.propositional.absorption': 'Absorptie',
@@ -60,5 +62,6 @@ export const ruleTranslations: Record<Language, Record<Rule, string>> = {
     'rule.logic.propositional.trueconjunction': 'T-regel conjunctie',
     'rule.logic.propositional.truedisjunction': 'T-regel disjunctie',
     'rule.logic.propositional.notfalse': 'T-regel niet F',
+    'rule.logic.propositional.axiomatic.assumption': 'Aanname',
   },
 };
