@@ -18,6 +18,7 @@ export const rules = [
   'rule.logic.propositional.trueconjunction',
   'rule.logic.propositional.truedisjunction',
   'rule.logic.propositional.notfalse',
+  'rule.logic.propositional.axiomatic.assumption',
 ] as const;
 
 export type Rule = typeof rules[number];

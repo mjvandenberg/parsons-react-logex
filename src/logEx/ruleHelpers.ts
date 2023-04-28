@@ -16,7 +16,8 @@ const h = 'rule.logic.propositional.absorption',
   H = 'rule.logic.propositional.truecomplement',
   E = 'rule.logic.propositional.trueconjunction',
   V = 'rule.logic.propositional.truedisjunction',
-  L = 'rule.logic.propositional.notfalse';
+  L = 'rule.logic.propositional.notfalse',
+  Q = 'rule.logic.propositional.axiomatic.assumption';
 
 export const ruleMapping: { [index: string]: Rule } = {
   'logic.propositional.absorption': h,
@@ -104,6 +105,5 @@ export const ruleMapping: { [index: string]: Rule } = {
   'logic.propositional.group-notfalse': L,
   'logic.propositional.notfalse': L,
   'logic.propositional.notfalse.inv': L,
-  'logic.propositional.axiomatic.assumption':
-    'rule.logic.propositional.axiomatic.assumption',
+  'logic.propositional.axiomatic.assumption': Q,
 };
