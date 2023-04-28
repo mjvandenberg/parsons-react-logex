@@ -1,6 +1,6 @@
 import { GetFeedbackStyle } from '../types';
 
-const neutralStyle = 'border-[#d3d3d3] bg-slate-200 ';
+export const neutralStyle = 'border-[#d3d3d3] bg-slate-200 ';
 const redStyle = 'border-[#ff0000] bg-[#ffbaba] ';
 const greenStyle = 'border-[#008200] bg-[#dff2bf] ';
 const yellowStyle = 'border-[#008200] bg-[#dff2bf] ';

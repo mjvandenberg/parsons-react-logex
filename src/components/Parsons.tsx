@@ -13,6 +13,7 @@ import {
   countNumberOfItemsValid,
   validateParsonsProblemFromUi,
 } from '../validate';
+import ParsonsHint from './ParsonsHint';
 
 const Parsons: FC<
   ParsonsProblemProperties & {
@@ -314,13 +315,7 @@ const Parsons: FC<
         {exerciseDescription}
       </ParsonsTitle>
       {showHint && hintItem && (
-        <div className="basis-0 bg-[#fcfcfc] rounded border-[#b8b8b8] border-1 border p-2 m-3">
-          <strong>Hint:</strong> Try to move the block with formula{' '}
-          <span className="katex">{hintItem.text}</span> somewhere in the
-          solution area on the right, it is part of the solution!{' '}
-          {!settings.instantFeedback &&
-            "You can click on 'Check me' to validate your solution."}
-        </div>
+        <>{true && <ParsonsHint hintItem={hintItem} settings={settings} />}</>
       )}
       {showHint && !hintItem && (
         <div className="basis-0 bg-[#fcfcfc] rounded border-[#b8b8b8] border-1 border p-2 m-3">

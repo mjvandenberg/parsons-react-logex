@@ -8,6 +8,7 @@ import SelectExerciseButton from './components/SelectExerciseButton';
 import { ParsonsProblemProperties, Settings } from './types';
 import SettingsModal from './components/SettingsModal';
 import { useStatePersist } from 'use-state-persist';
+import ParsonsSolutionToTheExerciseModal from './components/ParsonsSolutionToTheExerciseModal';
 
 const defaultExercise = 'Exercise 1';
 const exerciseType = 'equivalence';
@@ -114,6 +115,7 @@ const App = () => {
           onUpdateSettings={handleUpdateSettings}
         />
       )}
+      {parsonsProps && <ParsonsSolutionToTheExerciseModal {...parsonsProps} />}
     </>
   );
 };

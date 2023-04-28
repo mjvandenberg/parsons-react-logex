@@ -36,7 +36,9 @@ const HelpButton: FC<Props> = ({
           <a onClick={onClickShowStep}>Complete one step</a>
         </li>
         <li>
-          <a onClick={onClickShowDerivation}>Show complete solution</a>
+          <label htmlFor="my-modal-5" onClick={onClickShowDerivation}>
+            Show complete solution
+          </label>
         </li>
         <li>
           <a onClick={onClickCompleteDerivation}>Complete my exercise</a>

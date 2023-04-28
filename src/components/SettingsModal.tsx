@@ -19,7 +19,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           >
             ✕
           </label>
-          <h3 className="text-lg font-bold">Change settings</h3>
+          <h3 className="text-lg font-bold">Settings</h3>
           <h5 className="text-left text-md font-bold py-2">Feedback</h5>
           <p>
             <label className="label cursor-pointer">
