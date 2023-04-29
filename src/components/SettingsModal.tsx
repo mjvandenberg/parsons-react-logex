@@ -39,9 +39,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           </p>
           <p>
             <label className="label cursor-pointer">
-              <span className="label-text">
-                Mark invalid items (blocks and rewrite rules)
-              </span>
+              <span className="label-text">Mark invalid items red</span>
               <input
                 type="checkbox"
                 checked={settings.markInvalidItems}
@@ -59,7 +57,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           <p>
             <label className="label cursor-pointer">
               <span className="label-text">
-                Automatically fill in correct rule for correctly placed blocks
+                Automatically fill in rewrite rules
               </span>
               <input
                 type="checkbox"
