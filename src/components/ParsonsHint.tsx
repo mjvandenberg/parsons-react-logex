@@ -17,8 +17,8 @@ const ParsonsHint: FC<Props> = ({ hintItem, settings }) => {
       {!settings.instantFeedback && (
         <>
           {' '}
-          You can click on the <span className="font-bold">Check me</span>{' '}
-          button to validate your solution.
+          You can click on the <span className="font-bold">Check</span> button
+          to validate your solution.
         </>
       )}
     </div>
