@@ -22,7 +22,7 @@ const HelpButton: FC<Props> = ({
         tabIndex={0}
         className="btn btn-primary normal-case mx-1  min-w-[130px]"
       >
-        Help me
+        Help
         <CaretDownIcon />
       </label>
       <ul
