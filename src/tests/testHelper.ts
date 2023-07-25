@@ -57,7 +57,7 @@ export const toExpectedResult: (input: string, learners: ParsonsItem[]) => Valid
             return {
                 text: learners[i].text,
                 type: learners[i].type,
-                status: e === "r" ? "red" : e === "?" ? "unknown" : e === "y" ? "yellow" : "green",
+                status: (e === "r" || e === "❌") ? "red" : (e === "?" || e === "❔") ? "unknown" : "green",
             };
         })
         .reduce<ValidatedParsonsItem[]>((acc, curr) => {

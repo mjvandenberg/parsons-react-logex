@@ -46,7 +46,7 @@ export type GetFeedbackStyle = (
 type Block = 'block';
 type Rule = 'rule';
 
-const status = ['green', 'red', 'yellow', 'unknown'] as const;
+const status = ['green', 'red', 'unknown'] as const;
 export type ParsonsStatus = typeof status[number];
 
 type WithStatus = { status: ParsonsStatus };
