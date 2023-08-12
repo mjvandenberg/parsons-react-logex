@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { Settings } from '../types';
+import InfoIcon from './InfoIcon';
 
 interface Props {
   settings: Settings;
@@ -23,7 +24,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           <h5 className="text-left text-md font-bold py-2">Feedback</h5>
           <p>
             <label className="label cursor-pointer">
-              <span className="label-text">Instant feedback</span>
+              <span className="label-text">Live feedback <span className='tooltip tooltip-right' data-tip="There will always be feedback about the correctness. It will be updated on every change in the solution panel."><InfoIcon /></span></span>
               <input
                 type="checkbox"
                 checked={settings.instantFeedback}
@@ -39,7 +40,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           </p>
           <p>
             <label className="label cursor-pointer">
-              <span className="label-text">Mark invalid items red</span>
+              <span className="label-text">Only highlight correct items <span className='tooltip' data-tip="Invalid formulas and rewrite rules will not be highlighted. Only the correct ones will be marked green."><InfoIcon /></span></span>
               <input
                 type="checkbox"
                 checked={settings.markInvalidItems}
@@ -57,7 +58,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
           <p>
             <label className="label cursor-pointer">
               <span className="label-text">
-                Automatically fill in rewrite rules
+                Automatically fill in rewrite rules <span className='tooltip' data-tip="The system will manage the selection of rewrite rules. The correct rewrite will be selected, but only if the surrounded formulas are correct."><InfoIcon /></span>
               </span>
               <input
                 type="checkbox"

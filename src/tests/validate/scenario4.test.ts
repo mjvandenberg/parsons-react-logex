@@ -2,10 +2,6 @@ import { test, assert } from 'vitest';
 import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate';
 import { parseTestHr } from '../testHelper';
 
-test('dummy', () => {
-    assert.isTrue(true);
-})
-
 test('scenario 4', () => {
     // Arrange
     const input = [

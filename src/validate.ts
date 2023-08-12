@@ -70,13 +70,19 @@ export const validateParsonsProblem: (
       getParsonsValidatorUp(),
     ];
 
-    const result = validators
-      .map((validator) => executeValidator(toValidate, solution, validator, autoFillRewriteRules))
-      .reduce<ValidatedParsonsItem[]>(
-        (acc, curr, index) =>
-          index === 0 ? curr : combineValidatorResults(acc, curr),
-        []
-      );
+    const executeValidators = (solution: ParsonsItem[]) => {
+      const results = [solution, [...solution].reverse()].map((solution) =>
+        validators
+          .map((validator) => executeValidator(toValidate, solution, validator, autoFillRewriteRules))
+          .reduce<ValidatedParsonsItem[]>(
+            (acc, curr, index) =>
+              index === 0 ? curr : combineValidatorResults(acc, curr),
+            []
+          ));
+      return results.sort(r => 0 - r.filter(i => i.status === "green").length)[0];
+    }
+
+    const result = executeValidators(solution);
 
     const isValid = !result.some((i) => i.status !== 'green');
 
