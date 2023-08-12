@@ -62,13 +62,12 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
   return (
     <div
       id={position}
-      className={`flex flex-col border outer ${
-        isValid === undefined
+      className={`flex flex-col border outer ${isValid === undefined
           ? 'border-indigo-200'
           : isValid === true
-          ? 'border-[#008000] drop-shadow-green'
-          : 'border-[#ff0000]'
-      } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
+            ? 'border-[#008000] drop-shadow-green'
+            : 'border-[#ff0000]'
+        } min-h-[40px] pb-1 px-1 ${position === 'left' ? classLeft : classRight}`}
     >
       {position === 'right' && (
         <RewriteRules
@@ -91,9 +90,8 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
       )}
       <ReactSortable
         id={`sortable_${position}`}
-        className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${
-          position === 'left' && classLeftSortable
-        }`}
+        className={`w-full leading-[37px] select-none parsons-drop-area-${position} ${position === 'left' && classLeftSortable
+          }`}
         style={{ minHeight: `${numberOfItemForSize * 42}px` }}
         tag="div"
         list={list}

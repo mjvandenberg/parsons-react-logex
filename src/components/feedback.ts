@@ -3,7 +3,6 @@ import { GetFeedbackStyle } from '../types';
 export const neutralStyle = 'border-[#d3d3d3] bg-slate-200 ';
 const redStyle = 'border-[#ff0000] bg-[#ffbaba] ';
 const greenStyle = 'border-[#008200] bg-[#dff2bf] ';
-const yellowStyle = 'border-[#008200] bg-[#dff2bf] ';
 
 export const getFeedbackStyleBlockDefault: GetFeedbackStyle = (
   showFeedback,
@@ -15,8 +14,6 @@ export const getFeedbackStyleBlockDefault: GetFeedbackStyle = (
       return redStyle;
     case 'green':
       return greenStyle;
-    case 'yellow':
-      return yellowStyle;
     default:
       return neutralStyle;
   }
@@ -32,8 +29,6 @@ export const getFeedbackStyleBlockOnlyInvalidItems: GetFeedbackStyle = (
       return neutralStyle;
     case 'green':
       return greenStyle;
-    case 'yellow':
-      return yellowStyle;
     default:
       return neutralStyle;
   }
@@ -48,7 +43,6 @@ export const getFeedbackStyleRewriteRuleDefault: GetFeedbackStyle = (
     case 'red':
       return 'bg-[#ffbaba] ';
     case 'green':
-    case 'yellow':
       return 'bg-[#dff2bf] ';
     default:
       return 'bg-slate-100 ';
@@ -64,7 +58,6 @@ export const getFeedbackStyleRewriteRuleOnlyInvalidItems: GetFeedbackStyle = (
     case 'red':
       return 'bg-slate-100 ';
     case 'green':
-    case 'yellow':
       return ' bg-[#dff2bf] ';
     default:
       return 'bg-slate-100 ';
@@ -80,7 +73,6 @@ export const getFeedbackStyleRewriteRuleDividerDefault: GetFeedbackStyle = (
     case 'red':
       return '#ff0000';
     case 'green':
-    case 'yellow':
       return '#008000';
     default:
       return '#d3d3d3';
@@ -94,7 +86,6 @@ export const getFeedbackStyleRewriteRuleDividerOnlyInvalidItems: GetFeedbackStyl
       case 'red':
         return '#d3d3d3';
       case 'green':
-      case 'yellow':
         return '#008000';
       default:
         return '#d3d3d3';

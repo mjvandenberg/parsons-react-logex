@@ -24,7 +24,7 @@ const ParsonsSolutionToTheExerciseModal: FC<ParsonsProblemProperties> = ({
             <p>
               {exerciseSolution.map((i, x) =>
                 i.type === 'block' ? (
-                  <div
+                  <div key={`esm-${x}`}
                     className={
                       'parsons-block katex relative text-left pl-2 leading-9 rounded-lg border select-none static text-center ' +
                       neutralStyle
@@ -33,7 +33,7 @@ const ParsonsSolutionToTheExerciseModal: FC<ParsonsProblemProperties> = ({
                     {i.text}
                   </div>
                 ) : (
-                  <div
+                  <div key={`esm-${x}`}
                     className={
                       'parsons-block relative text-left pl-2 leading-9 border select-none static text-center bg-slate-100 w-[calc(100%-20px)] m-auto normal-case'
                     }

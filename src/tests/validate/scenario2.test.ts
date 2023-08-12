@@ -1,17 +1,17 @@
 import { test, assert } from 'vitest';
-import { executeValidator, getParsonsBlockValidatorDown, getParsonsBlockValidatorUp, validateParsonsProblem } from '../../validate';
+import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate';
 import { parseTestHr } from '../testHelper';
 
 test('scenario 2', () => {
     // Arrange
     const input = [
-        '1,1,g',
-        'a,a,?',
-        '2,@,r',
-        'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,r'
+        '1,1,✔️',
+        'a,a,✔️',
+        '2,2,✔️',
+        'b,b,✔️',
+        '3,3,✔️',
+        ' ,c,❔',
+        ' ,4,❌'
     ];
     const [solution, learners, expected] = parseTestHr(input);
 
@@ -26,19 +26,19 @@ test('scenario 2', () => {
 test('scenario 2 down', () => {
     // Arrange
     const input = [
-        '1,1,g',
-        'a,a,?',
-        '2,@,r',
-        'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,?'
+        '1,1,✔️',
+        'a,a,✔️',
+        '2,2,✔️',
+        'b,b,✔️',
+        '3,3,✔️',
+        ' ,c,❔',
+        ' ,4,❌'
     ];
     const [solution, learners, expected] = parseTestHr(input);
-    const validator = getParsonsBlockValidatorDown();
+    const validator = getParsonsValidatorDown();
 
     // Act
-    const result = executeValidator(learners, solution, validator);
+    const result = executeValidator(learners, solution, validator, false);
 
     // Assert
     assert.deepEqual(result, expected);
@@ -47,19 +47,19 @@ test('scenario 2 down', () => {
 test('scenario 2 up', () => {
     // Arrange
     const input = [
-        '1,1,?',
-        'a,a,?',
-        '2,@,?',
-        'b,b,?',
-        '3,3,?',
-        'c,c,?',
-        '4,@,r'
+        '1,1,❔',
+        'a,a,❔',
+        '2,2,❔',
+        'b,b,❔',
+        '3,3,❔',
+        ' ,c,❔',
+        ' ,4,❌'
     ];
     const [solution, learners, expected] = parseTestHr(input);
-    const validator = getParsonsBlockValidatorUp();
+    const validator = getParsonsValidatorUp();
 
     // Act
-    const result = executeValidator(learners, solution, validator);
+    const result = executeValidator(learners, solution, validator, false);
 
     // Assert
     assert.deepEqual(result, expected);

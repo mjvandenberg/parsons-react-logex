@@ -1,18 +1,18 @@
-import { OneFinalResponse } from '../../typesOneFinal';
+import { OneFinalResponse } from "../../typesOneFinal";
 
 const request = {
-  service: 'onefinal',
+  service: "onefinal",
   state: {
-    exerciseid: 'logic.propositional.proof-new.unicode',
-    prefix: '[]',
+    exerciseid: "logic.propositional.proof-new.unicode",
+    prefix: "[]",
     context: {
       term: [
-        '(p ∧ q ∧ r) ∨ (¬p ∧ q)',
+        "(p ∧ q ∧ r) ∨ (¬p ∧ q)",
         {
-          type: '=',
-          motivation: '<GAP>',
+          type: "=",
+          motivation: "<GAP>",
         },
-        '(¬p ∧ q ∧ ¬r) ∨ (q ∧ r)',
+        "(¬p ∧ q ∧ ¬r) ∨ (q ∧ r)",
       ],
       environment: {},
       location: [],
@@ -21,87 +21,82 @@ const request = {
 };
 
 export const response: OneFinalResponse = {
-  name: 'Exercise 5',
+  name: "Exercise 5",
   distractors: [
     {
-      fromTerm: 'q ∧ (r ∨ ¬p) ∧ T',
-      term: 'q ∧ (r ∨ ¬p) → ¬T',
-      motivation: 'buggyrulename1',
-    },
-    {
-      fromTerm: 'q ∧ ((¬p ∧ ¬r) ∨ r)',
-      term: 'q ∧ ((¬p ∧ ¬r) → ¬r)',
-      motivation: 'buggyrulename2',
+      fromTerm: "(q ∧ p ∧ r) ∨ (q ∧ ¬p)",
+      term: "(q ∧ p ∧ r) ∧ (q ∧ ¬p)",
+      motivation: "buggy-rule-inv.common-literal-1",
     },
   ],
   onefinal: {
     context: {
       term: [
-        '(p ∧ q ∧ r) ∨ (¬p ∧ q)',
+        "(p ∧ q ∧ r) ∨ (¬p ∧ q)",
         {
-          type: '=',
-          motivation: 'logic.propositional.command.common-literal',
+          type: "=",
+          motivation: "logic.propositional.command.common-literal",
         },
-        '(q ∧ p ∧ r) ∨ (q ∧ ¬p)',
+        "(q ∧ p ∧ r) ∨ (q ∧ ¬p)",
         {
-          type: '=',
-          motivation: 'logic.propositional.andoveror.inv.common-literal',
+          type: "=",
+          motivation: "logic.propositional.andoveror.inv.common-literal",
         },
-        'q ∧ ((p ∧ r) ∨ ¬p)',
+        "q ∧ ((p ∧ r) ∨ ¬p)",
         {
-          type: '=',
-          motivation: 'logic.propositional.specialdistrnotr',
+          type: "=",
+          motivation: "logic.propositional.specialdistrnotr",
         },
-        'q ∧ (p ∨ ¬p) ∧ (r ∨ ¬p)',
+        "q ∧ (p ∨ ¬p) ∧ (r ∨ ¬p)",
         {
-          type: '=',
-          motivation: 'logic.propositional.complor',
+          type: "=",
+          motivation: "logic.propositional.complor",
         },
-        'q ∧ T ∧ (r ∨ ¬p)',
+        "q ∧ T ∧ (r ∨ ¬p)",
         {
-          type: '=',
-          motivation: 'logic.propositional.top-is-and.com',
+          type: "=",
+          motivation: "logic.propositional.top-is-and.com",
         },
-        'q ∧ (r ∨ ¬p) ∧ T',
+        "q ∧ (r ∨ ¬p) ∧ T",
         {
-          type: '=',
-          motivation: 'logic.propositional.top-is-or.com',
+          type: "=",
+          motivation: "logic.propositional.top-is-or.com",
         },
-        'q ∧ (¬p ∨ r) ∧ T',
+        "q ∧ (¬p ∨ r) ∧ T",
         {
-          type: '=',
-          motivation: '<CLOSE>',
+          type: "=",
+          motivation: "<CLOSE>",
         },
-        'q ∧ (¬p ∨ r) ∧ T',
+        "q ∧ (¬p ∨ r) ∧ T",
         {
-          type: '=',
-          motivation: 'logic.propositional.complor',
+          type: "=",
+          motivation: "logic.propositional.complor",
         },
-        'q ∧ (¬p ∨ r) ∧ (¬r ∨ r)',
+        "q ∧ (¬p ∨ r) ∧ (¬r ∨ r)",
         {
-          type: '=',
-          motivation: 'logic.propositional.specialdistrnotr',
+          type: "=",
+          motivation: "logic.propositional.specialdistrnotr",
         },
-        'q ∧ ((¬p ∧ ¬r) ∨ r)',
+        "q ∧ ((¬p ∧ ¬r) ∨ r)",
         {
-          type: '=',
-          motivation: 'logic.propositional.andoveror.inv.common-literal',
+          type: "=",
+          motivation: "logic.propositional.andoveror.inv.common-literal",
         },
-        '(q ∧ ¬p ∧ ¬r) ∨ (q ∧ r)',
+        "(q ∧ ¬p ∧ ¬r) ∨ (q ∧ r)",
         {
-          type: '=',
-          motivation: 'logic.propositional.command.common-literal',
+          type: "=",
+          motivation: "logic.propositional.command.common-literal",
         },
-        '(¬p ∧ q ∧ ¬r) ∨ (q ∧ r)',
+        "(¬p ∧ q ∧ ¬r) ∨ (q ∧ r)",
       ],
       environment: {
-        direction: '0',
-        part: '0',
+        direction: "0",
+        part: "0",
       },
       location: [],
     },
   },
-  version: '1.8.1 (27a352d26571dad5913f9786c09ce5cda3021793)',
+  version: "1.8.1 (27a352d26571dad5913f9786c09ce5cda3021793)",
 };
 
 export default response;

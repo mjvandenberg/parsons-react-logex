@@ -13,7 +13,7 @@ interface AddToArrayFn<Type> {
 type ParsonsBlockValidator<T, T2> = {
   type: 'reduce' | 'reduceRight';
   addToArray: AddToArrayFn<T2>;
-  getMatchingSolutionBlock: (
+  getMatchingSolutionItem: (
     arr: T[],
     currentIndex: number,
     length: number
@@ -23,7 +23,8 @@ type ParsonsBlockValidator<T, T2> = {
 type ParsonsValidateFunc<T, T2> = (
   toValidate: T[],
   solution: T[],
-  validator: ParsonsBlockValidator<T, T2>
+  validator: ParsonsBlockValidator<T, T2>,
+  autoFillRewriteRules: boolean
 ) => T2[];
 
 export const validateParsonsProblemFromUi: (
@@ -35,13 +36,13 @@ export const validateParsonsProblemFromUi: (
   solution,
   autoFillRewriteRules
 ) => {
-  const [validatedResult, isValid] = validateParsonsProblem(
-    ConvertUiItemToItem(toValidate),
-    solution,
-    autoFillRewriteRules
-  );
-  return [ConvertItemToUiItem(toValidate, validatedResult), isValid];
-};
+    const [validatedResult, isValid] = validateParsonsProblem(
+      ConvertUiItemToItem(toValidate),
+      solution,
+      autoFillRewriteRules
+    );
+    return [ConvertItemToUiItem(toValidate, validatedResult), isValid];
+  };
 
 export const validateParsonsProblem: (
   toValidate: ParsonsItem[],
@@ -52,96 +53,56 @@ export const validateParsonsProblem: (
   solution,
   autoFillRewriteRules = false
 ) => {
-  if (toValidate.length % 2 === 0)
-    throw new Error(
-      'the solution to validate should have an odd number of items'
-    );
-  toValidate.forEach((item, index) => {
-    if (index % 2 == 0 && item.type === 'rule') {
-      throw Error('even items always should be of type block');
-    } else if (index % 2 == 1 && item.type === 'block') {
-      throw Error('odd items always should be of type rule');
+    if (toValidate.length % 2 === 0)
+      throw new Error(
+        'the solution to validate should have an odd number of items'
+      );
+    toValidate.forEach((item, index) => {
+      if (index % 2 == 0 && item.type === 'rule') {
+        throw Error('even items always should be of type block');
+      } else if (index % 2 == 1 && item.type === 'block') {
+        throw Error('odd items always should be of type rule');
+      }
+    });
+
+    const validators = [
+      getParsonsValidatorDown(),
+      getParsonsValidatorUp(),
+    ];
+
+    const executeValidators = (solution: ParsonsItem[]) => {
+      const results = [solution, [...solution].reverse()].map((solution) =>
+        validators
+          .map((validator) => executeValidator(toValidate, solution, validator, autoFillRewriteRules))
+          .reduce<ValidatedParsonsItem[]>(
+            (acc, curr, index) =>
+              index === 0 ? curr : combineValidatorResults(acc, curr),
+            []
+          ));
+      return results.sort(r => 0 - r.filter(i => i.status === "green").length)[0];
     }
-  });
 
-  const validators = [
-    getParsonsBlockValidatorDown(),
-    getParsonsBlockValidatorUp(),
-  ];
+    const result = executeValidators(solution);
 
-  const result = validators
-    .map((validator) => executeValidator(toValidate, solution, validator))
-    .reduce<ValidatedParsonsItem[]>(
-      (acc, curr, index) =>
-        index === 0 ? curr : combineValidatorResults(acc, curr),
-      []
-    )
-    .map<ValidatedParsonsItem>((item, i, arr) =>
-      item.type === 'block'
-        ? item
-        : ifBothBlocksValid(arr[i - 1].status, arr[i + 1].status)
-        ? {
-            ...item,
-            status:
-              autoFillRewriteRules ||
-              getCorrespondingRewriteRuleFromSolution(
-                solution,
-                arr[i - 1].text,
-                arr[i + 1].text
-              ) === item.text
-                ? 'green'
-                : 'red',
-            text: autoFillRewriteRules
-              ? getCorrespondingRewriteRuleFromSolution(
-                  solution,
-                  arr[i - 1].text,
-                  arr[i + 1].text
-                )
-              : item.text,
-          }
-        : { ...item, text: autoFillRewriteRules ? '' : item.text }
-    );
+    const isValid = !result.some((i) => i.status !== 'green');
 
-  const isValid = !result.some((i) => i.status !== 'green');
-
-  return [result, isValid];
-};
-
-const getCorrespondingRewriteRuleFromSolution: (
-  solution: ParsonsItem[],
-  textAbove: string,
-  textBelow: string
-) => string = (solution, textAbove, textBelow) => {
-  let result: string = '';
-
-  for (let x = 0; x < solution.length; x++) {
-    if (solution[x].type != 'rule') {
-      continue;
-    }
-    if (
-      solution[x - 1].text === textAbove &&
-      solution[x + 1].text === textBelow
-    ) {
-      return solution[x].text;
-    }
-  }
-
-  throw Error();
-};
+    return [result, isValid];
+  };
 
 export const executeValidator: ParsonsValidateFunc<
   ParsonsItem,
   ValidatedParsonsItem
-> = (toValidate, solution, validator) => {
+> = (toValidate, solution, validator, autoFillRewriteRules) => {
   let stop = false;
 
-  return toValidate[validator.type]<ValidatedParsonsItem[]>(
+  const blocksValidated = toValidate[validator.type]<ValidatedParsonsItem[]>(
+    // First validate the blocks
     (acc, curr, index) => {
-      if (stop || curr.type === 'rule') {
+      if (stop || curr.type !== 'block') {
         return validator.addToArray(acc, { ...curr, status: 'unknown' });
       }
 
-      const matchingSolutionBlock = validator.getMatchingSolutionBlock(
+      const matchingSolutionBlock = validator.getMatchingSolutionItem(
         solution,
         index,
         toValidate.length
@@ -163,6 +124,48 @@ export const executeValidator: ParsonsValidateFunc<
     },
     []
   );
+
+  // Second validate the rewrite rules
+  const rulesValidated = blocksValidated[validator.type]<ValidatedParsonsItem[]>(
+    (acc, curr, index) => {
+      if (curr.type !== 'rule') {
+        return validator.addToArray(acc, curr);
+      }
+
+      const blockAbove = blocksValidated[index - 1];
+      const blockBelow = blocksValidated[index + 1];
+
+      if (blockAbove.status !== "green" || blockBelow.status !== "green") {
+        return validator.addToArray(acc,
+          {
+            ...curr,
+            status: 'unknown',
+            text: autoFillRewriteRules ? '' : curr.text
+          });
+      }
+
+      const matchingSolutionRule = validator.getMatchingSolutionItem(
+        solution,
+        index,
+        toValidate.length
+      );
+
+      let status: ParsonsStatus = 'red';
+
+      if (matchingSolutionRule) {
+        if (autoFillRewriteRules) {
+          status = 'green';
+          return validator.addToArray(acc, { ...curr, status, text: matchingSolutionRule.text });
+        }
+        status = isItemValid(curr, matchingSolutionRule);
+      }
+
+      return validator.addToArray(acc, { ...curr, status });
+    },
+    []
+  );
+
+  return rulesValidated;
 };
 
 const ConvertUiItemToItem: (from: ParsonsUiItem[]) => ParsonsItem[] = (from) =>
@@ -171,10 +174,10 @@ const ConvertUiItemToItem: (from: ParsonsUiItem[]) => ParsonsItem[] = (from) =>
       index === 0
         ? [{ text: curr.text, type: 'block' }]
         : [
-            ...acc,
-            { text: curr.rule ? curr.rule : '', type: 'rule' },
-            { text: curr.text, type: 'block' },
-          ],
+          ...acc,
+          { text: curr.rule ? curr.rule : '', type: 'rule' },
+          { text: curr.text, type: 'block' },
+        ],
     []
   );
 
@@ -182,29 +185,26 @@ const ConvertItemToUiItem: (
   source: ParsonsUiItem[],
   validated: ValidatedParsonsItem[]
 ) => ParsonsUiItem[] = (source, validated) =>
-  source.map<ParsonsUiItem>((i, x) => {
-    return {
-      ...i,
-      isValid: validated[x * 2].status,
-      isValidRule: x * 2 - 1 < 0 ? 'unknown' : validated[x * 2 - 1].status,
-      rule: x * 2 - 1 < 0 ? undefined : validated[x * 2 - 1].text,
-    };
-  });
-
-const ifBothBlocksValid: (a: ParsonsStatus, b: ParsonsStatus) => boolean = (
-  a,
-  b
-) =>
-  ifCombinationIs([a, b], ['green', 'green']) ||
-  ifCombinationIs([a, b], ['green', 'yellow']);
+    source.map<ParsonsUiItem>((i, x) => {
+      return {
+        ...i,
+        isValid: validated[x * 2].status,
+        isValidRule: x * 2 - 1 < 0 ? 'unknown' : validated[x * 2 - 1].status,
+        rule: x * 2 - 1 < 0 ? undefined : validated[x * 2 - 1].text,
+      };
+    });
 
 const combineValidatorResults: (
   a: ValidatedParsonsItem[],
   b: ValidatedParsonsItem[]
 ) => ValidatedParsonsItem[] = (a, b) =>
-  a.map<ValidatedParsonsItem>((i, x) => {
-    return { ...i, status: combineStatus([i.status, b[x].status]) };
-  });
+    a.map<ValidatedParsonsItem>((i, x) => {
+      return {
+        ...i,
+        text: i.text === '' ? b[x].text : i.text,
+        status: combineStatus([i.status, b[x].status])
+      };
+    });
 
 export const combineStatus: (
   tuple: [ParsonsStatus, ParsonsStatus]
@@ -216,7 +216,7 @@ export const combineStatus: (
   } else if (ifCombinationIs(tuple, ['unknown', 'red'])) {
     return 'red';
   } else if (ifCombinationIs(tuple, ['green', 'red'])) {
-    return 'yellow';
+    return 'green';
   }
   throw new Error();
 };
@@ -229,25 +229,25 @@ const ifCombinationIs: <T>(tuple: [T, T], tuple2: [T, T]) => boolean = (
   [c, d]
 ) => (a == c && b == d) || (a == d && b == c);
 
-export const getParsonsBlockValidatorDown: () => ParsonsBlockValidator<
+export const getParsonsValidatorDown: () => ParsonsBlockValidator<
   ParsonsItem,
   ValidatedParsonsItem
 > = () => {
   return {
     type: 'reduce',
     addToArray: addArrayToEnd,
-    getMatchingSolutionBlock: (arr, i, _) => getItemByIndex(arr, i),
+    getMatchingSolutionItem: (arr, i, _) => getItemByIndex(arr, i),
   };
 };
 
-export const getParsonsBlockValidatorUp: () => ParsonsBlockValidator<
+export const getParsonsValidatorUp: () => ParsonsBlockValidator<
   ParsonsItem,
   ValidatedParsonsItem
 > = () => {
   return {
     type: 'reduceRight',
     addToArray: addArrayToStart,
-    getMatchingSolutionBlock: getMatchingItemFromEnd,
+    getMatchingSolutionItem: getMatchingItemFromEnd,
   };
 };
 
@@ -266,7 +266,7 @@ export const isItemValid: (
   learnersItem: WithText,
   validItem: WithText
 ) => ParsonsStatus = (learnersItem, validItem) =>
-  learnersItem.text === validItem.text ? 'green' : 'red';
+    learnersItem.text === validItem.text ? 'green' : 'red';
 
 export const addArrayToEnd: <T>(arr: T[], item: T) => T[] = (arr, item) => [
   ...arr,
