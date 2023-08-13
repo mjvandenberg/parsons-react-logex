@@ -15,12 +15,17 @@ The prototype presented can be adjusted to user preferences, feedback can be giv
 
 This research shows that the use of Parsons problems in an online tutoring system with feedback services can be beneficial for novice learners. Future work of incorporating Parsons problems into an online tutoring system with feedback services will lead to a useful learning tool for novice learners in computer science education.
 
-==== To run this protype ====
+## To run this prototype locally
 
-First install:
+Prerequisites
+
+- NodeJS
+- NPM
+
+First run npm install:
 npm install
 
-Then you can, run the test, run in dev mode, or build for production:
+Then you can, run the tests, run in dev mode, or build for production:
 
 Run test in watch mode:
 npm run test:watch
