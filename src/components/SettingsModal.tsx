@@ -43,7 +43,7 @@ const SettingsModal: FC<Props> = ({ settings, onUpdateSettings }) => {
               <span className="label-text">Only highlight correct items <span className='tooltip' data-tip="Invalid formulas and rewrite rules will not be highlighted. Only the correct ones will be marked green."><InfoIcon /></span></span>
               <input
                 type="checkbox"
-                checked={settings.markInvalidItems}
+                checked={!settings.markInvalidItems}
                 className="toggle"
                 onChange={() =>
                   onUpdateSettings({
