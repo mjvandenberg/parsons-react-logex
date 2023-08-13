@@ -23,15 +23,11 @@ Prerequisites
 - NPM
 
 First run npm install:
-npm install
 
-Then you can, run the tests, run in dev mode, or build for production:
+- npm install
 
-Run test in watch mode:
-npm run test:watch
+Then you can, run the tests in watch mode, run in dev mode, or build for production:
 
-Run in development mode:
-npm run dev
-
-Build for production:
-npm run build
+- npm run test:watch
+- npm run dev
+- npm run build
