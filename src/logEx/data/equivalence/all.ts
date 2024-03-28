@@ -15,9 +15,9 @@ const allExercises = {
   "Exercise 4": oneFinal4,
   "Exercise 5": oneFinal5,
   "Exercise 6": oneFinal6,
-  Easy: easy,
-  Normal: normal,
-  Difficult: difficult,
+  "Exercise 7": easy,
+  "Exercise 8": normal,
+  "Exercise 9": difficult,
 };
 
 export type exerciseNames = keyof typeof allExercises;
