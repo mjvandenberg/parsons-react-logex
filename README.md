@@ -3,6 +3,8 @@
 [Edit on StackBlitz ⚡️](https://stackblitz.com/edit/parsons-react-logex)
 [View on GitHub 🌐](https://mjvandenberg.github.io/parsons-react-logex/)
 
+https://www.linkedin.com/in/marten-van-den-berg/
+
 Many teachers and computer science students find it challenging to work with logical formulas and rewrite rules. It often takes a significant amount of effort from students to fully comprehend these concepts, which can lead to discouragement and even dropout of the programme.
 
 Learning the subject matter can be challenging due to various aspects, such as knowing the rewrite rules, recognising patterns, and dealing with mathematical syntax. When these aspects are learnt at the same time, they can overwhelm students and hinder their learning process due to cognitive overload.
