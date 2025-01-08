@@ -4,3 +4,4 @@
 [View on GitHub 🌐](https://mjvandenberg.github.io/parsons-react-logex/)
 
 martenvandenberg@hotmail.com
+https://www.linkedin.com/in/marten-van-den-berg/
