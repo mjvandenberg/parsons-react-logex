@@ -27,7 +27,16 @@ The study shows that using Parsons problems in an online tutoring system with fe
 
 ## Paper
 
-The original version of the codebase as referenced in the published paper is preserved under the git tag [`v1.0-paper`](https://github.com/mjvandenberg/parsons-react-logex/releases/tag/v1.0-paper).
+This prototype was presented at **Koli Calling '24** (International Conference on Computing Education Research):
+
+> **Parsons Problems for Equivalence Proofs in Logic**
+> Marten van den Berg, Bastiaan Heeren, Ebrahim Rahimi — *Koli Calling 2024*, pp. 10:1–10:12
+> [ACM Digital Library (doi:10.1145/3699538.3699551)](https://doi.org/10.1145/3699538.3699551)
+
+The underlying master's thesis is available open-access:
+> [Parsons Problems in Logic Tutoring Systems — Open Universiteit, 2023](https://research.ou.nl/en/studentTheses/parsons-problems-in-logic-tutoring-systems/)
+
+The original version of the codebase as referenced in the paper is preserved under the git tag [`v1.0-paper`](https://github.com/mjvandenberg/parsons-react-logex/releases/tag/v1.0-paper).
 
 ## Tech stack
 
