@@ -1,35 +1,53 @@
 # parsons-react-logex
 
-[Edit on StackBlitz ⚡️](https://stackblitz.com/edit/parsons-react-logex)
-[View on GitHub 🌐](https://mjvandenberg.github.io/parsons-react-logex/)
+[View live demo 🌐](https://mjvandenberg.github.io/parsons-react-logex/)
 
-https://www.linkedin.com/in/marten-van-den-berg/
+A prototype implementing Parsons problems for teaching logical equivalence rewriting, developed as part of a master's thesis in Software Engineering.
 
-Many teachers and computer science students find it challenging to work with logical formulas and rewrite rules. It often takes a significant amount of effort from students to fully comprehend these concepts, which can lead to discouragement and even dropout of the programme.
+## Background
 
-Learning the subject matter can be challenging due to various aspects, such as knowing the rewrite rules, recognising patterns, and dealing with mathematical syntax. When these aspects are learnt at the same time, they can overwhelm students and hinder their learning process due to cognitive overload.
+Many teachers and computer science students find it challenging to work with logical formulas and rewrite rules. It often takes a significant amount of effort from students to fully comprehend these concepts, which can lead to discouragement and even dropout from the programme.
 
-Learning programming is also found to be challenging, but tools are available to make it easier. The Parsons problem is a puzzle designed to teach programming by allowing students to complete tasks through drag-and-drop without typing or starting from scratch. This method, known as scaffolding, reduces cognitive load and promotes learning by helping students.
+Learning the subject matter is challenging due to various aspects, such as knowing the rewrite rules, recognising patterns, and dealing with mathematical syntax. When these aspects are learnt at the same time, they can overwhelm students due to cognitive overload.
 
-In the study, a prototype is designed and implemented that utilises Parsons problems in an online logic tutoring system with feedback services. This study aims to determine whether this puzzle method can be applied in a broader context for learning to work with logical formulas by testing this approach within a single tutor system with feedback services. Domain experts were consulted to assess its generalisability and usefulness.
+The Parsons problem is a puzzle designed to teach programming by allowing students to complete tasks through drag-and-drop without typing or starting from scratch. This method (scaffolding) reduces cognitive load and promotes learning.
 
-The prototype presented can be adjusted to user preferences, feedback can be given in various forms, and difficulty can be adjusted to the current knowledge level of the learner. Additionally, a variation of the Parsons problem is introduced, allowing the user to select a rewrite rule between blocks.
+This prototype adapts the Parsons problem to logical equivalence proofs. The user drags logical formula blocks into the correct order and selects the rewrite rule applied between each step. Feedback is provided to guide the learner.
 
-This research shows that the use of Parsons problems in an online tutoring system with feedback services can be beneficial for novice learners. Future work of incorporating Parsons problems into an online tutoring system with feedback services will lead to a useful learning tool for novice learners in computer science education.
+The study shows that using Parsons problems in an online tutoring system with feedback services can be beneficial for novice learners.
 
-## To run this prototype locally
+## Features
 
-Prerequisites
+- Drag-and-drop Parsons problem interface for logical equivalence proofs
+- Rewrite rule selection between blocks
+- Instant and on-demand feedback modes
+- Hint system (top-down and bottom-up)
+- Multiple exercises with adjustable difficulty
+- Settings for feedback style and auto-fill of rewrite rules
 
-- NodeJS
-- NPM
+## Paper
 
-First run npm install:
+The original version of the codebase as referenced in the published paper is preserved under the git tag [`v1.0-paper`](https://github.com/mjvandenberg/parsons-react-logex/releases/tag/v1.0-paper).
 
-- npm install
+## Tech stack
 
-Then you can, run the tests in watch mode, run in dev mode, or build for production:
+- React 18, TypeScript 5
+- Vite 5
+- Tailwind CSS 3, DaisyUI 2
+- Vitest
 
-- npm run test:watch
-- npm run dev
-- npm run build
+## Running locally
+
+Prerequisites: Node.js, npm
+
+```bash
+npm install
+```
+
+Then run the tests, start in dev mode, or build for production:
+
+```bash
+npm run test:watch   # tests in watch mode
+npm run dev          # development server
+npm run build        # production build
+```

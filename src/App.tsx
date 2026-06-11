@@ -114,6 +114,9 @@ const App = () => {
         />
       )}
       {parsonsProps && <ParsonsSolutionToTheExerciseModal {...parsonsProps} />}
+      <span className="fixed bottom-1 right-2 text-xs text-gray-300 font-mono select-none" title="Build version">
+        {__COMMIT_SHA__}
+      </span>
     </>
   );
 };
