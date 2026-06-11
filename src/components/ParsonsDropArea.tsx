@@ -83,7 +83,6 @@ const ParsonsDropArea: FC<ParsonsDropAreaProps> = ({
             side="right"
             padding={padding}
           />
-          {!true && <pre>{JSON.stringify(list, null, 2)}</pre>}
         </div>
       </div>
     </>

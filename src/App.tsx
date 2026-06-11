@@ -46,9 +46,7 @@ const App = () => {
   const handleExerciseChange: (exerciseName: exerciseNames) => void = (
     exerciseName
   ) => {
-    // @ts-ignore
-    document?.activeElement?.blur();
-
+    (document.activeElement as HTMLElement)?.blur();
     selectExercise(exerciseName);
   };
 
@@ -83,7 +81,7 @@ const App = () => {
             </h1>
           </div>
           <div className="basis-1/2">
-            <div className="float-right pr-1">
+            <div className="flex justify-end pr-1">
               <label
                 htmlFor="my-modal-4"
                 className="btn btn-primary normal-case mx-1"

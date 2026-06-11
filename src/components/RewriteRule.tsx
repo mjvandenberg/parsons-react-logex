@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { rules, ruleTranslations } from '../logEx/rules';
+import { rules, ruleTranslations, Rule } from '../logEx/rules';
 import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import CaretDownIcon from './CaretDownIcon';
 import {
@@ -8,7 +8,6 @@ import {
   getFeedbackStyleRewriteRuleDividerOnlyInvalidItems,
   getFeedbackStyleRewriteRuleOnlyInvalidItems,
 } from './feedback';
-import RewriteRuleDivider from './RewriteRuleDivider';
 
 interface Props {
   item: ParsonsUiItem;
@@ -73,22 +72,6 @@ const RewriteRule: FC<Props> = ({
           height: '26px',
         }}
       >
-        {false && (
-          <RewriteRuleDivider
-            position="left"
-            showFeedback={isDragging === false && showFeedback}
-            item={item}
-            settings={settings}
-          />
-        )}
-        {false && (
-          <RewriteRuleDivider
-            position="right"
-            showFeedback={isDragging === false && showFeedback}
-            item={item}
-            settings={settings}
-          />
-        )}
         <div
           className={`rule-block ${
             isDragging === false && showFeedback
@@ -115,8 +98,7 @@ const RewriteRule: FC<Props> = ({
               }`}
             >
               {item.rule
-                ? // @ts-ignore
-                  ruleTranslations['en'][item.rule]
+                ? ruleTranslations['en'][item.rule as Rule]
                 : settings.autoFillRewriteRules
                 ? '...'
                 : '-- Select rule --'}

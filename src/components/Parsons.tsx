@@ -112,37 +112,95 @@ const Parsons: FC<
     }
   };
 
-  //TODO: this messy method needs major refactoring :'-)
+  const findDistractorInRight = (): ParsonsUiItem | undefined => {
+    return listRight.find(
+      (item) =>
+        exerciseSolution.find(
+          (s) => s.text === item.text && s.type === 'block'
+        ) === undefined
+    );
+  };
+
+  const removeDistractor = (distractor: ParsonsUiItem) => {
+    setListLeft([...listLeft, distractor]);
+    setListRight(listRight.filter((item) => item.text !== distractor.text));
+  };
+
+  const findTopDownHintIndex = (): number => {
+    return exerciseSolution.findIndex(
+      (item, index) => index % 2 === 0 && listRight[index / 2].text !== item.text
+    );
+  };
+
+  const findBottomUpHintIndex = (): { indexToAdd: number; solutionIndex: number } => {
+    for (let x = 0; x < listRight.length; x++) {
+      if (
+        listRight[listRight.length - 1 - x].text !==
+        exerciseSolution[exerciseSolution.length - 1 - 2 * x].text
+      ) {
+        return {
+          indexToAdd: listRight.length - 1 - x,
+          solutionIndex: exerciseSolution.length - 1 - 2 * x,
+        };
+      }
+    }
+    return { indexToAdd: -1, solutionIndex: -1 };
+  };
+
+  const applyTopDownHint = (index: number) => {
+    setListRight(
+      listRight.reduce<ParsonsUiItem[]>((acc, currentItem, currentIndex) => {
+        return index / 2 === currentIndex
+          ? [
+              ...acc,
+              {
+                ...exerciseSolution[index],
+                isValid: 'green',
+                id: `hinteditem_${index}`,
+                isValidRule: 'red',
+                rule: index === 0 ? undefined : exerciseSolution[index - 1].text,
+              } as ParsonsUiItem,
+              currentItem,
+            ]
+          : [...acc, currentItem];
+      }, [])
+    );
+    setListLeft(
+      listLeft.filter((item) => item.text !== exerciseSolution[index].text)
+    );
+  };
+
+  const applyBottomUpHint = (indexToAdd: number, solutionIndex: number) => {
+    setListRight(
+      listRight.reduce<ParsonsUiItem[]>((acc, currentItem, currentIndex) => {
+        return indexToAdd + 1 === currentIndex
+          ? [
+              ...acc,
+              {
+                ...exerciseSolution[solutionIndex],
+                isValid: 'green',
+                id: `hinteditem_${solutionIndex}`,
+                isValidRule: 'red',
+              } as ParsonsUiItem,
+              {
+                ...currentItem,
+                rule: exerciseSolution[solutionIndex + 1].text,
+              },
+            ]
+          : [...acc, currentItem];
+      }, [])
+    );
+    setListLeft(
+      listLeft.filter((item) => item.text !== exerciseSolution[solutionIndex].text)
+    );
+  };
+
   const handleOnClickShowStep = () => {
     hideList();
 
-    //Always remove distractor blocks from listRight if any... Otherwise unexpected behaviour occurs due to this implementation.
-    const distractorsFromListRight = listRight.reduce<ParsonsUiItem[]>(
-      (previousValue, currentItem, currentIndex, arr) => {
-        const solutionItem = exerciseSolution.find(
-          (i) => i.text === currentItem.text && i.type === 'block'
-        );
-        if (solutionItem === undefined) {
-          return [...previousValue, currentItem];
-        }
-        return previousValue;
-      },
-      []
-    );
-
-    if (distractorsFromListRight.length > 0) {
-      setListLeft([...listLeft, distractorsFromListRight[0]]);
-      setListRight(
-        listRight.reduce<ParsonsUiItem[]>(
-          (previousValue, currentItem, currentIndex, arr) => {
-            if (currentItem.text === distractorsFromListRight[0].text) {
-              return previousValue;
-            }
-            return [...previousValue, currentItem];
-          },
-          []
-        )
-      );
+    const distractor = findDistractorInRight();
+    if (distractor) {
+      removeDistractor(distractor);
       return;
     }
 
@@ -151,111 +209,24 @@ const Parsons: FC<
       countNumberOfItemsValid(listRight, 'upwards')
     );
 
-    // top to bottom
     if (downwards) {
-      const index = exerciseSolution.findIndex((item, index) => {
-        return index % 2 === 0 && listRight[index / 2].text !== item.text;
-      });
-
+      const index = findTopDownHintIndex();
       if (index === -1) {
         handleOnClickCompleteDerivation();
         return;
       }
-
-      setListRight(
-        listRight.reduce<ParsonsUiItem[]>(
-          (previousValue, currentItem, currentIndex, arr) => {
-            return index / 2 === currentIndex
-              ? [
-                  ...previousValue,
-                  {
-                    ...exerciseSolution[index],
-                    isValid: 'green',
-                    id: `hinteditem_${index}`,
-                    isValidRule: 'red',
-                    rule:
-                      index === 0
-                        ? undefined
-                        : exerciseSolution[index - 1].text,
-                  } as ParsonsUiItem,
-                  currentItem,
-                ]
-              : [...previousValue, currentItem];
-          },
-          []
-        )
-      );
-      setListLeft(
-        listLeft.reduce<ParsonsUiItem[]>(
-          (previousValue, currentItem, currentIndex, arr) => {
-            return currentItem.text === exerciseSolution[index].text
-              ? [...previousValue]
-              : [...previousValue, currentItem];
-          },
-          []
-        )
-      );
-    }
-
-    // bottom up
-    if (!downwards) {
-      //for (var x=listRight.length-1;x>0;x--)
-      let indexToAdd = -1;
-      let solutionIndex = -1;
-
-      for (var x = 0; x < listRight.length; x++) {
-        if (
-          listRight[listRight.length - 1 - x].text !==
-          exerciseSolution[exerciseSolution.length - 1 - 2 * x].text
-        ) {
-          indexToAdd = listRight.length - 1 - x;
-          solutionIndex = exerciseSolution.length - 1 - 2 * x;
-          break;
-        }
-      }
-
+      applyTopDownHint(index);
+    } else {
+      const { indexToAdd, solutionIndex } = findBottomUpHintIndex();
       if (indexToAdd === -1) {
         handleOnClickCompleteDerivation();
         return;
       }
-
-      setListRight(
-        listRight.reduce<ParsonsUiItem[]>(
-          (previousValue, currentItem, currentIndex, arr) => {
-            return indexToAdd + 1 === currentIndex
-              ? [
-                  ...previousValue,
-                  {
-                    ...exerciseSolution[solutionIndex],
-                    isValid: 'green',
-                    id: `hinteditem_${solutionIndex}`,
-                    isValidRule: 'red',
-                  } as ParsonsUiItem,
-                  {
-                    ...currentItem,
-                    rule: exerciseSolution[solutionIndex + 1].text,
-                  },
-                ]
-              : [...previousValue, currentItem];
-          },
-          []
-        )
-      );
-      setListLeft(
-        listLeft.reduce<ParsonsUiItem[]>(
-          (previousValue, currentItem, currentIndex, arr) => {
-            return currentItem.text === exerciseSolution[solutionIndex].text
-              ? [...previousValue]
-              : [...previousValue, currentItem];
-          },
-          []
-        )
-      );
+      applyBottomUpHint(indexToAdd, solutionIndex);
     }
   };
 
   const handleOnClickShowDerivation = () => {
-    console.log('show derivation');
     hideList();
   };
 
@@ -375,9 +346,6 @@ const Parsons: FC<
           onClickCompleteDerivation={handleOnClickCompleteDerivation}
         />
       </div>
-      <pre className="text-left">
-        {false && JSON.stringify(exerciseSolution, null, 2)}
-      </pre>
     </>
   );
 };

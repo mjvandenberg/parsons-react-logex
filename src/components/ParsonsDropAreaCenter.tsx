@@ -31,8 +31,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
       ...item,
       rule: newRule === '' ? undefined : newRule,
     });
-    // @ts-ignore
-    document?.activeElement?.blur();
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   const handleOnStart = (evt: any) => {
