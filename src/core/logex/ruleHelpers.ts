@@ -1,4 +1,4 @@
-import { Rule } from './rules';
+import { Rule } from './rules.js';
 
 const h = 'rule.logic.propositional.absorption',
   g = 'rule.logic.propositional.assoc',

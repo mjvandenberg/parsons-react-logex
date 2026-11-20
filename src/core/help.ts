@@ -2,8 +2,8 @@
 // as pure functions over the panel state. They return a new state and never
 // mutate their input. Validation of the returned solution panel is left to
 // the caller (see validateParsonsProblemFromUi).
-import { ParsonsItem, ParsonsState, ParsonsUiItem } from './types';
-import { countNumberOfItemsValid } from './validate';
+import { ParsonsItem, ParsonsState, ParsonsUiItem } from './types.js';
+import { countNumberOfItemsValid } from './validate.js';
 
 /**
  * Hint: the first formula block of the solution, from the top, that is not

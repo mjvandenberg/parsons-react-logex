@@ -1,4 +1,4 @@
-import { ValidatedParsonsItem, ParsonsItem } from "../types";
+import { ValidatedParsonsItem, ParsonsItem } from "../types.js";
 
 export const parseTestHr
     : (arr: string[]) => [ParsonsItem[], ParsonsItem[], ValidatedParsonsItem[]]

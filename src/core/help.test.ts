@@ -4,11 +4,11 @@ import {
   completeStep,
   findDistractor,
   findHintBlock,
-} from './help';
-import { validateParsonsProblemFromUi } from './validate';
-import { oneFinalToParsonsProblem } from './logex/logExHelpers';
-import allExercises from './logex/data/equivalence/all';
-import { ParsonsItem, ParsonsState, ParsonsUiItem } from './types';
+} from './help.js';
+import { validateParsonsProblemFromUi } from './validate.js';
+import { oneFinalToParsonsProblem } from './logex/logExHelpers.js';
+import allExercises from './logex/data/equivalence/all.js';
+import { ParsonsItem, ParsonsState, ParsonsUiItem } from './types.js';
 
 // Solution A =r1= B =r2= C =r3= D
 const solution: ParsonsItem[] = [

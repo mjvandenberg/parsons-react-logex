@@ -1,4 +1,5 @@
 import '../src/element';
+import type { ParsonsUiItem } from '../src/element';
 import exercises from '../src/core/logex/data/equivalence/all';
 import {
   exerciseFromUrl,
@@ -115,16 +116,17 @@ form.addEventListener('change', () => {
 
 // ---- Event log ------------------------------------------------------------
 
-for (const type of ['parsons-change', 'parsons-solved', 'parsons-help']) {
-  proof.addEventListener(type, (e) => {
-    const { detail } = e as CustomEvent;
-    const summary =
-      type === 'parsons-help'
-        ? detail.kind
-        : `valid=${proof.isValid}, solution: ${detail.right.map((i: { text: string }) => i.text).join(' ⇔ ')}`;
-    log.prepend(`${new Date().toLocaleTimeString()}  ${type}  ${summary}\n`);
-  });
-}
+const logLine = (type: string, summary: string) =>
+  log.prepend(`${new Date().toLocaleTimeString()}  ${type}  ${summary}\n`);
+const solution = (right: ParsonsUiItem[]) => right.map((i) => i.text).join(' ⇔ ');
+
+proof.addEventListener('parsons-change', ({ type, detail }) =>
+  logLine(type, `valid=${detail.isValid}, solution: ${solution(detail.right)}`)
+);
+proof.addEventListener('parsons-solved', ({ type, detail }) =>
+  logLine(type, `solution: ${solution(detail.right)}`)
+);
+proof.addEventListener('parsons-help', ({ type, detail }) => logLine(type, detail.kind));
 
 document.querySelector('#version')!.textContent = __COMMIT_SHA__;
 

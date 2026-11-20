@@ -1,6 +1,6 @@
 // Moving formula blocks between and within the two panels, as a pure function.
 // Validation of the solution panel is left to the caller.
-import { ParsonsState, ParsonsUiItem } from './types';
+import { ParsonsState, ParsonsUiItem } from './types.js';
 
 export type Panel = 'left' | 'right';
 

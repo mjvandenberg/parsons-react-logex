@@ -1,0 +1,13 @@
+{
+  // Type declarations for the library build: dist/lib/types/**, with
+  // dist/lib/parsons-proof.d.ts as entry (written by the lib build).
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "rootDir": "src",
+    "outDir": "dist/lib/types"
+  },
+  "include": ["src/element/index.ts", "src/vite-env.d.ts"]
+}

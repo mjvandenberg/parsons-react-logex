@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && vite build --mode lib",
-    "build:lib": "vite build --mode lib",
+    "build": "tsc && vite build && npm run build:lib",
+    "build:lib": "vite build --mode lib && tsc -p tsconfig.lib.json && tsc -p types-test && tsc -p types-test/tsconfig.nodenext.json",
     "preview": "vite preview",
     "test": "vitest run",
     "test:ui": "vitest --ui",

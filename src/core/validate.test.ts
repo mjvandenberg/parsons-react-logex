@@ -4,8 +4,8 @@ import {
   getItemByIndex,
   getMatchingItemFromEnd,
   isItemValid,
-} from './validate';
-import { ParsonsUiItem } from './types';
+} from './validate.js';
+import { ParsonsUiItem } from './types.js';
 
 test('getItemByIndex', () => {
   // Arrange

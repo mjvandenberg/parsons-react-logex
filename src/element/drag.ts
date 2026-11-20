@@ -5,7 +5,7 @@
 // and the drop marker are `popover="manual"` elements, so they render in the
 // top layer and can use viewport coordinates even though the host has
 // layout containment (container-type).
-import type { Panel } from '../core/moves';
+import type { Panel } from '../core/moves.js';
 
 export type Drop = { id: string; to: Panel; index?: number; from: DOMRect };
 

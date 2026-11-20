@@ -1,0 +1,8 @@
+{
+  // The same consumer, resolved the strict Node.js ESM way.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  }
+}

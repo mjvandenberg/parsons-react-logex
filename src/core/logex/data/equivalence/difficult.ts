@@ -1,6 +1,6 @@
 // request: https://ideas.science.uu.nl/cgi-bin/ideas-logic.cgi?input={"service":"onefinal","state":{"exerciseid":"logic.propositional.proof-new.unicode","prefix":"[]","context":{"term":["(q → (¬p → q)) → p",{"type":"=","motivation":"<GAP>"},"¬p → (q ∧ (p ∧ q) ∧ q)"],"environment":{},"location":[]}}}
 
-import { OneFinalResponse } from "../../typesOneFinal";
+import { OneFinalResponse } from "../../typesOneFinal.js";
 
 const request = {
   service: "onefinal",
