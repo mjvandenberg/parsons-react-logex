@@ -25,6 +25,7 @@ The study shows that using Parsons problems in an online tutoring system with fe
 - Multiple exercises with adjustable difficulty
 - Settings for feedback style and auto-fill of rewrite rules
 - English and Dutch
+- Light and dark mode, following the system by default
 - Reusable as a Web Component without dependencies
 
 ## Paper
@@ -60,7 +61,7 @@ The React version that followed it is preserved in the git history; since versio
 
 | | |
 |---|---|
-| **Attributes** | `live-feedback`, `only-correct`, `auto-fill-rules`, `no-distractors`; the language (`en`, `nl`) follows the nearest `lang` attribute |
+| **Attributes** | `live-feedback`, `only-correct`, `auto-fill-rules`, `no-distractors`, `theme` (`auto`, `light`, `dark`); the language (`en`, `nl`) follows the nearest `lang` attribute |
 | **Properties** | `exercise` (LogEx oneFinal response), `problem` (a ready-made `ParsonsProblem`), `settings`, `state`, `isValid` |
 | **Methods** | `check()`, `hint()`, `completeStep()`, `showSolution()`, `solve()`, `reset()` |
 | **Events** | `parsons-change` (`{ left, right, isValid }`), `parsons-solved`, `parsons-help` (`{ kind }`) — useful for logging learner steps |
@@ -68,7 +69,11 @@ The React version that followed it is preserved in the git history; since versio
 
 Learners drag blocks (mouse, pen or touch), click a block to add it to or remove it from the solution, or use the keyboard: Arrow keys move focus and Alt+Arrow keys reorder the solution. The formulas use the KaTeX font when the page loads it.
 
-The component targets browsers with the Popover API and `<dialog>` (Baseline 2024).
+**Dark mode.** The colours use CSS `light-dark()`, so the component follows its `color-scheme`. Without a `theme` attribute it inherits the page's `color-scheme`: on a page with `color-scheme: light dark` it follows the system, on a page that declares nothing it stays light. `theme="auto"` follows the system regardless of the page, `theme="light"` and `theme="dark"` fix it; with a `theme` attribute the component also gets its own background, since it may then differ from the page. Custom colours can be set the same way, for example `parsons-proof { --parsons-accent: light-dark(#7c3aed, #a78bfa); }`.
+
+The demo site follows the system theme by default; *Settings → Appearance* lets the learner choose light or dark instead. The choice is stored and applied before the page is drawn.
+
+The component targets browsers with the Popover API, `<dialog>` and `light-dark()` (Baseline 2024).
 
 ### TypeScript
 

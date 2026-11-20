@@ -3,6 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <script>
+      // Apply a chosen light or dark theme before first paint (no flash).
+      // Same storage key and values as site/preferences.ts.
+      try {
+        const theme = JSON.parse(localStorage.getItem('parsons-proof-demo') || '{}').theme;
+        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+      } catch {}
+    </script>
     <title>Parsons problems for equivalence proofs</title>
     <meta
       name="description"
@@ -68,6 +77,13 @@
             </span>
             <input type="checkbox" role="switch" name="autoFillRewriteRules" />
           </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-text="appearance">Appearance</legend>
+          <label class="radio"><input type="radio" name="theme" value="system" /> <span data-text="themeSystem">System</span></label>
+          <label class="radio"><input type="radio" name="theme" value="light" /> <span data-text="themeLight">Light</span></label>
+          <label class="radio"><input type="radio" name="theme" value="dark" /> <span data-text="themeDark">Dark</span></label>
         </fieldset>
 
         <fieldset>

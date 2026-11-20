@@ -1,15 +1,21 @@
-// Demo page preferences: settings and language in localStorage, the chosen
-// exercise in the URL (?exercise=…) so a link opens the same exercise.
+// Demo page preferences: settings, language and theme in localStorage, the
+// chosen exercise in the URL (?exercise=…) so a link opens the same exercise.
 import type { Settings } from '../src/element';
 
-export type Preferences = { settings: Settings; lang: 'en' | 'nl' };
+/** `system` follows the operating system's light or dark preference. */
+export type Theme = 'system' | 'light' | 'dark';
+export type Preferences = { settings: Settings; lang: 'en' | 'nl'; theme: Theme };
 
-const KEY = 'parsons-proof-demo';
+/** Also read by the inline script in index.html that sets the theme before first paint. */
+export const KEY = 'parsons-proof-demo';
 
 export const defaults: Preferences = {
   settings: { instantFeedback: false, markInvalidItems: true, autoFillRewriteRules: false },
   lang: 'en',
+  theme: 'system',
 };
+
+const themes: readonly Theme[] = ['system', 'light', 'dark'];
 
 /** Read preferences; anything missing, malformed or unavailable falls back to the defaults. */
 export const loadPreferences = (storage: Storage | undefined = globalThis.localStorage): Preferences => {
@@ -19,7 +25,11 @@ export const loadPreferences = (storage: Storage | undefined = globalThis.localS
     for (const key of Object.keys(settings) as (keyof Settings)[]) {
       if (typeof stored.settings?.[key] === 'boolean') settings[key] = stored.settings[key];
     }
-    return { settings, lang: stored.lang === 'nl' ? 'nl' : 'en' };
+    return {
+      settings,
+      lang: stored.lang === 'nl' ? 'nl' : 'en',
+      theme: themes.includes(stored.theme as Theme) ? (stored.theme as Theme) : 'system',
+    };
   } catch {
     return structuredClone(defaults);
   }

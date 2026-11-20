@@ -6,6 +6,7 @@ import {
   loadPreferences,
   Preferences,
   savePreferences,
+  Theme,
   urlWithExercise,
 } from './preferences';
 
@@ -26,6 +27,10 @@ const texts = {
     autoFill: 'Automatically fill in rewrite rules',
     autoFillHelp: 'The correct rewrite rule is filled in between two correctly placed formulas.',
     language: 'Language',
+    appearance: 'Appearance',
+    themeSystem: 'System',
+    themeLight: 'Light',
+    themeDark: 'Dark',
     events: 'Events (for researchers)',
   },
   nl: {
@@ -42,6 +47,10 @@ const texts = {
     autoFill: 'Herschrijfregels automatisch invullen',
     autoFillHelp: 'Tussen twee goed geplaatste formules wordt de juiste herschrijfregel ingevuld.',
     language: 'Taal',
+    appearance: 'Weergave',
+    themeSystem: 'Systeem',
+    themeLight: 'Licht',
+    themeDark: 'Donker',
     events: 'Events (voor onderzoekers)',
   },
 } as const;
@@ -56,9 +65,12 @@ const names = Object.keys(exercises) as Name[];
 let preferences: Preferences = loadPreferences();
 
 const apply = () => {
-  const { settings, lang } = preferences;
+  const { settings, lang, theme } = preferences;
   proof.settings = settings;
   document.documentElement.lang = lang;
+  // `system` leaves color-scheme at "light dark"; the component inherits it.
+  if (theme === 'system') delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme = theme;
   for (const el of document.querySelectorAll<HTMLElement>('[data-text]')) {
     el.textContent = texts[lang][el.dataset.text as keyof (typeof texts)['en']];
   }
@@ -74,6 +86,7 @@ const fillForm = () => {
   field('onlyCorrect').checked = !preferences.settings.markInvalidItems;
   field('autoFillRewriteRules').checked = preferences.settings.autoFillRewriteRules;
   (form.elements.namedItem('lang') as RadioNodeList).value = preferences.lang;
+  (form.elements.namedItem('theme') as RadioNodeList).value = preferences.theme;
 };
 
 const loadExercise = (name: Name) => {
@@ -109,6 +122,7 @@ form.addEventListener('change', () => {
       autoFillRewriteRules: field('autoFillRewriteRules'),
     },
     lang: (form.elements.namedItem('lang') as RadioNodeList).value === 'nl' ? 'nl' : 'en',
+    theme: (form.elements.namedItem('theme') as RadioNodeList).value as Theme,
   };
   savePreferences(preferences);
   apply();
