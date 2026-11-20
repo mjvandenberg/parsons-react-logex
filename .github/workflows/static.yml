@@ -23,9 +23,12 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: Build project
+      - name: Run tests
+        run: npm test
+
+      - name: Build site and component
         run: npm run build
         env:
           VITE_COMMIT_SHA: ${{ github.sha }}

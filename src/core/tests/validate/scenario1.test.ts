@@ -1,23 +1,19 @@
 import { test, assert } from 'vitest';
-import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../core/validate';
+import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate';
 import { parseTestHr } from '../testHelper';
 
-test('dummy', () => {
-    assert.isTrue(true);
-})
-
-test('scenario 3', () => {
+test('scenario 1 wn', () => {
     // Arrange
     const input = [
         '1,1,✔️',
         'a,z,❌',
         '2,2,✔️',
-        'b,b,❔',
-        '3,X,❌',
-        'c,c,❔',
-        '4,4,✔️',
-        'd,d,✔️',
-        '5,5,✔️'
+        'b,b,✔️',
+        '3,3,✔️',
+        'c,Z,❔',
+        '4,5,✔️',
+        'd, , ',
+        '5, , '
     ];
     const [solution, learners, expected] = parseTestHr(input);
 
@@ -29,18 +25,18 @@ test('scenario 3', () => {
     assert.isFalse(isValid);
 })
 
-test('scenario 3 down', () => {
+test('scenario 1 down', () => {
     // Arrange
     const input = [
         '1,1,✔️',
         'a,z,❌',
         '2,2,✔️',
-        'b,b,❔',
-        '3,X,❌',
-        'c,c,❔',
-        '4,4,❔',
-        'd,d,❔',
-        '5,5,❔'
+        'b,b,✔️',
+        '3,3,✔️',
+        'c,Z,❔',
+        '4,5,❌',
+        'd, , ',
+        '5, , '
     ];
     const [solution, learners, expected] = parseTestHr(input);
     const validator = getParsonsValidatorDown();
@@ -52,18 +48,18 @@ test('scenario 3 down', () => {
     assert.deepEqual(result, expected);
 })
 
-test('scenario 3 up', () => {
+test('scenario 1 up', () => {
     // Arrange
     const input = [
         '1,1,❔',
         'a,z,❔',
         '2,2,❔',
         'b,b,❔',
-        '3,X,❌',
-        'c,c,❔',
-        '4,4,✔️',
-        'd,d,✔️',
-        '5,5,✔️'
+        '3,3,❌',
+        'c,Z,❔',
+        '4,5,✔️',
+        'd, , ',
+        '5, , '
     ];
     const [solution, learners, expected] = parseTestHr(input);
     const validator = getParsonsValidatorUp();

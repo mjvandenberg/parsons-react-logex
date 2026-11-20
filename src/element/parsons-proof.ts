@@ -11,7 +11,7 @@
 // the solution / move back) and by keyboard (Alt+Arrow keys reorder the
 // solution, Arrow keys move focus). Moves animate with FLIP via the Web
 // Animations API unless the user prefers reduced motion.
-import css from './styles.css?raw';
+import css from './styles.css?inline';
 import { completeExercise, completeStep, findHintBlock } from '../core/help';
 import { moveBlock, Panel } from '../core/moves';
 import { oneFinalToParsonsProblem } from '../core/logex/logExHelpers';

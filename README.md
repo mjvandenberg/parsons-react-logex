@@ -18,12 +18,14 @@ The study shows that using Parsons problems in an online tutoring system with fe
 
 ## Features
 
-- Drag-and-drop Parsons problem interface for logical equivalence proofs
+- Drag-and-drop Parsons problem interface for logical equivalence proofs (mouse, touch and keyboard)
 - Rewrite rule selection between blocks
 - Instant and on-demand feedback modes
 - Hint system (top-down and bottom-up)
 - Multiple exercises with adjustable difficulty
 - Settings for feedback style and auto-fill of rewrite rules
+- English and Dutch
+- Reusable as a Web Component without dependencies
 
 ## Paper
 
@@ -38,12 +40,50 @@ The underlying master's thesis is available open-access:
 
 The original version of the codebase as referenced in the paper is preserved under the git tag [`v1.0-paper`](https://github.com/mjvandenberg/parsons-react-logex/releases/tag/v1.0-paper).
 
+The React version that followed it is preserved in the git history; since version 2 the prototype is a dependency-free Web Component.
+
+## Using the Web Component
+
+`<parsons-proof>` is a native Custom Element with no runtime dependencies (about 11 kB gzipped). Load the ES module and give it an exercise:
+
+```html
+<script type="module" src="https://mjvandenberg.github.io/parsons-react-logex/lib/parsons-proof.js"></script>
+
+<parsons-proof live-feedback lang="nl"></parsons-proof>
+
+<script type="module">
+  const proof = document.querySelector('parsons-proof');
+  proof.exercise = oneFinalResponse; // a LogEx "onefinal" response, see src/core/logex/data
+  proof.addEventListener('parsons-solved', () => console.log('solved'));
+</script>
+```
+
+| | |
+|---|---|
+| **Attributes** | `live-feedback`, `only-correct`, `auto-fill-rules`, `no-distractors`; the language (`en`, `nl`) follows the nearest `lang` attribute |
+| **Properties** | `exercise` (LogEx oneFinal response), `problem` (a ready-made `ParsonsProblem`), `settings`, `state`, `isValid` |
+| **Methods** | `check()`, `hint()`, `completeStep()`, `showSolution()`, `solve()`, `reset()` |
+| **Events** | `parsons-change` (`{ left, right, isValid }`), `parsons-solved`, `parsons-help` (`{ kind }`) — useful for logging learner steps |
+| **Styling** | CSS custom properties such as `--parsons-accent`, `--parsons-green`, `--parsons-formula-font`, and `::part()` for `title`, `block`, `rule`, `toolbar`, … |
+
+Learners drag blocks (mouse, pen or touch), click a block to add it to or remove it from the solution, or use the keyboard: Arrow keys move focus and Alt+Arrow keys reorder the solution. The formulas use the KaTeX font when the page loads it.
+
+The component targets browsers with the Popover API and `<dialog>` (Baseline 2024).
+
+## Project structure
+
+```
+src/core/      domain logic in plain TypeScript: validation, hints, moves, LogEx conversion, exercises
+src/element/   the <parsons-proof> Web Component
+site/          the demo site: exercise picker, settings dialog, event log
+```
+
+A boundary test keeps `src/core` and `src/element` free of third-party imports.
+
 ## Tech stack
 
-- React 18, TypeScript 5
-- Vite 5
-- Tailwind CSS 3, DaisyUI 2
-- Vitest
+- TypeScript 5, native Web Components, Popover API, `<dialog>`, Pointer Events, Web Animations API
+- Vite 5 and Vitest (with happy-dom) as development tools only
 
 ## Running locally
 
@@ -58,5 +98,5 @@ Then run the tests, start in dev mode, or build for production:
 ```bash
 npm run test:watch   # tests in watch mode
 npm run dev          # development server
-npm run build        # production build
+npm run build        # site in dist/, component in dist/lib/parsons-proof.js
 ```

@@ -1,5 +1,5 @@
 import { test, assert } from 'vitest';
-import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../core/validate';
+import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate';
 import { parseTestHr } from '../testHelper';
 
 test('scenario 4', () => {
