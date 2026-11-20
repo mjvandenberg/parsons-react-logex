@@ -20,6 +20,8 @@ export type Messages = {
   add: string;
   remove: string;
   noHint: string;
+  movedTo: (formula: string, position: number, total: number) => string;
+  movedBack: (formula: string) => string;
   rule: (rule: string) => string;
   describe: (d: ExerciseDescription, formula: (text: string) => Node) => Content;
   hintText: (formula: Node, mentionCheck: boolean) => Content;
@@ -42,8 +44,10 @@ const en: Messages = {
   selectRule: '-- Select rule --',
   ruleLabel: 'Rewrite rule',
   or: 'or',
-  add: 'Add to solution',
-  remove: 'Move back',
+  add: 'Drag, or click to add to the solution',
+  remove: 'Drag, or click to move back. Alt+Arrow keys reorder.',
+  movedTo: (f, position, total) => `${f} moved to step ${position} of ${total}.`,
+  movedBack: (f) => `${f} moved back.`,
   noHint:
     "Sorry, no hint available. If you are stuck, use 'Help' to complete one step or the exercise.",
   rule: rule('en'),
@@ -73,8 +77,10 @@ const nl: Messages = {
   selectRule: '-- Kies regel --',
   ruleLabel: 'Herschrijfregel',
   or: 'of',
-  add: 'Voeg toe aan oplossing',
-  remove: 'Terugzetten',
+  add: 'Sleep, of klik om toe te voegen aan de oplossing',
+  remove: 'Sleep, of klik om terug te zetten. Alt+pijltjestoetsen verplaatsen.',
+  movedTo: (f, position, total) => `${f} verplaatst naar stap ${position} van ${total}.`,
+  movedBack: (f) => `${f} teruggezet.`,
   noHint:
     "Sorry, er is geen hint beschikbaar. Kom je er niet uit, gebruik dan 'Help' om één stap of de hele opgave in te vullen.",
   rule: rule('nl'),

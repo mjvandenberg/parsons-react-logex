@@ -7,10 +7,13 @@
 // Methods:    check(), hint(), completeStep(), solve(), reset()
 // Events:     parsons-change, parsons-solved, parsons-help
 //
-// Moving blocks is click-based in this phase (click a block to add it to the
-// solution, click it again to move it back); drag and drop follows later.
+// Blocks move by drag and drop (Pointer Events, see ./drag), by click (add to
+// the solution / move back) and by keyboard (Alt+Arrow keys reorder the
+// solution, Arrow keys move focus). Moves animate with FLIP via the Web
+// Animations API unless the user prefers reduced motion.
 import css from './styles.css?raw';
 import { completeExercise, completeStep, findHintBlock } from '../core/help';
+import { moveBlock, Panel } from '../core/moves';
 import { oneFinalToParsonsProblem } from '../core/logex/logExHelpers';
 import { rules } from '../core/logex/rules';
 import { OneFinalResponse } from '../core/logex/typesOneFinal';
@@ -22,6 +25,7 @@ import {
   Settings,
 } from '../core/types';
 import { validateParsonsProblemFromUi } from '../core/validate';
+import { Drop, enableDrag } from './drag';
 import { Messages, messagesFor } from './i18n';
 
 export type ParsonsChangeDetail = ParsonsState & { isValid: boolean };
@@ -84,6 +88,8 @@ export class ParsonsProof extends HTMLElement {
   #hintVisible = false;
   #ruleTarget?: string | number;
   #menuReturnKey?: string;
+  #announcement = '';
+  #flipFrom?: { key: string; rect: DOMRect };
 
   constructor() {
     super();
@@ -92,6 +98,8 @@ export class ParsonsProof extends HTMLElement {
     this.#view = h('div', { part: 'root' });
     this.#announcer = h('p', { class: 'sr-only', 'aria-live': 'polite' });
     root.append(this.#view, this.#announcer);
+    enableDrag(this.#view, (drop) => this.#onDrop(drop));
+    this.#view.addEventListener('keydown', (e) => this.#onKeyDown(e));
   }
 
   connectedCallback() {
@@ -268,25 +276,53 @@ export class ParsonsProof extends HTMLElement {
     if (isValid && !wasValid) this.#emit<ParsonsState>('parsons-solved', this.state);
   }
 
-  #moveToSolution(id: ParsonsUiItem['id']) {
-    const item = this.#left.find((i) => i.id === id);
-    if (!item) return;
-    this.#left = this.#left.filter((i) => i !== item);
-    const right = [...this.#right];
-    right.splice(Math.max(right.length - 1, 0), 0, { ...item, rule: undefined });
-    this.#updateRight(right);
-    this.#render(`block-${id}`);
+  #findId(key: string): ParsonsUiItem['id'] | undefined {
+    return [...this.#left, ...this.#right].find((i) => String(i.id) === key)?.id;
   }
 
-  #moveToSource(id: ParsonsUiItem['id']) {
-    const item = this.#right.find((i) => i.id === id);
-    if (!item || item.isStaticFirst || item.isStaticLast) return;
-    this.#left = [
-      ...this.#left,
-      { ...item, rule: undefined, isValid: 'unknown', isValidRule: 'unknown' },
-    ];
-    this.#updateRight(this.#right.filter((i) => i !== item));
-    this.#render(`block-${id}`);
+  #move(id: ParsonsUiItem['id'], to: Panel, index?: number, focusKey?: string) {
+    const item = [...this.#left, ...this.#right].find((i) => i.id === id);
+    // Order in the problem panel carries no meaning: dropping there is a no-op.
+    if (!item || (to === 'left' && this.#left.includes(item))) return;
+    const next = moveBlock(this.state, id, to, index);
+    const same = (a: ParsonsUiItem[], b: ParsonsUiItem[]) =>
+      a.length === b.length && a.every((x, i) => x.id === b[i].id);
+    if (same(next.left, this.#left) && same(next.right, this.#right)) return;
+    this.#left = next.left;
+    this.#updateRight(next.right);
+
+    const t = this.#t;
+    const position = this.#right.findIndex((i) => i.id === id);
+    this.#announcement =
+      to === 'right'
+        ? t.movedTo(item.text, position + 1, this.#right.length)
+        : t.movedBack(item.text);
+    this.#render(focusKey);
+  }
+
+  #onDrop({ id: key, to, index, from }: Drop) {
+    const id = this.#findId(key);
+    if (id === undefined) return;
+    this.#flipFrom = { key: `block-${key}`, rect: from };
+    this.#move(id, to, index);
+  }
+
+  #onKeyDown(e: KeyboardEvent) {
+    if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown') return;
+    const el = (e.target as Element).closest?.<HTMLElement>('button.block[data-id]');
+    if (!el) return;
+    e.preventDefault();
+    const step = e.key === 'ArrowUp' ? -1 : 1;
+    const id = this.#findId(el.dataset.id!);
+    const index = this.#right.findIndex((i) => i.id === id);
+
+    if (e.altKey && el.dataset.list === 'right' && id !== undefined) {
+      this.#move(id, 'right', index + step, el.dataset.focusKey);
+      return;
+    }
+    const list = el.closest('.list');
+    const blocks = [...(list?.querySelectorAll<HTMLElement>('button.block') ?? [])];
+    blocks[blocks.indexOf(el) + step]?.focus();
   }
 
   #chooseRule(rule: string) {
@@ -352,6 +388,7 @@ export class ParsonsProof extends HTMLElement {
     }
     const t = this.#t;
     const verdict = this.#isValid ? t.valid : t.invalid;
+    const before = this.#positions();
 
     this.#view.replaceChildren(
       h(
@@ -367,9 +404,42 @@ export class ParsonsProof extends HTMLElement {
       this.#renderHelpMenu(t)
     );
 
-    const announcement = this.#feedbackVisible ? verdict : '';
+    const announcement = [this.#announcement, this.#feedbackVisible ? verdict : '']
+      .filter(Boolean)
+      .join(' ');
+    this.#announcement = '';
     if (this.#announcer.textContent !== announcement) this.#announcer.textContent = announcement;
     this.#focus(focusKey);
+    this.#animateFrom(before);
+  }
+
+  /** Block positions before a render, keyed by data-key (for FLIP). */
+  #positions(): Map<string, DOMRect> {
+    const positions = new Map(
+      [...this.#view.querySelectorAll<HTMLElement>('.block[data-key]')].map((b) => [
+        b.dataset.key!,
+        b.getBoundingClientRect(),
+      ])
+    );
+    if (this.#flipFrom) positions.set(this.#flipFrom.key, this.#flipFrom.rect);
+    this.#flipFrom = undefined;
+    return positions;
+  }
+
+  #animateFrom(before: Map<string, DOMRect>) {
+    if (before.size === 0 || matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    for (const block of this.#view.querySelectorAll<HTMLElement>('.block[data-key]')) {
+      const from = before.get(block.dataset.key!);
+      if (!from || typeof block.animate !== 'function') continue;
+      const to = block.getBoundingClientRect();
+      const dx = from.left - to.left;
+      const dy = from.top - to.top;
+      if (Math.abs(dx) < 1 && Math.abs(dy) < 1) continue;
+      block.animate(
+        [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+        { duration: 200, easing: 'ease-out' }
+      );
+    }
   }
 
   #renderHint(problem: ParsonsProblem, t: Messages) {
@@ -384,8 +454,13 @@ export class ParsonsProof extends HTMLElement {
   #renderBlock(item: ParsonsUiItem, where: 'source' | 'target', t: Messages) {
     const content = [h('span', { class: 'eq', 'aria-hidden': 'true' }, '⇔'), formula(item.text)];
     const status = where === 'target' ? this.#status(item.isValid) : 'unknown';
+    const key = `block-${item.id}`;
     if (where === 'target' && (item.isStaticFirst || item.isStaticLast)) {
-      return h('div', { class: 'block static', part: 'block', 'data-status': status }, ...content);
+      return h(
+        'div',
+        { class: 'block static', part: 'block', 'data-status': status, 'data-key': key },
+        ...content
+      );
     }
     return h(
       'button',
@@ -394,10 +469,16 @@ export class ParsonsProof extends HTMLElement {
         class: 'block',
         part: 'block',
         'data-status': status,
-        'data-focus-key': `block-${item.id}`,
+        'data-key': key,
+        'data-focus-key': key,
+        'data-id': String(item.id),
+        'data-list': where === 'source' ? 'left' : 'right',
         title: where === 'source' ? t.add : t.remove,
+        'aria-keyshortcuts': where === 'target' ? 'Alt+ArrowUp Alt+ArrowDown' : undefined,
         onclick: () =>
-          where === 'source' ? this.#moveToSolution(item.id) : this.#moveToSource(item.id),
+          where === 'source'
+            ? this.#move(item.id, 'right', undefined, key)
+            : this.#move(item.id, 'left', undefined, key),
       },
       ...content
     );
