@@ -26,6 +26,13 @@ const typesEntry = (): Plugin => ({
 // has the Popover API, which the component needs anyway.
 const TARGET = 'es2022';
 
+// The browsers the component needs anyway (Popover API, light-dark(): Baseline
+// 2024). Without this, Lightning CSS rewrites light-dark() into a workaround
+// with --lightningcss-* variables that only reacts to color-scheme set in CSS
+// it processed itself, so the component would ignore a host page's
+// color-scheme.
+const CSS_TARGET = ['chrome123', 'edge123', 'firefox125', 'safari17.5'];
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) =>
   mode === 'lib'
@@ -35,6 +42,7 @@ export default defineConfig(({ mode }) =>
         plugins: [typesEntry()],
         build: {
           target: TARGET,
+          cssTarget: CSS_TARGET,
           cssMinify: true,
           // Vite keeps whitespace in ES library builds; minify the bundle fully.
           rolldownOptions: { output: { minify: true } },
@@ -49,7 +57,7 @@ export default defineConfig(({ mode }) =>
       }
     : {
         base: process.env.VITE_BASE_URL ?? '/parsons-react-logex/',
-        build: { target: TARGET },
+        build: { target: TARGET, cssTarget: CSS_TARGET },
         define: {
           __COMMIT_SHA__: JSON.stringify(
             process.env.VITE_COMMIT_SHA?.substring(0, 7) ?? getCommitHash()

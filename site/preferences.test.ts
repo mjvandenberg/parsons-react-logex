@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'vitest';
 import {
   defaults,
+  KEY,
   exerciseFromUrl,
   loadPreferences,
   savePreferences,
@@ -22,8 +23,9 @@ const memoryStorage = (initial: Record<string, string> = {}): Storage => {
 };
 
 describe('preferences', () => {
-  test('defaults when nothing is stored', () => {
+  test('defaults when nothing is stored, following the system theme', () => {
     expect(loadPreferences(memoryStorage())).toEqual(defaults);
+    expect(defaults.theme).toBe('system');
   });
 
   test('round-trips through storage', () => {
@@ -31,20 +33,37 @@ describe('preferences', () => {
     const prefs = {
       settings: { instantFeedback: true, markInvalidItems: false, autoFillRewriteRules: true },
       lang: 'nl' as const,
+      theme: 'dark' as const,
     };
     savePreferences(prefs, storage);
     expect(loadPreferences(storage)).toEqual(prefs);
   });
 
+  test.each(['system', 'light', 'dark'] as const)('keeps the theme %s', (theme) => {
+    const storage = memoryStorage();
+    savePreferences({ ...defaults, theme }, storage);
+    expect(loadPreferences(storage).theme).toBe(theme);
+  });
+
   test('ignores malformed or partial data', () => {
     expect(loadPreferences(memoryStorage({ 'parsons-proof-demo': '{nope' }))).toEqual(defaults);
     const partial = memoryStorage({
-      'parsons-proof-demo': JSON.stringify({ settings: { instantFeedback: true, markInvalidItems: 'x' }, lang: 'fr' }),
+      'parsons-proof-demo': JSON.stringify({
+        settings: { instantFeedback: true, markInvalidItems: 'x' },
+        lang: 'fr',
+        theme: 'sepia',
+      }),
     });
     expect(loadPreferences(partial)).toEqual({
       settings: { ...defaults.settings, instantFeedback: true },
       lang: 'en',
+      theme: 'system',
     });
+  });
+
+  test('uses the storage key that the inline theme script in index.html reads', async () => {
+    const html = (await import('../index.html?raw')).default;
+    expect(html).toContain(`localStorage.getItem('${KEY}')`);
   });
 
   test('survives storage that throws', () => {

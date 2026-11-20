@@ -1,17 +1,30 @@
+/*
+ * Colours follow the element's `color-scheme`, via light-dark(). By default
+ * it inherits the page's color-scheme, so the component matches its page
+ * (and stays light on a page that declares nothing). The `theme` attribute
+ * overrides that: auto (follow the system), light or dark.
+ */
 :host {
-  --parsons-source-bg: #efefff;
-  --parsons-target-bg: #ffffaa;
-  --parsons-list-border: #c7d2fe;
-  --parsons-block-bg: #e2e8f0;
-  --parsons-block-border: #d3d3d3;
-  --parsons-rule-bg: #f1f5f9;
-  --parsons-green: #008200;
-  --parsons-green-bg: #dff2bf;
-  --parsons-red: #e00000;
-  --parsons-red-bg: #ffbaba;
-  --parsons-accent: #3d4451;
+  --parsons-text: light-dark(#1f2937, #e5e7eb);
+  --parsons-surface: light-dark(#ffffff, #1b2130);
+  --parsons-box-bg: light-dark(#fcfcfc, #1f2633);
+  --parsons-box-border: light-dark(#b8b8b8, #4b5563);
+  --parsons-source-bg: light-dark(#efefff, #23243a);
+  --parsons-target-bg: light-dark(#ffffaa, #36331c);
+  --parsons-list-border: light-dark(#c7d2fe, #4b4f7a);
+  --parsons-pair: light-dark(#a5b4fc, #6366f1);
+  --parsons-pair-text: light-dark(#4f46e5, #a5b4fc);
+  --parsons-block-bg: light-dark(#e2e8f0, #2b3340);
+  --parsons-block-border: light-dark(#d3d3d3, #4a5363);
+  --parsons-rule-bg: light-dark(#f1f5f9, #222a35);
+  --parsons-green: light-dark(#008200, #4ade80);
+  --parsons-green-bg: light-dark(#dff2bf, #1e3d26);
+  --parsons-red: light-dark(#e00000, #f87171);
+  --parsons-red-bg: light-dark(#ffbaba, #4c2020);
+  --parsons-accent: light-dark(#3d4451, #4b5567);
   --parsons-accent-text: #fff;
-  --parsons-focus: #4f46e5;
+  --parsons-focus: light-dark(#4f46e5, #a5b4fc);
+  --parsons-shadow: light-dark(rgb(0 0 0 / 0.2), rgb(0 0 0 / 0.6));
   --parsons-radius: 0.5rem;
   --parsons-formula-font: KaTeX_Main, 'Latin Modern Math', 'STIX Two Math',
     'Cambria Math', 'Times New Roman', serif;
@@ -21,7 +34,28 @@
   /* Blocks animating between panels must not cause a scrollbar. */
   overflow-x: clip;
   font-family: system-ui, sans-serif;
-  color: #1f2937;
+  color: var(--parsons-text);
+}
+
+/* With a theme attribute the component may differ from its page, so it
+   brings its own background; without one it matches the page and stays
+   transparent. */
+:host([theme]) {
+  padding: 0.25rem 0.75rem 0.75rem;
+  border-radius: var(--parsons-radius);
+  background: var(--parsons-surface);
+}
+
+:host([theme='auto']) {
+  color-scheme: light dark;
+}
+
+:host([theme='light']) {
+  color-scheme: light;
+}
+
+:host([theme='dark']) {
+  color-scheme: dark;
 }
 
 :host([hidden]) {
@@ -47,9 +81,9 @@
 .hint {
   margin: 0.75rem 0;
   padding: 0.5rem 0.75rem;
-  border: 1px solid #b8b8b8;
+  border: 1px solid var(--parsons-box-border);
   border-radius: 0.25rem;
-  background: #fcfcfc;
+  background: var(--parsons-box-bg);
   line-height: 1.6;
 }
 
@@ -127,7 +161,7 @@
   position: absolute;
   inset: 0.5rem auto 0.5rem 0.6rem;
   width: 0.6rem;
-  border: 2px solid #a5b4fc;
+  border: 2px solid var(--parsons-pair);
   border-right: 0;
   border-radius: 0.25rem 0 0 0.25rem;
 }
@@ -139,7 +173,7 @@
   translate: 0 -50%;
   padding: 0.1rem 0;
   font-size: 0.75rem;
-  color: #4f46e5;
+  color: var(--parsons-pair-text);
   background: var(--parsons-source-bg);
 }
 
@@ -247,9 +281,9 @@ button.block:hover {
   padding: 0.25rem;
   border: 0;
   border-radius: var(--parsons-radius);
-  background: #fff;
+  background: var(--parsons-surface);
   color: inherit;
-  box-shadow: 0 4px 16px rgb(0 0 0 / 0.2);
+  box-shadow: 0 4px 16px var(--parsons-shadow);
 }
 
 .menu:popover-open {
@@ -329,7 +363,7 @@ button.block:hover {
 }
 
 .ghost .block {
-  box-shadow: 0 8px 20px rgb(0 0 0 / 0.25);
+  box-shadow: 0 8px 20px var(--parsons-shadow);
   opacity: 0.95;
 }
 
@@ -351,8 +385,9 @@ button.block:hover {
   padding: 0;
   border: 0;
   border-radius: var(--parsons-radius);
+  background: var(--parsons-surface);
   color: inherit;
-  box-shadow: 0 10px 40px rgb(0 0 0 / 0.3);
+  box-shadow: 0 10px 40px var(--parsons-shadow);
 }
 
 .solution-dialog::backdrop {
