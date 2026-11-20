@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>parsons-proof</title>
+    <!-- Only for the formula font; the component itself loads nothing. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" />
+    <style>
+      body { max-width: 72rem; margin: 2rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; }
+      fieldset { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; border: 1px solid #ddd; border-radius: 0.5rem; }
+      #log { max-height: 12rem; overflow: auto; font-size: 0.8rem; background: #f6f6f6; padding: 0.5rem; }
+    </style>
+  </head>
+  <body>
+    <h1>&lt;parsons-proof&gt; dev page</h1>
+    <form id="controls">
+      <fieldset>
+        <legend>Attributes</legend>
+        <label>Exercise <select name="exercise"></select></label>
+        <label>Language <select name="lang"><option>en</option><option>nl</option></select></label>
+        <label><input type="checkbox" name="live-feedback" /> live-feedback</label>
+        <label><input type="checkbox" name="only-correct" /> only-correct</label>
+        <label><input type="checkbox" name="auto-fill-rules" /> auto-fill-rules</label>
+        <label><input type="checkbox" name="no-distractors" /> no-distractors</label>
+      </fieldset>
+    </form>
+    <parsons-proof></parsons-proof>
+    <h2>Events</h2>
+    <pre id="log"></pre>
+    <script type="module" src="./demo.ts"></script>
+  </body>
+</html>
