@@ -8,6 +8,12 @@ on:
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# A newer push supersedes an older deploy that is still running, so a slow
+# older run can never overwrite the site or the :latest image afterwards.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   build:
     name: Build
@@ -66,6 +72,8 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    # Normally about 3 minutes; never let a stuck build run for hours.
+    timeout-minutes: 15
     permissions:
       contents: read
       packages: write
@@ -74,9 +82,8 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
+      # No QEMU: the Dockerfile builds on the runner's own platform and the
+      # arm64 image only copies the static files into nginx.
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
