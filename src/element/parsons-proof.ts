@@ -4,7 +4,7 @@
 //
 // Attributes: live-feedback, only-correct, auto-fill-rules, no-distractors, lang
 // Properties: exercise (LogEx oneFinal response), problem, settings, state, isValid
-// Methods:    check(), hint(), completeStep(), solve(), reset()
+// Methods:    check(), hint(), completeStep(), showSolution(), solve(), reset()
 // Events:     parsons-change, parsons-solved, parsons-help
 //
 // Blocks move by drag and drop (Pointer Events, see ./drag), by click (add to
@@ -29,7 +29,7 @@ import { Drop, enableDrag } from './drag';
 import { Messages, messagesFor } from './i18n';
 
 export type ParsonsChangeDetail = ParsonsState & { isValid: boolean };
-export type ParsonsHelpDetail = { kind: 'hint' | 'step' | 'solve' };
+export type ParsonsHelpDetail = { kind: 'hint' | 'step' | 'show-solution' | 'solve' };
 
 type Child = Node | string | false | null | undefined;
 
@@ -90,6 +90,7 @@ export class ParsonsProof extends HTMLElement {
   #menuReturnKey?: string;
   #announcement = '';
   #flipFrom?: { key: string; rect: DOMRect };
+  #dialog?: HTMLDialogElement;
 
   constructor() {
     super();
@@ -214,6 +215,58 @@ export class ParsonsProof extends HTMLElement {
     this.#apply(completeStep(this.state, this.#problem.exerciseSolution));
     this.#emit<ParsonsHelpDetail>('parsons-help', { kind: 'step' });
     this.#render();
+  }
+
+  /** Show the complete solution in a modal dialog, without changing the learner's work. */
+  showSolution() {
+    const problem = this.#problem;
+    if (!problem) return;
+    const t = this.#t;
+    const dialog = (this.#dialog ??= this.#createDialog());
+    dialog.setAttribute('aria-label', t.solutionTitle(problem.exerciseName));
+    dialog.replaceChildren(
+      h(
+        'div',
+        { class: 'dialog-body' },
+        h(
+          'form',
+          { method: 'dialog', class: 'dialog-header' },
+          h('h2', {}, t.solutionTitle(problem.exerciseName)),
+          h('button', { class: 'close', 'aria-label': t.close, title: t.close, autofocus: true }, '✕')
+        ),
+        h(
+          'ol',
+          { class: 'list solution' },
+          ...problem.exerciseSolution.map((step, index) =>
+            step.type === 'block'
+              ? h(
+                  'li',
+                  {},
+                  h(
+                    'div',
+                    { class: 'block static', 'data-status': 'unknown' },
+                    h('span', { class: 'eq', 'aria-hidden': 'true' }, index === 0 ? '' : '⇔'),
+                    formula(step.text)
+                  )
+                )
+              : h('li', { class: 'rule-row' }, h('div', { class: 'rule' }, t.rule(step.text)))
+          )
+        )
+      )
+    );
+    if (typeof dialog.showModal === 'function' && !dialog.open) dialog.showModal();
+    else dialog.setAttribute('open', '');
+    this.#emit<ParsonsHelpDetail>('parsons-help', { kind: 'show-solution' });
+  }
+
+  #createDialog() {
+    const dialog = h('dialog', { class: 'solution-dialog', part: 'dialog', closedby: 'any' });
+    // Light dismiss for browsers without closedby: a click on the backdrop
+    // targets the dialog itself, as all content sits in .dialog-body.
+    dialog.addEventListener('click', (e) => e.target === dialog && dialog.close());
+    dialog.addEventListener('close', () => this.#focus('help'));
+    this.shadowRoot!.append(dialog);
+    return dialog;
   }
 
   solve() {
@@ -612,6 +665,7 @@ export class ParsonsProof extends HTMLElement {
       { id: 'help-menu', class: 'menu', popover: 'auto', role: 'menu', 'aria-label': t.help },
       item(t.hint, () => this.hint()),
       item(t.step, () => this.completeStep()),
+      item(t.showSolution, () => this.showSolution()),
       item(t.solve, () => this.solve())
     );
   }

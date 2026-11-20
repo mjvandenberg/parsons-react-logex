@@ -342,3 +342,62 @@ button.block:hover {
 .drop-marker[hidden] {
   display: none;
 }
+
+/* ---- Solution dialog -------------------------------------------------- */
+
+.solution-dialog {
+  width: min(36rem, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2rem);
+  padding: 0;
+  border: 0;
+  border-radius: var(--parsons-radius);
+  color: inherit;
+  box-shadow: 0 10px 40px rgb(0 0 0 / 0.3);
+}
+
+.solution-dialog::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}
+
+.dialog-body {
+  padding: 1rem 1.25rem 1.25rem;
+}
+
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.dialog-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.close {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--parsons-rule-bg);
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.solution {
+  border: 0;
+  background: none;
+}
+
+.solution .rule {
+  display: grid;
+  place-items: center;
+  cursor: default;
+}
+
+.solution .rule::after {
+  content: none;
+}

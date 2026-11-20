@@ -3,31 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>parsons-proof</title>
+    <title>Parsons problems for equivalence proofs</title>
+    <meta
+      name="description"
+      content="Parsons problems for logical equivalence proofs: put formula blocks in order and choose the rewrite rule between each step."
+    />
     <!-- Only for the formula font; the component itself loads nothing. -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css" />
-    <style>
-      body { max-width: 72rem; margin: 2rem auto; padding: 0 1rem; font-family: system-ui, sans-serif; }
-      fieldset { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; border: 1px solid #ddd; border-radius: 0.5rem; }
-      #log { max-height: 12rem; overflow: auto; font-size: 0.8rem; background: #f6f6f6; padding: 0.5rem; }
-    </style>
+    <link rel="stylesheet" href="./style.css" />
   </head>
   <body>
-    <h1>&lt;parsons-proof&gt; dev page</h1>
-    <form id="controls">
-      <fieldset>
-        <legend>Attributes</legend>
-        <label>Exercise <select name="exercise"></select></label>
-        <label>Language <select name="lang"><option>en</option><option>nl</option></select></label>
-        <label><input type="checkbox" name="live-feedback" /> live-feedback</label>
-        <label><input type="checkbox" name="only-correct" /> only-correct</label>
-        <label><input type="checkbox" name="auto-fill-rules" /> auto-fill-rules</label>
-        <label><input type="checkbox" name="no-distractors" /> no-distractors</label>
-      </fieldset>
-    </form>
-    <parsons-proof></parsons-proof>
-    <h2>Events</h2>
-    <pre id="log"></pre>
+    <header>
+      <h1 data-text="title">Prove logical equivalence</h1>
+      <div class="actions">
+        <label>
+          <span data-text="exercise">Exercise</span>
+          <select id="exercise"></select>
+        </label>
+        <button type="button" id="open-settings" data-text="settings">Settings</button>
+      </div>
+    </header>
+
+    <main>
+      <parsons-proof></parsons-proof>
+    </main>
+
+    <dialog id="settings" closedby="any" aria-labelledby="settings-title">
+      <form method="dialog">
+        <div class="dialog-header">
+          <h2 id="settings-title" data-text="settings">Settings</h2>
+          <button class="close" value="close" data-label="close" aria-label="Close">✕</button>
+        </div>
+
+        <fieldset>
+          <legend data-text="feedback">Feedback</legend>
+          <label class="switch">
+            <span>
+              <strong data-text="instantFeedback">Live feedback</strong>
+              <small data-text="instantFeedbackHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="instantFeedback" />
+          </label>
+          <label class="switch">
+            <span>
+              <strong data-text="onlyCorrect">Only highlight correct items</strong>
+              <small data-text="onlyCorrectHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="onlyCorrect" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-text="scaffolding">Scaffolding</legend>
+          <label class="switch">
+            <span>
+              <strong data-text="autoFill">Automatically fill in rewrite rules</strong>
+              <small data-text="autoFillHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="autoFillRewriteRules" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-text="language">Language</legend>
+          <label class="radio"><input type="radio" name="lang" value="en" /> English</label>
+          <label class="radio"><input type="radio" name="lang" value="nl" /> Nederlands</label>
+        </fieldset>
+      </form>
+    </dialog>
+
+    <details class="events">
+      <summary data-text="events">Events (for researchers)</summary>
+      <pre id="log"></pre>
+    </details>
+
+    <footer>
+      <a href="https://doi.org/10.1145/3699538.3699551">Koli Calling '24</a>
+      ·
+      <a href="https://github.com/mjvandenberg/parsons-react-logex">Source</a>
+      ·
+      <span id="version" title="Build version"></span>
+    </footer>
+
     <script type="module" src="./demo.ts"></script>
   </body>
 </html>

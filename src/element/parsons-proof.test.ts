@@ -138,6 +138,29 @@ describe('<parsons-proof>', () => {
     expect(onHelp.mock.calls.map(([e]) => e.detail.kind)).toEqual(['hint', 'step', 'solve']);
   });
 
+  test('show complete solution opens a dialog without changing the work', () => {
+    const el = mount();
+    const onHelp = vi.fn();
+    el.addEventListener('parsons-help', onHelp);
+    const before = el.state;
+
+    el.showSolution();
+
+    const dialog = $(el, 'dialog') as HTMLDialogElement;
+    expect(dialog.open).toBe(true);
+    expect($$(el, 'dialog .block')).toHaveLength(4);
+    expect($$(el, 'dialog .rule').map((r) => r.textContent)).toEqual([
+      'Commutativity',
+      'Implication definition',
+      'Implication definition',
+    ]);
+    expect(el.state).toEqual(before);
+    expect(onHelp.mock.calls[0][0].detail.kind).toBe('show-solution');
+
+    el.showSolution(); // reuses the same dialog
+    expect($$(el, 'dialog')).toHaveLength(1);
+  });
+
   test('reset starts over', () => {
     const el = mount();
     el.solve();

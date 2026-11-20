@@ -14,6 +14,9 @@ export type Messages = {
   hint: string;
   step: string;
   solve: string;
+  showSolution: string;
+  solutionTitle: (exerciseName: string) => string;
+  close: string;
   selectRule: string;
   ruleLabel: string;
   or: string;
@@ -41,6 +44,9 @@ const en: Messages = {
   hint: 'Hint',
   step: 'Complete one step',
   solve: 'Complete my exercise',
+  showSolution: 'Show complete solution',
+  solutionTitle: (name) => `${name}: solution`,
+  close: 'Close',
   selectRule: '-- Select rule --',
   ruleLabel: 'Rewrite rule',
   or: 'or',
@@ -74,6 +80,9 @@ const nl: Messages = {
   hint: 'Hint',
   step: 'Vul één stap in',
   solve: 'Maak mijn opgave af',
+  showSolution: 'Toon volledige oplossing',
+  solutionTitle: (name) => `${name}: oplossing`,
+  close: 'Sluiten',
   selectRule: '-- Kies regel --',
   ruleLabel: 'Herschrijfregel',
   or: 'of',
