@@ -1,6 +1,6 @@
-export declare const languages: readonly ["nl", "en"];
+export declare const languages: readonly ['nl', 'en'];
 export type Language = typeof languages[number];
-declare const status: readonly ["green", "red", "unknown"];
+declare const status: readonly ['green', 'red', 'unknown'];
 export type ParsonsStatus = typeof status[number];
 type Block = 'block';
 type Rule = 'rule';

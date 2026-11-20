@@ -12,4 +12,4 @@ export type Panel = 'left' | 'right';
  *   otherwise at the end.
  * - A moved block loses its rewrite rule: the rule described its old position.
  */
-export declare const moveBlock: (state: ParsonsState, id: ParsonsUiItem["id"], to: Panel, index?: number) => ParsonsState;
+export declare const moveBlock: (state: ParsonsState, id: ParsonsUiItem['id'], to: Panel, index?: number) => ParsonsState;
