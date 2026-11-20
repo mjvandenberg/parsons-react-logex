@@ -24,6 +24,19 @@ const minifyBundle = (): Plugin => ({
   },
 });
 
+// Entry for the declarations that `tsc -p tsconfig.lib.json` writes to
+// dist/lib/types, so `parsons-proof.js` and `parsons-proof.d.ts` sit together.
+const typesEntry = (): Plugin => ({
+  name: 'types-entry',
+  generateBundle() {
+    this.emitFile({
+      type: 'asset',
+      fileName: 'parsons-proof.d.ts',
+      source: "export * from './types/element/index.js';\n",
+    });
+  },
+});
+
 // Native private fields, static blocks etc.: supported by every browser that
 // has the Popover API, which the component needs anyway.
 const TARGET = 'es2022';
@@ -34,7 +47,7 @@ export default defineConfig(({ mode }) =>
     ? {
         // `vite build --mode lib`: the Web Component as one ES module,
         // published next to the site at <base>/lib/parsons-proof.js.
-        plugins: [minifyBundle()],
+        plugins: [minifyBundle(), typesEntry()],
         build: {
           target: TARGET,
           cssMinify: true,

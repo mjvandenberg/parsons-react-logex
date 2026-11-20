@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'vitest';
-import { moveBlock } from './moves';
-import { ParsonsState, ParsonsUiItem } from './types';
+import { moveBlock } from './moves.js';
+import { ParsonsState, ParsonsUiItem } from './types.js';
 
 const block = (id: string, extra: Partial<ParsonsUiItem> = {}): ParsonsUiItem => ({
   id,

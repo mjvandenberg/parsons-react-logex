@@ -1,9 +1,9 @@
 // @vitest-environment happy-dom
 import { afterEach, beforeEach, describe, expect, test, vi } from 'vitest';
-import './index';
-import { solutionIndex } from './drag';
-import type { ParsonsProof } from './parsons-proof';
-import exercise1 from '../core/logex/data/equivalence/oneFinal1';
+import './index.js';
+import { solutionIndex } from './drag.js';
+import type { ParsonsProof } from './parsons-proof.js';
+import exercise1 from '../core/logex/data/equivalence/oneFinal1.js';
 
 const STEP_1 = '¬(p ∧ q) ∨ ¬r ∨ s';
 const STEP_2 = '¬(p ∧ q) ∨ (r → s)';

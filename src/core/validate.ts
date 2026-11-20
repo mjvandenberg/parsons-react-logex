@@ -4,7 +4,7 @@ import {
   ParsonsUiItem,
   ParsonsStatus,
   WithText,
-} from './types';
+} from './types.js';
 
 interface AddToArrayFn<Type> {
   (arr: Type[], item: Type): Type[];

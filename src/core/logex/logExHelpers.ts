@@ -4,9 +4,9 @@ import {
   ParsonsItem,
   ParsonsProblem,
   ParsonsUiItem,
-} from '../types';
-import { OneFinalResponse, Term } from './typesOneFinal';
-import { ruleMapping } from './ruleHelpers';
+} from '../types.js';
+import { OneFinalResponse, Term } from './typesOneFinal.js';
+import { ruleMapping } from './ruleHelpers.js';
 
 export const oneFinalToParsonsProblem: (
   oneFinal: OneFinalResponse,

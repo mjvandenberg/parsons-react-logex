@@ -1,6 +1,6 @@
 import { test, assert } from 'vitest';
-import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate';
-import { parseTestHr } from '../testHelper';
+import { executeValidator, getParsonsValidatorDown, getParsonsValidatorUp, validateParsonsProblem } from '../../validate.js';
+import { parseTestHr } from '../testHelper.js';
 
 test('scenario 4', () => {
     // Arrange

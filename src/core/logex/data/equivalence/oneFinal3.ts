@@ -1,4 +1,4 @@
-import { OneFinalResponse } from '../../typesOneFinal';
+import { OneFinalResponse } from '../../typesOneFinal.js';
 
 // request: https://ideas.science.uu.nl/cgi-bin/ideas-logic.cgi?input={"service":"onefinal","state":{"exerciseid":"logic.propositional.proof-new.unicode","prefix":"[]","context":{"term":["¬((p ↔ q) → (p ∨ (p ↔ q)))",{"type":"=","motivation":"<GAP>"},"F"],"environment":{},"location":[]}}}
 

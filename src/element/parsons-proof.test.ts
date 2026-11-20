@@ -1,8 +1,8 @@
 // @vitest-environment happy-dom
 import { afterEach, describe, expect, test, vi } from 'vitest';
-import './index';
-import type { ParsonsProof } from './parsons-proof';
-import exercise1 from '../core/logex/data/equivalence/oneFinal1';
+import './index.js';
+import type { ParsonsProof } from './parsons-proof.js';
+import exercise1 from '../core/logex/data/equivalence/oneFinal1.js';
 
 // Exercise 1: ¬(p ∧ q) ∨ s ∨ ¬r  =comm=  ¬(p ∧ q) ∨ ¬r ∨ s  =impl=
 //             ¬(p ∧ q) ∨ (r → s)  =impl=  (p ∧ q) → (r → s)

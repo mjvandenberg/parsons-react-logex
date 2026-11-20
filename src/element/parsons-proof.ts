@@ -12,23 +12,25 @@
 // solution, Arrow keys move focus). Moves animate with FLIP via the Web
 // Animations API unless the user prefers reduced motion.
 import css from './styles.css?inline';
-import { completeExercise, completeStep, findHintBlock } from '../core/help';
-import { moveBlock, Panel } from '../core/moves';
-import { oneFinalToParsonsProblem } from '../core/logex/logExHelpers';
-import { rules } from '../core/logex/rules';
-import { OneFinalResponse } from '../core/logex/typesOneFinal';
+import { completeExercise, completeStep, findHintBlock } from '../core/help.js';
+import { moveBlock, Panel } from '../core/moves.js';
+import { oneFinalToParsonsProblem } from '../core/logex/logExHelpers.js';
+import { rules } from '../core/logex/rules.js';
+import { OneFinalResponse } from '../core/logex/typesOneFinal.js';
 import {
   ParsonsProblem,
   ParsonsState,
   ParsonsStatus,
   ParsonsUiItem,
   Settings,
-} from '../core/types';
-import { validateParsonsProblemFromUi } from '../core/validate';
-import { Drop, enableDrag } from './drag';
-import { Messages, messagesFor } from './i18n';
+} from '../core/types.js';
+import { validateParsonsProblemFromUi } from '../core/validate.js';
+import { Drop, enableDrag } from './drag.js';
+import { Messages, messagesFor } from './i18n.js';
 
+/** Detail of `parsons-change`: both panels after the change, and whether the solution is valid. */
 export type ParsonsChangeDetail = ParsonsState & { isValid: boolean };
+/** Detail of `parsons-help`: which help option the learner used. */
 export type ParsonsHelpDetail = { kind: 'hint' | 'step' | 'show-solution' | 'solve' };
 
 type Child = Node | string | false | null | undefined;
@@ -74,6 +76,19 @@ const BOOLEAN_ATTRIBUTES = [
   'no-distractors',
 ] as const;
 
+/**
+ * `<parsons-proof>`: a Parsons problem for logical equivalence proofs.
+ *
+ * @attr live-feedback - show feedback after every change
+ * @attr only-correct - mark only correct items
+ * @attr auto-fill-rules - fill in rewrite rules between correctly placed formulas
+ * @attr no-distractors - leave out distractor blocks
+ * @attr lang - language (`en`, `nl`); inherited from the nearest `lang` attribute
+ * @fires parsons-change - after every change to the solution ({@link ParsonsChangeDetail})
+ * @fires parsons-solved - when the solution becomes valid ({@link ParsonsState})
+ * @fires parsons-help - when a help option is used ({@link ParsonsHelpDetail})
+ * @csspart title, hint, source, target, block, rule, toolbar, dialog
+ */
 export class ParsonsProof extends HTMLElement {
   static observedAttributes = [...BOOLEAN_ATTRIBUTES, 'lang'];
 
@@ -153,18 +168,21 @@ export class ParsonsProof extends HTMLElement {
     this.reset();
   }
 
+  /** Attribute `live-feedback`: show feedback after every change instead of on "Check solution". */
   get liveFeedback() {
     return this.hasAttribute('live-feedback');
   }
   set liveFeedback(on: boolean) {
     this.toggleAttribute('live-feedback', on);
   }
+  /** Attribute `only-correct`: mark only correct items (green), never incorrect ones. */
   get onlyCorrect() {
     return this.hasAttribute('only-correct');
   }
   set onlyCorrect(on: boolean) {
     this.toggleAttribute('only-correct', on);
   }
+  /** Attribute `auto-fill-rules`: fill in the rewrite rule between two correctly placed formulas. */
   get autoFillRules() {
     return this.hasAttribute('auto-fill-rules');
   }
@@ -186,6 +204,7 @@ export class ParsonsProof extends HTMLElement {
     this.autoFillRules = s.autoFillRewriteRules;
   }
 
+  /** A copy of both panels: `left` is the problem panel, `right` the solution. */
   get state(): ParsonsState {
     return {
       left: this.#left.map((i) => ({ ...i })),
@@ -193,6 +212,7 @@ export class ParsonsProof extends HTMLElement {
     };
   }
 
+  /** Whether the solution panel holds a complete, correct proof. */
   get isValid() {
     return this.#isValid;
   }
@@ -204,12 +224,17 @@ export class ParsonsProof extends HTMLElement {
     return this.#isValid;
   }
 
+  /** Help option "Hint": suggest the next formula to use. Fires `parsons-help`. */
   hint() {
     this.#hintVisible = true;
     this.#emit<ParsonsHelpDetail>('parsons-help', { kind: 'hint' });
     this.#render();
   }
 
+  /**
+   * Help option "Complete one step": move a distractor out of the solution,
+   * or add one correct formula. Fires `parsons-help`.
+   */
   completeStep() {
     if (!this.#problem) return;
     this.#apply(completeStep(this.state, this.#problem.exerciseSolution));
@@ -269,6 +294,7 @@ export class ParsonsProof extends HTMLElement {
     return dialog;
   }
 
+  /** Help option "Complete my exercise": put the full solution in place. Fires `parsons-help`. */
   solve() {
     if (!this.#problem) return;
     this.#apply(completeExercise(this.state, this.#problem.exerciseSolution));
@@ -276,6 +302,7 @@ export class ParsonsProof extends HTMLElement {
     this.#render();
   }
 
+  /** Start the exercise over; an `exercise` is shuffled again. */
   reset() {
     if (this.#source) {
       const problem = oneFinalToParsonsProblem(

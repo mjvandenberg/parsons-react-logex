@@ -1,6 +1,6 @@
 import { describe, test, expect } from 'vitest';
-import { oneFinalToParsonsProblem } from './logExHelpers';
-import exercise1 from './data/equivalence/oneFinal1';
+import { oneFinalToParsonsProblem } from './logExHelpers.js';
+import exercise1 from './data/equivalence/oneFinal1.js';
 
 describe('oneFinalToParsonsProblem', () => {
   const problem = oneFinalToParsonsProblem(exercise1, 'equivalence', true);

@@ -1,5 +1,5 @@
-import { Rule, ruleTranslations } from '../core/logex/rules';
-import { ExerciseDescription, Language, languages } from '../core/types';
+import { Rule, ruleTranslations } from '../core/logex/rules.js';
+import { ExerciseDescription, Language, languages } from '../core/types.js';
 
 type Content = (Node | string)[];
 

@@ -70,13 +70,32 @@ Learners drag blocks (mouse, pen or touch), click a block to add it to or remove
 
 The component targets browsers with the Popover API and `<dialog>` (Baseline 2024).
 
+### TypeScript
+
+The build ships type declarations next to the module: `dist/lib/parsons-proof.d.ts` with the files it refers to in `dist/lib/types/`. Copy `dist/lib/` into your project and import the module from there; TypeScript picks up the declarations automatically.
+
+```ts
+import { ParsonsProof, type OneFinalResponse } from './vendor/parsons-proof/parsons-proof.js';
+
+const proof = document.querySelector('parsons-proof')!; // typed as ParsonsProof
+proof.exercise = response as OneFinalResponse;
+proof.addEventListener('parsons-change', (e) => {
+  console.log(e.detail.isValid, e.detail.right.map((block) => block.text)); // typed detail
+});
+```
+
+Importing the module also registers `<parsons-proof>` in `HTMLElementTagNameMap` and its events in `HTMLElementEventMap`, so `querySelector`, `createElement` and `addEventListener` are typed. The declarations work with both `"moduleResolution": "Bundler"` and `"NodeNext"`; the build checks this by compiling a small consumer project (`types-test/`) against them.
+
 ## Project structure
 
 ```
 src/core/      domain logic in plain TypeScript: validation, hints, moves, LogEx conversion, exercises
 src/element/   the <parsons-proof> Web Component
 site/          the demo site: exercise picker, settings dialog, event log
+types-test/    a consumer project that type-checks the published declarations
 ```
+
+Relative imports in `src/` use `.js` extensions so the generated declarations also resolve under `NodeNext`.
 
 A boundary test keeps `src/core` and `src/element` free of third-party imports.
 
@@ -98,5 +117,6 @@ Then run the tests, start in dev mode, or build for production:
 ```bash
 npm run test:watch   # tests in watch mode
 npm run dev          # development server
-npm run build        # site in dist/, component in dist/lib/parsons-proof.js
+npm run build        # site in dist/, component and its types in dist/lib/
+npm run build:lib    # only the component and its types
 ```
