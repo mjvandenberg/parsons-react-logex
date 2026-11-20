@@ -102,11 +102,11 @@ A boundary test keeps `src/core` and `src/element` free of third-party imports.
 ## Tech stack
 
 - TypeScript 5, native Web Components, Popover API, `<dialog>`, Pointer Events, Web Animations API
-- Vite 5 and Vitest (with happy-dom) as development tools only
+- Vite 8 and Vitest 5 (with happy-dom) as development tools only
 
 ## Running locally
 
-Prerequisites: Node.js, npm
+Prerequisites: Node.js 22.12 or newer (26 recommended, see `.nvmrc`), npm
 
 ```bash
 npm install
