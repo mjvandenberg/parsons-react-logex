@@ -1,11 +1,11 @@
 import './App.css';
 
-import allExercises, { exerciseNames } from './logEx/data/equivalence/all';
+import allExercises, { exerciseNames } from './core/logex/data/equivalence/all';
 import Parsons from './components/Parsons';
-import { OneFinalToParsonsProblemProperties } from './logEx/logExHelpers';
+import { oneFinalToParsonsProblem } from './core/logex/logExHelpers';
 import { useEffect, useState } from 'react';
 import SelectExerciseButton from './components/SelectExerciseButton';
-import { ParsonsProblemProperties, Settings } from './types';
+import { ParsonsProblem, Settings } from './types';
 import SettingsModal from './components/SettingsModal';
 import { useStatePersist } from 'use-state-persist';
 import ParsonsSolutionToTheExerciseModal from './components/ParsonsSolutionToTheExerciseModal';
@@ -15,7 +15,7 @@ const exerciseType = 'equivalence';
 const includeDistractors = true;
 
 const App = () => {
-  const [parsonsProps, setParsonsProps] = useState<ParsonsProblemProperties>();
+  const [parsonsProps, setParsonsProps] = useState<ParsonsProblem>();
   const [showFeedback, _setShowFeedback] = useState(false);
   const [settings, setSettings] = useStatePersist<Settings>(
     '@parsons-settings',
@@ -35,7 +35,7 @@ const App = () => {
   };
 
   const selectExercise = (exerciseName: exerciseNames) => {
-    const newParsonsProps = OneFinalToParsonsProblemProperties(
+    const newParsonsProps = oneFinalToParsonsProblem(
       allExercises[exerciseName],
       exerciseType,
       includeDistractors

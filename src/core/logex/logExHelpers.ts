@@ -1,14 +1,18 @@
-import { ParsonsItem, ParsonsUiItem, ParsonsProblemProperties } from '../types';
-import { OneFinalResponse, Term } from '../logEx/typesOneFinal';
-import { ruleMapping } from '../logEx/ruleHelpers';
+import {
+  ExerciseDescription,
+  ExerciseType,
+  ParsonsItem,
+  ParsonsProblem,
+  ParsonsUiItem,
+} from '../types';
+import { OneFinalResponse, Term } from './typesOneFinal';
+import { ruleMapping } from './ruleHelpers';
 
-type ExerciseType = 'equivalence' | 'dnv' | 'cnv';
-
-export const OneFinalToParsonsProblemProperties: (
+export const oneFinalToParsonsProblem: (
   oneFinal: OneFinalResponse,
   exerciseType: ExerciseType,
   includeDistractors: boolean
-) => ParsonsProblemProperties = (
+) => ParsonsProblem = (
   oneFinal,
   exerciseType,
   includeDistractors
@@ -46,7 +50,7 @@ export const OneFinalToParsonsProblemProperties: (
 
   return {
     exerciseName: 'Exercise 5',
-    exerciseDescription: GetExerciseDescription(oneFinal, exerciseType),
+    exerciseDescription: getExerciseDescription(oneFinal, exerciseType),
     exerciseSolution: oneFinal.onefinal.context.term.reduce<ParsonsItem[]>(
       (prev, curr, index, arr) => {
         if (index % 2 === 0) {
@@ -95,38 +99,14 @@ export const groupPairs = (list: ParsonsUiItem[]) => {
   );
 };
 
-const GetExerciseDescription = (
+const getExerciseDescription = (
   oneFinal: OneFinalResponse,
-  exerciseType: ExerciseType
-) => {
-  switch (exerciseType) {
-    case 'equivalence':
-      return (
-        <>
-          Prove{' '}
-          <span className="katex">
-            {oneFinal.onefinal.context.term.at(0)?.toString()}
-          </span>{' '}
-          is logically equivalent to{' '}
-          <span className="katex">
-            {oneFinal.onefinal.context.term.at(-1)?.toString()}
-          </span>
-        </>
-      );
-    default:
-      return (
-        <>
-          Convert{' '}
-          <span className="katex">
-            {oneFinal.onefinal.context.term.at(0)?.toString()}
-          </span>
-          {` to ${exerciseType === 'cnv' && 'conjunctive'}${
-            exerciseType === 'dnv' && 'disjuntive'
-          } normal form`}
-        </>
-      );
-  }
-};
+  type: ExerciseType
+): ExerciseDescription => ({
+  type,
+  from: oneFinal.onefinal.context.term.at(0)?.toString() ?? '',
+  to: oneFinal.onefinal.context.term.at(-1)?.toString() ?? '',
+});
 
 export const OneFinaleResponseToParsonsSolution: (
   oneFinalResponse: OneFinalResponse

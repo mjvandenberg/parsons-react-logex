@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { rules, ruleTranslations, Rule } from '../logEx/rules';
+import { rules, ruleTranslations, Rule } from '../core/logex/rules';
 import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import CaretDownIcon from './CaretDownIcon';
 import {

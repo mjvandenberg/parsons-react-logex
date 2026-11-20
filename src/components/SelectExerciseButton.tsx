@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { exerciseNames } from '../logEx/data/equivalence/all';
+import { exerciseNames } from '../core/logex/data/equivalence/all';
 import CaretDownIcon from './CaretDownIcon';
 
 type Props = {

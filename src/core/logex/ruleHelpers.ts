@@ -1,4 +1,4 @@
-import { Rule } from '../logEx/rules';
+import { Rule } from './rules';
 
 const h = 'rule.logic.propositional.absorption',
   g = 'rule.logic.propositional.assoc',

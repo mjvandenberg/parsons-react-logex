@@ -118,7 +118,7 @@ const ParsonsDropAreaCenter: FC<ParsonsDropAreaProps> = ({
               }
               isFirst={x === 0}
               totalItems={list.length}
-              isGrouped={item.groupName !== undefined}
+              isGrouped={false}
               position={position!}
               showFeedback={showFeedback!}
               settings={settings}

@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Rule } from '../logEx/rules';
+import { Rule } from '../core/logex/rules';
 import { GetFeedbackStyle, ParsonsUiItem, Settings } from '../types';
 import {
   getFeedbackStyleBlockDefault,

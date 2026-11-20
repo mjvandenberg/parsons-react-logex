@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { ruleTranslations } from '../logEx/rules';
-import { ParsonsProblemProperties } from '../types';
+import { ruleTranslations } from '../core/logex/rules';
+import { ParsonsProblem } from '../types';
 import { neutralStyle } from './feedback';
 
-const ParsonsSolutionToTheExerciseModal: FC<ParsonsProblemProperties> = ({
+const ParsonsSolutionToTheExerciseModal: FC<ParsonsProblem> = ({
   exerciseSolution,
   exerciseName,
 }) => {
