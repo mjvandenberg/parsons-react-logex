@@ -1,20 +1,96 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Parsons problems for equivalence proofs</title>
+    <meta
+      name="description"
+      content="Parsons problems for logical equivalence proofs: put formula blocks in order and choose the rewrite rule between each step."
+    />
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=" />
+    <!-- Only for the formula font; the component itself loads nothing. -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
+      integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X"
+      crossorigin="anonymous"
+    />
+    <script type="module" crossorigin src="/parsons-react-logex/assets/index-VgmBxWQY.js"></script>
+    <link rel="stylesheet" crossorigin href="/parsons-react-logex/assets/index-CJCX0Wyf.css">
+  </head>
+  <body>
+    <header>
+      <h1 data-text="title">Prove logical equivalence</h1>
+      <div class="actions">
+        <label>
+          <span data-text="exercise">Exercise</span>
+          <select id="exercise"></select>
+        </label>
+        <button type="button" id="open-settings" data-text="settings">Settings</button>
+      </div>
+    </header>
 
-<head>
-  <meta charset="UTF-8" />
-  <!--<link rel="icon" type="image/svg+xml" href="/vite.svg" />-->
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.2/dist/katex.min.css"
-    integrity="sha384-bYdxxUwYipFNohQlHt0bjN/LCpueqWz13HufFEV1SUatKs1cm4L6fFgCi1jT643X" crossorigin="anonymous" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Parsons LogEx</title>
-  <script type="module" crossorigin src="/parsons-react-logex/assets/index-BUDHl80K.js"></script>
-  <link rel="stylesheet" crossorigin href="/parsons-react-logex/assets/index-B4QGyDFg.css">
-</head>
+    <main>
+      <parsons-proof></parsons-proof>
+    </main>
 
-<body>
-  <div id="root"></div>
-</body>
+    <dialog id="settings" closedby="any" aria-labelledby="settings-title">
+      <form method="dialog">
+        <div class="dialog-header">
+          <h2 id="settings-title" data-text="settings">Settings</h2>
+          <button class="close" value="close" data-label="close" aria-label="Close">✕</button>
+        </div>
 
+        <fieldset>
+          <legend data-text="feedback">Feedback</legend>
+          <label class="switch">
+            <span>
+              <strong data-text="instantFeedback">Live feedback</strong>
+              <small data-text="instantFeedbackHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="instantFeedback" />
+          </label>
+          <label class="switch">
+            <span>
+              <strong data-text="onlyCorrect">Only highlight correct items</strong>
+              <small data-text="onlyCorrectHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="onlyCorrect" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-text="scaffolding">Scaffolding</legend>
+          <label class="switch">
+            <span>
+              <strong data-text="autoFill">Automatically fill in rewrite rules</strong>
+              <small data-text="autoFillHelp"></small>
+            </span>
+            <input type="checkbox" role="switch" name="autoFillRewriteRules" />
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend data-text="language">Language</legend>
+          <label class="radio"><input type="radio" name="lang" value="en" /> English</label>
+          <label class="radio"><input type="radio" name="lang" value="nl" /> Nederlands</label>
+        </fieldset>
+      </form>
+    </dialog>
+
+    <details class="events">
+      <summary data-text="events">Events (for researchers)</summary>
+      <pre id="log"></pre>
+    </details>
+
+    <footer>
+      <a href="https://doi.org/10.1145/3699538.3699551">Koli Calling '24</a>
+      ·
+      <a href="https://github.com/mjvandenberg/parsons-react-logex">Source</a>
+      ·
+      <span id="version" title="Build version"></span>
+    </footer>
+
+  </body>
 </html>
