@@ -1,9 +1,13 @@
 {
+  // vite.config.ts, which runs in Node.js; checked by `npm run build`.
   "compilerOptions": {
-    "composite": true,
+    "target": "ES2022",
+    "lib": ["ES2023"],
     "module": "ESNext",
-    "moduleResolution": "Node",
-    "allowSyntheticDefaultImports": true
+    "moduleResolution": "Bundler",
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true
   },
   "include": ["vite.config.ts"]
 }

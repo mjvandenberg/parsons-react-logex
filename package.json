@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build && npm run build:lib",
+    "build": "tsc && tsc -p tsconfig.node.json && vite build && npm run build:lib",
     "build:lib": "vite build --mode lib && tsc -p tsconfig.lib.json && tsc -p types-test && tsc -p types-test/tsconfig.nodenext.json",
     "preview": "vite preview",
     "test": "vitest run",
@@ -16,7 +16,7 @@
   "devDependencies": {
     "@vitest/ui": "^5.1.1",
     "happy-dom": "^21.0.4",
-    "typescript": "^5.9.3",
+    "typescript": "^7.0.2",
     "vite": "^8.3.8",
     "vitest": "^5.1.1"
   },
