@@ -16,6 +16,8 @@ export type ParsonsHelpDetail = {
  * @attr auto-fill-rules - fill in rewrite rules between correctly placed formulas
  * @attr no-distractors - leave out distractor blocks
  * @attr lang - language (`en`, `nl`); inherited from the nearest `lang` attribute
+ * @attr theme - `auto` (follow the system), `light` or `dark`; without it the
+ *   component follows the page's `color-scheme`
  * @fires parsons-change - after every change to the solution ({@link ParsonsChangeDetail})
  * @fires parsons-solved - when the solution becomes valid ({@link ParsonsState})
  * @fires parsons-help - when a help option is used ({@link ParsonsHelpDetail})
