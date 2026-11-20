@@ -1,4 +1,8 @@
-FROM node:20-alpine AS builder
+# The build output is static files, the same for every architecture. So the
+# Node stage always runs on the build machine's own platform (no emulation),
+# and only the nginx stage is per target platform. That stage must not RUN
+# anything: it would need emulation when building for another architecture.
+FROM --platform=$BUILDPLATFORM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
