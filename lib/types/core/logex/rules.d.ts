@@ -1,0 +1,4 @@
+import { Language } from '../types.js';
+export declare const rules: readonly ["rule.logic.propositional.absorption", "rule.logic.propositional.assoc", "rule.logic.propositional.commutativity", "rule.logic.propositional.demorgan", "rule.logic.propositional.distribution", "rule.logic.propositional.doublenegation", "rule.logic.propositional.equivalence", "rule.logic.propositional.falsecomplement", "rule.logic.propositional.falseconjunction", "rule.logic.propositional.falsedisjunction", "rule.logic.propositional.nottrue", "rule.logic.propositional.idempotency", "rule.logic.propositional.implication", "rule.logic.propositional.truecomplement", "rule.logic.propositional.trueconjunction", "rule.logic.propositional.truedisjunction", "rule.logic.propositional.notfalse", "rule.logic.propositional.axiomatic.assumption"];
+export type Rule = typeof rules[number];
+export declare const ruleTranslations: Record<Language, Record<Rule, string>>;

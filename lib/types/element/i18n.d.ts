@@ -1,0 +1,31 @@
+import { ExerciseDescription } from '../core/types.js';
+type Content = (Node | string)[];
+export type Messages = {
+    source: string;
+    target: string;
+    valid: string;
+    invalid: string;
+    check: string;
+    reset: string;
+    help: string;
+    hint: string;
+    step: string;
+    solve: string;
+    showSolution: string;
+    solutionTitle: (exerciseName: string) => string;
+    close: string;
+    selectRule: string;
+    ruleLabel: string;
+    or: string;
+    add: string;
+    remove: string;
+    noHint: string;
+    movedTo: (formula: string, position: number, total: number) => string;
+    movedBack: (formula: string) => string;
+    rule: (rule: string) => string;
+    describe: (d: ExerciseDescription, formula: (text: string) => Node) => Content;
+    hintText: (formula: Node, mentionCheck: boolean) => Content;
+};
+/** Messages for a BCP 47 tag such as "nl" or "en-GB"; falls back to English. */
+export declare const messagesFor: (tag: string | null | undefined) => Messages;
+export {};
