@@ -1,4 +1,4 @@
-import { defineConfig, Plugin, transformWithEsbuild } from 'vite';
+import { defineConfig, Plugin } from 'vite';
 import { execSync } from 'child_process';
 
 function getCommitHash(): string {
@@ -8,21 +8,6 @@ function getCommitHash(): string {
     return 'dev';
   }
 }
-
-// Vite keeps whitespace in ES library builds; minify the final bundle fully.
-const minifyBundle = (): Plugin => ({
-  name: 'minify-bundle',
-  async generateBundle(_, bundle) {
-    for (const chunk of Object.values(bundle)) {
-      if (chunk.type !== 'chunk') continue;
-      const { code } = await transformWithEsbuild(chunk.code, chunk.fileName, {
-        minify: true,
-        target: TARGET,
-      });
-      chunk.code = code;
-    }
-  },
-});
 
 // Entry for the declarations that `tsc -p tsconfig.lib.json` writes to
 // dist/lib/types, so `parsons-proof.js` and `parsons-proof.d.ts` sit together.
@@ -47,10 +32,12 @@ export default defineConfig(({ mode }) =>
     ? {
         // `vite build --mode lib`: the Web Component as one ES module,
         // published next to the site at <base>/lib/parsons-proof.js.
-        plugins: [minifyBundle(), typesEntry()],
+        plugins: [typesEntry()],
         build: {
           target: TARGET,
           cssMinify: true,
+          // Vite keeps whitespace in ES library builds; minify the bundle fully.
+          rolldownOptions: { output: { minify: true } },
           outDir: 'dist/lib',
           emptyOutDir: true,
           lib: {

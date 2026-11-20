@@ -14,13 +14,16 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@vitest/ui": "^2.1.9",
-    "happy-dom": "^20.14.6",
+    "@vitest/ui": "^5.1.1",
+    "happy-dom": "^21.0.4",
     "typescript": "^5.9.3",
-    "vite": "^5.4.21",
-    "vitest": "^2.1.9"
+    "vite": "^8.3.8",
+    "vitest": "^5.1.1"
   },
   "stackblitz": {
     "startCommand": "npm run test && npm run dev"
+  },
+  "engines": {
+    "node": ">=22.12"
   }
 }
